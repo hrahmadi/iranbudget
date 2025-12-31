@@ -42,10 +42,10 @@ export const UNIT_INFO: Record<Unit, UnitInfo> = {
     nameFa: 'همت',
   },
   usd: {
-    symbol: 'B USD',
-    symbolFa: 'میلیارد دلار',
-    name: 'Billion USD',
-    nameFa: 'میلیارد دلار',
+    symbol: '100M USD',
+    symbolFa: 'صد میلیون دلار',
+    name: '100 Million USD',
+    nameFa: 'صد میلیون دلار',
   },
 };
 
@@ -55,7 +55,7 @@ export const UNIT_INFO: Record<Unit, UnitInfo> = {
  * CONVERSIONS:
  * - Trillion Rials: Base unit (no conversion)
  * - Hemmat: 1 همت = 1000 میلیارد تومان = 10,000 میلیارد ریال = 10 Trillion Rials
- * - USD: Trillion Rials ÷ Exchange Rate ÷ 1000 (to get billions)
+ * - USD: Trillion Rials ÷ Exchange Rate ÷ 10 (to get hundred millions)
  * 
  * @param valueInTrillionRials - Value in trillion rials (base unit from database)
  * @param targetUnit - Target unit to convert to
@@ -80,11 +80,11 @@ export function convertFromTrillionRials(
       if (!exchangeRate) {
         throw new Error(`No exchange rate found for year ${year}`);
       }
-      // Convert: Trillion Rials → Rials → USD → Billion USD
+      // Convert: Trillion Rials → Rials → USD → 100 Million USD
       // 1 Trillion Rials = 1,000,000,000,000 Rials
       // Rials ÷ Exchange Rate = USD
-      // USD ÷ 1,000,000,000 = Billion USD
-      return (valueInTrillionRials * 1000000000000) / exchangeRate / 1000000000;
+      // USD ÷ 100,000,000 = 100 Million USD
+      return (valueInTrillionRials * 1000000000000) / exchangeRate / 100000000;
     
     default:
       throw new Error(`Unknown unit: ${targetUnit}`);
