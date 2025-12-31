@@ -6,12 +6,14 @@ import { transformToHierarchicalSankey, BudgetData, SankeyData } from '@/lib/bud
 
 type Language = 'en' | 'fa';
 type Year = '1395' | '1396' | '1397' | '1398' | '1399' | '1400' | '1401' | '1402' | '1403' | '1404';
+type DisplayMode = 'absolute' | 'percentage';
 
 const translations = {
   en: {
     title: 'Iran National Budget Flow',
     yearLabel: 'Year:',
     languageLabel: 'Language:',
+    displayModeLabel: 'Display Mode:',
     loading: 'Loading...',
     error: 'Error loading data',
   },
@@ -19,6 +21,7 @@ const translations = {
     title: 'جریان بودجه ملی ایران',
     yearLabel: 'سال:',
     languageLabel: 'زبان:',
+    displayModeLabel: 'نمایش:',
     loading: 'در حال بارگذاری...',
     error: 'خطا در بارگذاری داده‌ها',
   },
@@ -27,6 +30,7 @@ const translations = {
 export default function Home() {
   const [year, setYear] = useState<Year>('1404');
   const [language, setLanguage] = useState<Language>('en');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('absolute');
   const [budgetData, setBudgetData] = useState<BudgetData | null>(null);
   const [sankeyData, setSankeyData] = useState<SankeyData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -61,7 +65,7 @@ export default function Home() {
         
         {/* Controls - Fixed LTR layout */}
         <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Year Selection */}
             <div>
               <label className="block text-sm font-medium mb-2">{t.yearLabel}</label>
@@ -102,6 +106,33 @@ export default function Home() {
                 </span>
               </div>
             </div>
+
+            {/* Display Mode Toggle Switch */}
+            <div>
+              <label className="block text-sm font-medium mb-2">{t.displayModeLabel}</label>
+              <div className="flex items-center gap-3">
+                <span className={`text-sm ${displayMode === 'absolute' ? 'text-white font-semibold' : 'text-gray-400'}`}>
+                  {language === 'fa' ? 'مطلق' : 'Absolute'}
+                </span>
+                <button
+                  onClick={() => setDisplayMode(displayMode === 'absolute' ? 'percentage' : 'absolute')}
+                  className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 ${
+                    displayMode === 'percentage' ? 'bg-green-600' : 'bg-gray-600'
+                  }`}
+                  role="switch"
+                  aria-checked={displayMode === 'percentage'}
+                >
+                  <span
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                      displayMode === 'percentage' ? 'translate-x-7' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+                <span className={`text-sm ${displayMode === 'percentage' ? 'text-white font-semibold' : 'text-gray-400'}`}>
+                  {language === 'fa' ? 'درصد' : '%'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -124,6 +155,7 @@ export default function Home() {
               data={sankeyData}
               year={year}
               language={language}
+              displayMode={displayMode}
             />
           )}
         </div>
