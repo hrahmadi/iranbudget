@@ -1,0 +1,56 @@
+{
+  "year": 1405,
+  "year_gregorian": "2026-2027",
+  "status": "BILL NOT PASSED - Preparation Guidelines Only",
+  "source": "Budget Preparation Circular",
+  "date_issued": "1404/08/24",
+  
+  "note": "The HTML file is NOT an actual budget. It is a 'bakhshname' (circular) with guidelines for preparing the 1405 budget bill.",
+  
+  "key_policy_directions": {
+    "economic_context": {
+      "global_gdp_growth_2024": "2.9%",
+      "global_gdp_growth_2025": "3.0%", 
+      "global_gdp_growth_2026": "3.1%",
+      "oil_price_2025": "$66-67 per barrel",
+      "oil_price_2026": "$58-60 per barrel",
+      "iran_gdp_growth_target": "~3%",
+      "challenges": [
+        "Energy shortages (gas/electricity)",
+        "Drought impact on agriculture",
+        "Low investment over past decade",
+        "Sanctions and geopolitical tensions"
+      ]
+    },
+    
+    "budget_priorities": [
+      "Support living standards and food security for low-income households",
+      "Strengthen defense and security capabilities",
+      "Improve public service efficiency",
+      "Ensure energy and water supply for production",
+      "Support knowledge-based economy"
+    ],
+    
+    "policy_approaches": [
+      "Reduce energy and water imbalances",
+      "Increase tax-to-GDP ratio",
+      "No new projects except water and energy sectors",
+      "Prioritize existing incomplete projects",
+      "Reduce budget deficit through spending discipline",
+      "Continue targeted subsidies (cash and electronic vouchers)",
+      "Reform energy pricing gradually",
+      "Privatization and public-private partnerships"
+    ]
+  },
+  
+  "actual_numbers": "NONE - This is a planning document, not a budget",
+  
+  "data_quality": "N/A - Not applicable (no budget data)",
+  
+  "next_steps": [
+    "Wait for actual 1405 budget bill to be submitted to parliament",
+    "Budget bill typically submitted in autumn (Azar/Dey)",
+    "May not be finalized until spring 1405"
+  ]
+}
+

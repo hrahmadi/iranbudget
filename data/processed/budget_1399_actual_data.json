@@ -1,0 +1,141 @@
+{
+  "year": 1399,
+  "fiscal_year": "1399 (March 2020 - March 2021)",
+  "currency": "ریال",
+  "data_type": "ACTUAL (from web search + budget documents)",
+  "sources": [
+    "tehrantimes.com - Oil export data",
+    "irannewsdaily.com - Tax revenue data",
+    "Budget law document - Budget totals"
+  ],
+  
+  "budget_approved": {
+    "total_budget": {
+      "value": "20176016784000000",
+      "formatted": "20,176 trillion rials",
+      "description": "بودجه کل کشور - Total approved budget"
+    },
+    "general_government": {
+      "value": "6507721044000000",
+      "formatted": "6,508 trillion rials",
+      "description": "بودجه عمومی دولت"
+    },
+    "state_companies": {
+      "value": "14359225578000000",
+      "formatted": "14,359 trillion rials",
+      "description": "شرکت‌های دولتی"
+    }
+  },
+  
+  "revenues_actual": {
+    "oil_and_gas": {
+      "value_usd": "23000000000",
+      "value_usd_formatted": "$23 billion",
+      "description": "Actual oil export revenue - Declined due to US sanctions",
+      "note": "Significant drop from budget projections due to sanctions"
+    },
+    
+    "tax_revenue": {
+      "value": "1920000000000000",
+      "formatted": "1,920 trillion rials (~$45.7 billion)",
+      "description": "Total tax revenue collected",
+      "performance": "107% of plan (exceeded target by 7%)",
+      "percentage_of_funding": "84%",
+      "note": "Tax revenues nearly DOUBLE oil revenues in 1399 - major shift",
+      
+      "breakdown": {
+        "note": "Detailed breakdown not yet available - need to extract from tables",
+        "direct_taxes": {
+          "value": "TBD",
+          "description": "مالیات مستقیم - Corporate, individual, property taxes"
+        },
+        "indirect_taxes": {
+          "value": "TBD",
+          "description": "مالیات غیرمستقیم - VAT, customs, excise"
+        }
+      }
+    },
+    
+    "other_revenue": {
+      "value": "TBD",
+      "description": "Other government revenues"
+    },
+    
+    "total_revenue": {
+      "value": "TBD",
+      "note": "Need to calculate: Tax + Oil + Other"
+    }
+  },
+  
+  "expenditures_actual": {
+    "current_expenditure": {
+      "total": {
+        "value": "TBD",
+        "description": "هزینه‌های جاری - Current expenditure"
+      },
+      "personnel": {
+        "value": "TBD",
+        "description": "هزینه‌های پرسنلی"
+      },
+      "goods_services": {
+        "value": "TBD",
+        "description": "خرید کالا و خدمات"
+      },
+      "subsidies": {
+        "total": {
+          "value": "TBD",
+          "description": "یارانه‌ها - Total subsidies"
+        },
+        "cash_transfers": {
+          "value": "TBD",
+          "description": "یارانه نقدی - Cash transfers/targeted subsidies"
+        },
+        "energy_subsidies": {
+          "value": "TBD",
+          "description": "یارانه انرژی - Energy subsidies"
+        }
+      }
+    },
+    
+    "capital_expenditure": {
+      "value": "TBD",
+      "description": "هزینه‌های عمرانی - Capital/development expenditure"
+    },
+    
+    "total_expenditure": {
+      "value": "TBD",
+      "description": "Total actual spending"
+    }
+  },
+  
+  "budget_balance": {
+    "deficit_surplus": {
+      "value": "TBD",
+      "description": "Budget deficit/surplus (likely deficit given oil revenue collapse)"
+    }
+  },
+  
+  "key_insights": [
+    "Oil revenue collapsed to $23B due to US sanctions",
+    "Tax revenue at 1,920 trillion rials was nearly DOUBLE oil revenue",
+    "Tax collection exceeded target by 7% despite economic challenges",
+    "Major shift from oil-dependent to tax-dependent budget",
+    "Tax revenues accounted for 84% of total funding"
+  ],
+  
+  "data_gaps": [
+    "Detailed tax breakdown (corporate vs individual vs VAT)",
+    "Current vs capital expenditure actuals",
+    "Subsidy spending details",
+    "Actual deficit/surplus figure",
+    "Complete revenue total"
+  ],
+  
+  "next_steps": [
+    "Extract detailed numbers from PDF tables (pages 32-34)",
+    "Search for budget execution report (گزارش عملکرد بودجه)",
+    "Get subsidy data from Central Bank or Statistical Center",
+    "Calculate total revenues and budget balance"
+  ]
+}
+

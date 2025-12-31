@@ -1,0 +1,12 @@
+{
+  "year": 1399,
+  "source": "CSV files from unverified folder",
+  "revenues": {
+    "total": 596480.59,
+    "tax": 5788.13,
+    "oil": 45498.6
+  },
+  "expenditures": {
+    "total": 596480.59
+  }
+}

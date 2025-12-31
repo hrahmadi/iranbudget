@@ -1,0 +1,74 @@
+{
+  "year": 1399,
+  "fiscal_year_persian": "1399",
+  "currency": "ریال",
+  "total_budget": {
+    "value": "20266534371000000",
+    "formatted": "20,266,534,371,000,000",
+    "description": "بودجه کل کشور - Total country budget"
+  },
+  "general_government_budget": {
+    "total": {
+      "value": "6498093921000000",
+      "formatted": "6,498,093,921,000,000",
+      "description": "بودجه عمومی دولت - General government budget"
+    },
+    "general_resources": {
+      "value": "5710136460000000",
+      "formatted": "5,710,136,460,000,000",
+      "description": "منابع عمومی - General resources"
+    },
+    "special_revenue": {
+      "value": "787957461000000",
+      "formatted": "787,957,461,000,000",
+      "description": "درآمد اختصاصی - Special revenue for ministries"
+    }
+  },
+  "state_companies_budget": {
+    "value": "14363264575000000",
+    "formatted": "14,363,264,575,000,000",
+    "description": "بودجه شرکت‌های دولتی و بانک‌ها - State companies and banks budget"
+  },
+  "oil_revenue": {
+    "ceiling": {
+      "value": "454986000000000",
+      "formatted": "454,986,000,000,000",
+      "description": "سقف منابع حاصل از صادرات نفت و گاز - Ceiling for oil and gas export revenues"
+    },
+    "national_development_fund_share": {
+      "percentage": "20",
+      "description": "سهم صندوق توسعه ملی - National Development Fund share"
+    },
+    "nioc_share": {
+      "percentage": "14.5",
+      "description": "سهم شرکت ملی نفت - NIOC share"
+    },
+    "gas_company_share": {
+      "percentage": "14.5",
+      "description": "سهم شرکت گاز - Gas company share"
+    }
+  },
+  "tax_revenue": {
+    "total": "NOT_FOUND_YET",
+    "corporate_tax": "NOT_FOUND_YET",
+    "individual_tax": "NOT_FOUND_YET",
+    "payroll_tax": "NOT_FOUND_YET",
+    "social_security": "NOT_FOUND_YET",
+    "note": "Need to find جدول شماره (5) - Table 5 for detailed breakdown"
+  },
+  "expenditures": {
+    "current_expenditure": "NOT_FOUND_YET",
+    "capital_expenditure": "NOT_FOUND_YET",
+    "note": "Need to find detailed expenditure sections"
+  },
+  "deficit_surplus": "NOT_CALCULATED_YET",
+  "notes": [
+    "The RTF text is all on one line, making table extraction difficult",
+    "Main revenue/expenditure details are in 'جدول شماره (5)' which is referenced 52 times",
+    "Oil price assumptions and detailed breakdowns need table extraction",
+    "Need to either: 1) Get better formatted text, or 2) Extract tables from PDF directly"
+  ],
+  "extraction_status": "PARTIAL",
+  "extracted_date": "2025-12-29"
+}
+

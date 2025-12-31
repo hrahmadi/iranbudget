@@ -1,0 +1,136 @@
+================================================================================
+1404 BUDGET - MANUAL DATA ENTRY TEMPLATE
+================================================================================
+
+INSTRUCTIONS:
+1. Open table5.gif and table7-b.gif side by side
+2. Fill in the numbers below (remove commas, just raw numbers)
+3. Use 0 if a value doesn't exist
+4. When done, I'll convert this to proper CSV format
+
+================================================================================
+SECTION 1: KEY SUMMARY NUMBERS (from table1.gif or table2.gif)
+================================================================================
+
+TOTAL_BUDGET_1404 = 
+TOTAL_REVENUES_1404 = 
+TOTAL_EXPENDITURES_1404 = 
+
+================================================================================
+SECTION 2: REVENUES - TAX BREAKDOWN (from table5.gif)
+================================================================================
+
+# Look for these line items in table5.gif (رديف numbers on right side)
+
+# TOTAL TAX REVENUE (درآمد مالیاتی) - Usually row 110000
+TAX_TOTAL = 
+
+# Corporate Tax (مالیات شرکت‌ها) - Usually row 110100
+TAX_CORPORATE_TOTAL = 
+
+  # Government corporations (مالیات شرکت‌های دولتی) - 110103
+  TAX_CORPORATE_GOV = 
+  
+  # Private corporations (مالیات اشخاص حقوقی غیر دولتی) - 110105
+  TAX_CORPORATE_PRIVATE = 
+
+# Income Tax (مالیات بر درآمد) - Usually row 110200
+TAX_INCOME_TOTAL = 
+
+  # Government employee salaries (مالیات حقوق کارکنان دولتی) - 110201
+  TAX_SALARY_GOV = 
+  
+  # Private employee salaries (مالیات حقوق کارکنان بخش خصوصی) - 110202
+  TAX_SALARY_PRIVATE = 
+  
+  # Self-employed/professions (مالیات مشاغل) - 110203
+  TAX_PROFESSIONS = 
+
+# Wealth Tax (مالیات بر ثروت) - Usually row 110300
+TAX_WEALTH_TOTAL = 
+
+# Goods & Services Tax / VAT (مالیات بر کالا و خدمات) - Usually row 110400
+TAX_GOODS_SERVICES = 
+
+# Import Duties (حقوق گمرکی) - Usually row 110500
+TAX_CUSTOMS = 
+
+================================================================================
+SECTION 3: OIL & GAS REVENUES (from table5.gif)
+================================================================================
+
+# Oil/Gas exports (منابع حاصل از صادرات نفت) - Usually row 120000 or similar
+OIL_GAS_REVENUE_TOTAL = 
+
+  # Crude oil exports
+  OIL_CRUDE = 
+  
+  # Gas condensate
+  GAS_CONDENSATE = 
+  
+  # Natural gas exports
+  GAS_NATURAL = 
+
+================================================================================
+SECTION 4: OTHER KEY REVENUES (from table5.gif)
+================================================================================
+
+# Social security contributions (حق بیمه تامین اجتماعی)
+SOCIAL_SECURITY_REVENUE = 
+
+# Asset sales (واگذاری دارایی‌های سرمایه‌ای)
+ASSET_SALES_CAPITAL = 
+
+# Financial assets (واگذاری دارایی‌های مالی)
+ASSET_SALES_FINANCIAL = 
+
+================================================================================
+SECTION 5: EXPENDITURES (from table7-b.gif or similar)
+================================================================================
+
+# Current Expenditure (هزینه‌ای) 
+EXPENDITURE_CURRENT = 
+
+  # Personnel costs (هزینه پرسنلی)
+  EXPENDITURE_PERSONNEL = 
+  
+  # Goods & services (خرید کالا و خدمات)
+  EXPENDITURE_GOODS_SERVICES = 
+
+# Capital Expenditure (تملک دارایی‌های سرمایه‌ای)
+EXPENDITURE_CAPITAL = 
+
+# Financial assets (تملک دارایی‌های مالی)
+EXPENDITURE_FINANCIAL = 
+
+================================================================================
+SECTION 6: SUBSIDIES (from table14.gif)
+================================================================================
+
+# Targeted subsidies program (هدفمندسازی یارانه‌ها)
+SUBSIDY_CASH_PAYMENTS = 
+
+# Energy subsidies (یارانه انرژی)
+SUBSIDY_ENERGY = 
+
+# Basic goods subsidies (یارانه کالاهای اساسی)
+SUBSIDY_BASIC_GOODS = 
+
+# Total subsidy expenditure
+SUBSIDY_TOTAL = 
+
+================================================================================
+NOTES / OBSERVATIONS:
+================================================================================
+
+[Add any notes about data quality, missing values, or special observations]
+
+
+
+
+
+================================================================================
+When done, save this file and let me know!
+I'll convert it to proper CSV format matching your 1399-1403 structure.
+================================================================================
+

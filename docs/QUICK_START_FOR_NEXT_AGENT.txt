@@ -1,0 +1,93 @@
+================================================================================
+🤖 QUICK START FOR NEXT AGENT - IRAN BUDGET DATABASE
+================================================================================
+
+Hi! You're taking over a project with 10 years of clean Iran budget data.
+Everything is ready for you to build a database.
+
+================================================================================
+📁 WHAT YOU'LL FIND
+================================================================================
+
+Main Data File:
+  data/processed/iran_budget_1395_1404_complete.json
+  → 10 years (1395-1404), all in one file, verified & clean
+
+Individual Files:
+  data/processed/budget_XXXX_final.json (one per year)
+
+Documentation:
+  data/processed/IRAN_BUDGET_10_YEAR_SUMMARY.md
+  → Read this first for context!
+
+Full Instructions:
+  HANDOFF_PROMPT_DATABASE.md
+  → Detailed spec for building the database
+
+================================================================================
+⚡ QUICK TASK SUMMARY
+================================================================================
+
+GOAL: Build a database (SQLite or PostgreSQL) for this budget data
+
+WHAT TO DO:
+1. Design schema (revenues, expenditures, balances by year)
+2. Import all 10 years from JSON
+3. Create useful queries/views
+4. Document how to use it
+
+OUTPUT:
+- Database file (.db)
+- Import script
+- Query examples
+- Documentation
+
+TIME ESTIMATE: 2-3 hours
+
+================================================================================
+📊 DATA STRUCTURE PREVIEW
+================================================================================
+
+Each year has:
+- year: 1404
+- revenues: {total, tax_total, oil_gas, tax_breakdown{...}}
+- expenditures: {total, current, capital, subsidies}
+- balance: {surplus_deficit, status}
+
+All numbers in BILLION RIALS.
+
+================================================================================
+🎯 SUCCESS = USER CAN EASILY:
+================================================================================
+
+- Query: "Show me tax revenue for all years"
+- Query: "Which years had a surplus?"
+- Query: "What's the avg deficit 1395-1404?"
+- Export data for dashboards
+- Add new years easily
+
+================================================================================
+💡 RECOMMENDED APPROACH
+================================================================================
+
+1. Review: Read IRAN_BUDGET_10_YEAR_SUMMARY.md (5 mins)
+2. Design: Sketch schema, get user approval (15 mins)
+3. Build: Create DB + import script (1 hour)
+4. Test: Run queries, verify totals (30 mins)
+5. Document: Write clear README (30 mins)
+
+================================================================================
+📞 ASK USER FIRST
+================================================================================
+
+Before coding, ask:
+- SQLite or PostgreSQL?
+- Will you query directly or need Python wrapper?
+- Any specific queries you want built-in?
+
+================================================================================
+
+Read HANDOFF_PROMPT_DATABASE.md for full details. Good luck! 🚀
+
+================================================================================
+

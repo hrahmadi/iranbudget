@@ -1,0 +1,198 @@
+{
+  "year": 1399,
+  "fiscal_year": "1399 (2020-2021)",
+  "currency": "ریال",
+  "notes": "Fill in the numbers from جدول شماره (5) in the PDF",
+  
+  "total_budget": {
+    "value": "20266534371000000",
+    "description": "بودجه کل کشور - Already extracted"
+  },
+  
+  "revenues": {
+    "total_revenue": {
+      "value": "",
+      "description": "جمع درآمدها - Total revenues"
+    },
+    
+    "oil_and_gas": {
+      "total": {
+        "value": "",
+        "description": "درآمد نفت و گاز - Oil and gas revenue"
+      },
+      "oil_exports": {
+        "value": "",
+        "description": "صادرات نفت خام - Crude oil exports"
+      },
+      "gas_condensate": {
+        "value": "",
+        "description": "میعانات گازی - Gas condensate"
+      },
+      "gas_exports": {
+        "value": "",
+        "description": "صادرات گاز - Gas exports"
+      }
+    },
+    
+    "tax_revenue": {
+      "total": {
+        "value": "",
+        "description": "جمع مالیات - Total tax revenue"
+      },
+      "direct_taxes": {
+        "total": {
+          "value": "",
+          "description": "مالیات‌های مستقیم - Direct taxes"
+        },
+        "corporate_tax": {
+          "value": "",
+          "description": "مالیات بر درآمد شرکت‌ها - Corporate income tax"
+        },
+        "individual_tax": {
+          "value": "",
+          "description": "مالیات بر درآمد اشخاص - Individual income tax"
+        },
+        "property_tax": {
+          "value": "",
+          "description": "مالیات بر دارایی - Property tax"
+        },
+        "wealth_tax": {
+          "value": "",
+          "description": "مالیات بر ثروت - Wealth tax"
+        }
+      },
+      "indirect_taxes": {
+        "total": {
+          "value": "",
+          "description": "مالیات‌های غیرمستقیم - Indirect taxes"
+        },
+        "vat": {
+          "value": "",
+          "description": "مالیات بر ارزش افزوده - VAT"
+        },
+        "customs_duties": {
+          "value": "",
+          "description": "حقوق گمرکی - Customs duties"
+        },
+        "excise_tax": {
+          "value": "",
+          "description": "عوارض و مالیات‌های ویژه - Excise taxes"
+        }
+      }
+    },
+    
+    "social_security": {
+      "value": "",
+      "description": "حق بیمه تامین اجتماعی - Social security contributions"
+    },
+    
+    "other_revenue": {
+      "total": {
+        "value": "",
+        "description": "سایر درآمدها - Other revenues"
+      },
+      "fees_and_charges": {
+        "value": "",
+        "description": "حق‌الثبت و عوارض - Fees and charges"
+      },
+      "property_income": {
+        "value": "",
+        "description": "درآمد اموال - Property income"
+      },
+      "sales_of_goods": {
+        "value": "",
+        "description": "فروش کالا و خدمات - Sales of goods and services"
+      }
+    }
+  },
+  
+  "expenditures": {
+    "total_expenditure": {
+      "value": "",
+      "description": "جمع هزینه‌ها - Total expenditures"
+    },
+    
+    "current_expenditure": {
+      "total": {
+        "value": "",
+        "description": "هزینه‌های جاری - Current expenditure"
+      },
+      "personnel": {
+        "value": "",
+        "description": "هزینه‌های پرسنلی - Personnel costs"
+      },
+      "goods_services": {
+        "value": "",
+        "description": "خرید کالا و خدمات - Goods and services"
+      },
+      "subsidies": {
+        "value": "",
+        "description": "یارانه‌ها - Subsidies"
+      },
+      "transfers": {
+        "value": "",
+        "description": "کمک‌ها و پرداخت‌های انتقالی - Transfers"
+      },
+      "interest": {
+        "value": "",
+        "description": "پرداخت بهره - Interest payments"
+      }
+    },
+    
+    "capital_expenditure": {
+      "total": {
+        "value": "",
+        "description": "هزینه‌های عمرانی - Capital expenditure"
+      },
+      "fixed_assets": {
+        "value": "",
+        "description": "تملک دارایی‌های سرمایه‌ای - Acquisition of fixed assets"
+      },
+      "construction": {
+        "value": "",
+        "description": "پروژه‌های عمرانی - Construction projects"
+      }
+    }
+  },
+  
+  "budget_balance": {
+    "deficit_surplus": {
+      "value": "",
+      "description": "کسری یا مازاد بودجه - Budget deficit/surplus (revenues - expenditures)",
+      "calculation": "revenues.total_revenue - expenditures.total_expenditure"
+    },
+    "financing": {
+      "domestic_borrowing": {
+        "value": "",
+        "description": "استقراض داخلی - Domestic borrowing"
+      },
+      "foreign_borrowing": {
+        "value": "",
+        "description": "استقراض خارجی - Foreign borrowing"
+      },
+      "asset_sales": {
+        "value": "",
+        "description": "واگذاری دارایی‌ها - Asset sales/privatization"
+      }
+    }
+  },
+  
+  "memo_items": {
+    "oil_price_assumption": {
+      "value": "",
+      "unit": "USD per barrel",
+      "description": "فرض قیمت نفت - Oil price assumption"
+    },
+    "exchange_rate_assumption": {
+      "value": "",
+      "unit": "Rials per USD",
+      "description": "فرض نرخ ارز - Exchange rate assumption"
+    },
+    "oil_export_volume": {
+      "value": "",
+      "unit": "Million barrels per day",
+      "description": "حجم صادرات نفت - Oil export volume"
+    }
+  }
+}
+

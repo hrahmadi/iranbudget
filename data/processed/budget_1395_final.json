@@ -1,0 +1,28 @@
+{
+  "year": 1395,
+  "year_gregorian": "774-775",
+  "currency": "billion rials",
+  "source": "CSV data from official budget tables",
+  "revenues": {
+    "total": 1502445.771,
+    "tax_total": 314080.388,
+    "oil_gas": 154842.206,
+    "tax_breakdown": {
+      "corporate": 67537.5,
+      "individual": 71480.189,
+      "payroll": 0.0,
+      "social_security": 0.0
+    }
+  },
+  "expenditures": {
+    "total": 1650185.002,
+    "current": 43.0,
+    "capital": 29984.677,
+    "unclassified": 1620157.3250000002,
+    "subsidy_spending": 13492.814000000002
+  },
+  "balance": {
+    "surplus_deficit": -147739.23100000015,
+    "status": "deficit"
+  }
+}

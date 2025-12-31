@@ -1,0 +1,101 @@
+{
+  "revenue_categories": {
+    "government_budget": {
+      "label_en": "Government General Budget",
+      "label_fa": "بودجه عمومی دولت",
+      "subcategories": {
+        "operational_revenue": {
+          "label_en": "Operational Revenues",
+          "label_fa": "منابع عمومی",
+          "items": {
+            "tax_total": {
+              "label_en": "Taxes",
+              "label_fa": "مالیات‌ها",
+              "subitems": {
+                "direct_tax": { "label_en": "Direct Tax", "label_fa": "مالیات مستقیم" },
+                "indirect_tax": { "label_en": "Indirect Tax", "label_fa": "مالیات غیرمستقیم" }
+              }
+            },
+            "oil_gas_total": {
+              "label_en": "Oil & Gas Revenue",
+              "label_fa": "درآمدهای نفت و گاز",
+              "subitems": {
+                "oil_revenue": { "label_en": "Oil Revenue", "label_fa": "فروش نفت خام" },
+                "gas_revenue": { "label_en": "Gas Revenue", "label_fa": "فروش گاز" },
+                "condensate": { "label_en": "Condensate", "label_fa": "میعانات گازی" }
+              }
+            },
+            "other_revenue": { "label_en": "Other Revenue", "label_fa": "سایر درآمدها" }
+          }
+        },
+        "asset_sales": { "label_en": "Asset Sales", "label_fa": "واگذاری دارایی‌های سرمایه‌ای" },
+        "borrowing": { "label_en": "Borrowing (Islamic Bonds)", "label_fa": "استقراض (اوراق مالی اسلامی)" },
+        "development_fund": { "label_en": "National Development Fund", "label_fa": "منابع صندوق توسعه ملی" },
+        "special_accounts": { "label_en": "Special Accounts", "label_fa": "درآمد اختصاصی دستگاه‌ها" }
+      }
+    },
+    "state_companies": {
+      "label_en": "State Companies, Banks & Institutions",
+      "label_fa": "شرکت‌های دولتی، بانک‌ها و مؤسسات انتفاعی",
+      "items": {
+        "state_comp_revenues": { "label_en": "Revenues", "label_fa": "درآمدها" },
+        "state_comp_current_credits": { "label_en": "Current Credits", "label_fa": "اعتبارات هزینه‌ای" },
+        "state_comp_capital_credits": { "label_en": "Capital Credits", "label_fa": "اعتبارات تملک دارایی‌های سرمایه‌ای" },
+        "state_comp_domestic_loans": { "label_en": "Domestic Loans", "label_fa": "تسهیلات بانکی و سایر وام‌های داخلی" },
+        "state_comp_foreign_loans": { "label_en": "Foreign Loans", "label_fa": "وام‌های خارجی" },
+        "state_comp_current_assets": { "label_en": "Current Assets", "label_fa": "دارایی‌های جاری" },
+        "state_comp_other_receipts": { "label_en": "Other Receipts", "label_fa": "سایر دریافت‌ها" },
+        "state_comp_financial_assets": { "label_en": "Financial Assets", "label_fa": "افزایش دارایی‌های مالی" }
+      }
+    }
+  },
+  "expenditure_categories": {
+    "government_budget": {
+      "label_en": "Government General Budget",
+      "label_fa": "بودجه عمومی دولت",
+      "items": {
+        "current_exp": { "label_en": "Current Expenditures", "label_fa": "هزینه‌های جاری" },
+        "capital_exp": { "label_en": "Capital Expenditures", "label_fa": "هزینه‌های سرمایه‌ای" },
+        "subsidy_spending": { "label_en": "Subsidies", "label_fa": "یارانه‌ها" }
+      }
+    },
+    "state_companies": {
+      "label_en": "State Companies, Banks & Institutions",
+      "label_fa": "شرکت‌های دولتی، بانک‌ها و مؤسسات انتفاعی",
+      "items": {
+        "state_comp_current_exp": { "label_en": "Current Expenditures", "label_fa": "هزینه‌ها (جاری)" },
+        "state_comp_taxes": { "label_en": "Taxes", "label_fa": "مالیات" },
+        "state_comp_special_dividend": { "label_en": "Special Dividend (5%)", "label_fa": "سود ویژه (۵٪)" },
+        "state_comp_dividends": { "label_en": "Dividends", "label_fa": "سود سهام" },
+        "state_comp_other_profit": { "label_en": "Other Profit Allocations", "label_fa": "سایر حساب‌های تخصیص سود" },
+        "state_comp_domestic_repay": { "label_en": "Domestic Loan Repayment", "label_fa": "بازپرداخت تسهیلات بانکی و سایر وام‌های داخلی" },
+        "state_comp_foreign_repay": { "label_en": "Foreign Loan Repayment", "label_fa": "بازپرداخت وام‌های خارجی" },
+        "state_comp_managed_funds": { "label_en": "Managed Funds", "label_fa": "وجوه اداره‌شده" },
+        "state_comp_debt_repay": { "label_en": "Debt & Other Payments", "label_fa": "بازپرداخت ودیعه، بدهی‌ها و سایر پرداخت‌ها" },
+        "state_comp_capital_exp": { "label_en": "Capital Expenditures", "label_fa": "هزینه‌های سرمایه‌ای" }
+      }
+    }
+  },
+  "adjustments": {
+    "state_comp_double_counted": { "label_en": "Less: Double Counted", "label_fa": "کسر می‌شود: مبالغ دو بار منظور شده" },
+    "state_comp_depreciation": { "label_en": "Less: Depreciation Reserve", "label_fa": "کسر می‌شود: ذخیره استهلاک" }
+  },
+  "totals": {
+    "total_national_budget": { "label_en": "Total National Budget", "label_fa": "بودجه کل کشور" },
+    "government_general_budget": { "label_en": "Government General Budget", "label_fa": "بودجه عمومی دولت" },
+    "state_companies_budget": { "label_en": "State Companies Budget", "label_fa": "بودجه شرکت‌های دولتی" },
+    "manabe_omomi": { "label_en": "General Resources", "label_fa": "منابع عمومی" }
+  },
+  "years": {
+    "1395": { "label_fa": "سال ۱۳۹۵", "gregorian": "2016-2017" },
+    "1396": { "label_fa": "سال ۱۳۹۶", "gregorian": "2017-2018" },
+    "1397": { "label_fa": "سال ۱۳۹۷", "gregorian": "2018-2019" },
+    "1398": { "label_fa": "سال ۱۳۹۸", "gregorian": "2019-2020" },
+    "1399": { "label_fa": "سال ۱۳۹۹", "gregorian": "2020-2021" },
+    "1400": { "label_fa": "سال ۱۴۰۰", "gregorian": "2021-2022" },
+    "1401": { "label_fa": "سال ۱۴۰۱", "gregorian": "2022-2023" },
+    "1402": { "label_fa": "سال ۱۴۰۲", "gregorian": "2023-2024" },
+    "1403": { "label_fa": "سال ۱۴۰۳", "gregorian": "2024-2025" },
+    "1404": { "label_fa": "سال ۱۴۰۴", "gregorian": "2025-2026" }
+  }
+}

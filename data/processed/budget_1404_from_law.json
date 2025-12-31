@@ -1,0 +1,44 @@
+{
+  "year": 1404,
+  "year_gregorian": "2025-2026",
+  "currency": "billion rials",
+  "source": "Budget Law (HTML)",
+  "note": "CSV data not available - only law text extracted",
+  
+  "law_numbers": {
+    "total_budget": 112795309000,
+    "note_total": "112,795,309,000,000,000,000 rials (112.8 quintillion)",
+    
+    "general_government_budget": 53844550000,
+    "note_general": "53,844,550,000,000,000 rials (53.8 quadrillion)",
+    
+    "general_resources": 49564550000,
+    "note_resources": "49,564,550,000,000,000 rials (49.6 quadrillion)",
+    
+    "specific_ministry_revenues": 4280000000,
+    "note_specific": "4,280,000,000,000,000 rials (4.28 quadrillion)",
+    
+    "state_enterprises_budget": 63773759000,
+    "note_enterprises": "63,773,759,000,000,000 rials (63.8 quadrillion)",
+    
+    "double_counted": -4823000000,
+    "note_double": "4,823,000,000,000,000 rials deducted (double-counting)"
+  },
+  
+  "observations": [
+    "Massive budget growth: 1404 total is 3x larger than 1403 law numbers",
+    "General government budget nearly doubled from 1403",
+    "State enterprises budget also nearly doubled",
+    "This reflects significant inflation and economic expansion",
+    "CSV data needed for detailed revenue/expenditure breakdown"
+  ],
+  
+  "status": "partial_extraction",
+  "csv_status": "not_available",
+  "next_steps": [
+    "Await CSV files for 1404 for detailed analysis",
+    "Extract oil revenue ceiling from law text",
+    "Compare growth rates with previous years"
+  ]
+}
+

@@ -1,0 +1,292 @@
+{
+  "1395": {
+    "year": 1395,
+    "year_gregorian": "774-775",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 1502445.771,
+      "tax_total": 314080.388,
+      "oil_gas": 154842.206,
+      "tax_breakdown": {
+        "corporate": 67537.5,
+        "individual": 71480.189,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 1650185.002,
+      "current": 43.0,
+      "capital": 29984.677,
+      "unclassified": 1620157.3250000002,
+      "subsidy_spending": 13492.814000000002
+    },
+    "balance": {
+      "surplus_deficit": -147739.23100000015,
+      "status": "deficit"
+    }
+  },
+  "1396": {
+    "year": 1396,
+    "year_gregorian": "775-776",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 1656309.6150000002,
+      "tax_total": 344018.80100000004,
+      "oil_gas": 224684.13,
+      "tax_breakdown": {
+        "corporate": 72212.96,
+        "individual": 75726.174,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 1840058.573,
+      "current": 46.84,
+      "capital": 4354.462,
+      "unclassified": 1835657.271,
+      "subsidy_spending": 17189.372000000003
+    },
+    "balance": {
+      "surplus_deficit": -183748.95799999987,
+      "status": "deficit"
+    }
+  },
+  "1397": {
+    "year": 1397,
+    "year_gregorian": "776-777",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 1895747.511,
+      "tax_total": 393206.104,
+      "oil_gas": 213500.481,
+      "tax_breakdown": {
+        "corporate": 72658.048,
+        "individual": 77258.68899999998,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 2088255.293,
+      "current": 17.060000000000002,
+      "capital": 3552.9439999999995,
+      "unclassified": 2084685.289,
+      "subsidy_spending": 7406.351
+    },
+    "balance": {
+      "surplus_deficit": -192507.78200000012,
+      "status": "deficit"
+    }
+  },
+  "1398": {
+    "year": 1398,
+    "year_gregorian": "777-778",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 2149497.904,
+      "tax_total": 470796.84500000003,
+      "oil_gas": 303315.444,
+      "tax_breakdown": {
+        "corporate": 74428.283,
+        "individual": 80780.026,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 2472958.7369999997,
+      "current": 73.25,
+      "capital": 3334.3729999999996,
+      "unclassified": 2469551.1139999996,
+      "subsidy_spending": 8411.92
+    },
+    "balance": {
+      "surplus_deficit": -323460.83299999963,
+      "status": "deficit"
+    }
+  },
+  "1399": {
+    "year": 1399,
+    "year_gregorian": "778-779",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 2577926.6849999996,
+      "tax_total": 594817.825,
+      "oil_gas": 115812.25,
+      "tax_breakdown": {
+        "corporate": 88453.79699999999,
+        "individual": 97272.61000000002,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 2976619.477,
+      "current": 93.267,
+      "capital": 4050.55,
+      "unclassified": 2972475.66,
+      "subsidy_spending": 5445.99
+    },
+    "balance": {
+      "surplus_deficit": -398692.79200000037,
+      "status": "deficit"
+    }
+  },
+  "1400": {
+    "year": 1400,
+    "year_gregorian": "779-780",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 6062035.23,
+      "tax_total": 989516.8799999999,
+      "oil_gas": 721092.12,
+      "tax_breakdown": {
+        "corporate": 119389.16,
+        "individual": 145738.24000000002,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 7170133.029999999,
+      "current": 188.61999999999998,
+      "capital": 762802.15,
+      "unclassified": 6407142.259999999,
+      "subsidy_spending": 6817.82
+    },
+    "balance": {
+      "surplus_deficit": -1108097.7999999989,
+      "status": "deficit"
+    }
+  },
+  "1401": {
+    "year": 1401,
+    "year_gregorian": "780-781",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 6735567.742999999,
+      "tax_total": 1597349.0669999998,
+      "oil_gas": 794648.906,
+      "tax_breakdown": {
+        "corporate": 269589.106,
+        "individual": 307816.379,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 7553611.414,
+      "current": 491.0,
+      "capital": 1746914.267,
+      "unclassified": 5806206.147,
+      "subsidy_spending": 2765.032
+    },
+    "balance": {
+      "surplus_deficit": -818043.671000001,
+      "status": "deficit"
+    }
+  },
+  "1402": {
+    "year": 1402,
+    "year_gregorian": "781-782",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 12097918.127999999,
+      "tax_total": 3628457.001,
+      "oil_gas": 1845734.547,
+      "tax_breakdown": {
+        "corporate": 916767.2810000001,
+        "individual": 632355.8740000001,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 10900950.579,
+      "current": 1008.0920000000001,
+      "capital": 274179.93,
+      "unclassified": 10625762.557,
+      "subsidy_spending": 63449.866
+    },
+    "balance": {
+      "surplus_deficit": 1196967.5489999987,
+      "status": "surplus"
+    }
+  },
+  "1403": {
+    "year": 1403,
+    "year_gregorian": "782-783",
+    "currency": "billion rials",
+    "source": "CSV data from official budget tables",
+    "revenues": {
+      "total": 13019221.5,
+      "tax_total": 3925897.6,
+      "oil_gas": 1230115.3,
+      "tax_breakdown": {
+        "corporate": 908760.8,
+        "individual": 935199.9000000001,
+        "payroll": 0.0,
+        "social_security": 0.0
+      }
+    },
+    "expenditures": {
+      "total": 13930062.6,
+      "current": 1585.7,
+      "capital": 853990.4999999998,
+      "unclassified": 13074486.4,
+      "subsidy_spending": 23114.5
+    },
+    "balance": {
+      "surplus_deficit": -910841.0999999996,
+      "status": "deficit"
+    }
+  },
+  "1404": {
+    "year": 1404,
+    "year_gregorian": "2025-2026",
+    "currency": "billion rials",
+    "source": "Budget law (Part 1) + official web sources",
+    "data_quality": "verified",
+    "revenues": {
+      "total": 49565000.0,
+      "tax_total": 17000000.0,
+      "oil_gas": 21070000.0,
+      "tax_breakdown": {
+        "corporate": 8166500.0,
+        "individual": 1818200.0,
+        "payroll": 0.0,
+        "social_security": 0.0
+      },
+      "other": 11495000.0
+    },
+    "expenditures": {
+      "total": 53845000.0,
+      "current": 22676000.0,
+      "capital": 0.0,
+      "unclassified": 31169000.0,
+      "subsidy_spending": 10500.0
+    },
+    "balance": {
+      "surplus_deficit": -4280000.0,
+      "status": "deficit"
+    },
+    "notes": [
+      "Total revenues from law text: منابع عمومی ۴۹,۵۶۵ هزار میلیارد ریال",
+      "Total expenditures from law text: ۵۳,۸۴۵ هزار میلیارد ریال",
+      "Tax revenue from official sources: 17 quadrillion rials (39% increase YoY)",
+      "Oil/gas revenue from official sources: 21.07 quadrillion rials (32% increase YoY)",
+      "Full budget including state enterprises: 64,760 trillion rials",
+      "This data represents public resources only (consistent with 1395-1403 methodology)"
+    ]
+  }
+}

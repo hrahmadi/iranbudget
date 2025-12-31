@@ -1,0 +1,63 @@
+================================================================
+BUDGET 1399 - EXTRACTED FROM MAIN LAW TEXT
+================================================================
+
+Source: لایحه بودجه سال 1399 کل کشور - ماده واحده
+
+================================================================
+FROM THE IMAGE PROVIDED:
+================================================================
+
+TOTAL BUDGET (بودجه کل):
+20,176,016,784,000,000 ریال
+(بیست میلیون و یکصد و هفتاد و شش هزار و شانزده میلیارد و هفتصد و هشتاد و چهار میلیون)
+
+الف- منابع بودجه عمومی دولت:
+General Government Budget Resources & Expenditures:
+6,507,721,044,000,000 ریال
+(شش میلیون و چهارصد و هفت هزار و هفتصد و بیست و یک میلیارد و چهار و چهل میلیون)
+
+Breaking down into:
+1- منابع عمومی (General Resources):
+   5,609,897,559,000,000 ریال
+   (پنج میلیون و ششصد و نه هزار و هشتصد و نود و هفت میلیارد و پانصد و پنجاه و نه میلیون)
+
+2- درآمد اختصاصی (Special Revenue - Ministries):
+   897,873,485,000,000 ریال
+   (هشتصد و نود و هفت هزار و هشتصد و هفتاد و سه میلیارد و چهارصد و هشتاد و پنج میلیون)
+
+ب- بودجه شرکت‌های دولتی (State Companies Budget):
+   14,359,225,578,000,000 ریال
+   (چهارده میلیون و سیصد و پنجاه و نه هزار و دویست و بیست و پنج میلیارد و پانصد و هفتاد و هشت میلیون)
+   
+   Also mentioned as same amount for revenues:
+   14,359,225,578,000,000 ریال
+   (پرداخت‌ها بالغ بر چهارده میلیون و سیصد و شصت و پنج هزار و دویست و شصت و چهار میلیارد)
+
+
+================================================================
+NOTES:
+================================================================
+
+- These are the APPROVED amounts from the main budget law
+- Detailed breakdowns (oil, tax, current, capital) are in جدول شماره (5)
+- جدول (5) is referenced but not shown in the main text
+- Need to find the tables section to get:
+  * Oil revenue breakdown
+  * Tax revenue categories
+  * Current vs Capital expenditure
+  * Deficit/Surplus
+
+================================================================
+NEXT STEPS:
+================================================================
+
+1. Check pages 40-76 of the PDF for tables section
+2. Or search PDF for "جدول" to find where tables start
+3. If tables are missing, we may need:
+   - Complete budget document with annexes
+   - Separate "جداول بودجه" file
+   - Statistical yearbook
+
+================================================================
+

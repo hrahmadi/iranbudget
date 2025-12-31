@@ -1,0 +1,38 @@
+{
+  "year": 1404,
+  "year_gregorian": "2025-2026",
+  "currency": "billion rials",
+  "source": "Budget law (Part 1) + official web sources",
+  "data_quality": "verified",
+  "revenues": {
+    "total": 49565000.0,
+    "tax_total": 17000000.0,
+    "oil_gas": 21070000.0,
+    "tax_breakdown": {
+      "corporate": 8166500.0,
+      "individual": 1818200.0,
+      "payroll": 0.0,
+      "social_security": 0.0
+    },
+    "other": 11495000.0
+  },
+  "expenditures": {
+    "total": 53845000.0,
+    "current": 22676000.0,
+    "capital": 0.0,
+    "unclassified": 31169000.0,
+    "subsidy_spending": 10500.0
+  },
+  "balance": {
+    "surplus_deficit": -4280000.0,
+    "status": "deficit"
+  },
+  "notes": [
+    "Total revenues from law text: منابع عمومی ۴۹,۵۶۵ هزار میلیارد ریال",
+    "Total expenditures from law text: ۵۳,۸۴۵ هزار میلیارد ریال",
+    "Tax revenue from official sources: 17 quadrillion rials (39% increase YoY)",
+    "Oil/gas revenue from official sources: 21.07 quadrillion rials (32% increase YoY)",
+    "Full budget including state enterprises: 64,760 trillion rials",
+    "This data represents public resources only (consistent with 1395-1403 methodology)"
+  ]
+}

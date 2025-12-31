@@ -1,0 +1,80 @@
+{
+  "year": 1400,
+  "source": "قانون بودجه سال 1400 كل كشور - HTML text file",
+  "extracted_date": "2025-12-29",
+  "currency": "billion rials",
+  
+  "main_figures": {
+    "total_budget": {
+      "value": 28823398457,
+      "text": "بيست و هشت ميليون و هشتصد و بيست و سه هزار و سيصد و نود و هشت ميليارد و چهارصد و پنجاه و هفت ميليون",
+      "formatted": "28,823,398,457,000,000 rials",
+      "note": "Total budget for all country (revenues and expenditures)"
+    },
+    
+    "general_government_budget": {
+      "value": 13737699268,
+      "text": "سيزده ميليون و هفتصد و سي و هفت هزار و ششصد و نود و نه ميليارد و دويست و شصت و هشت ميليون",
+      "formatted": "13,737,699,268,000,000 rials",
+      "note": "General government budget (revenues + asset transfers and expenses + asset acquisitions)"
+    },
+    
+    "general_resources": {
+      "value": 12779209356,
+      "text": "دوازده ميليون و هفتصد و هفتاد و نه هزار و دويست و نه ميليارد و سيصد و پنجاه و شش ميليون",
+      "formatted": "12,779,209,356,000,000 rials",
+      "note": "General resources (منابع عمومي)"
+    },
+    
+    "specific_ministry_revenues": {
+      "value": 958489912,
+      "text": "نهصد و پنجاه و هشت هزار و چهارصد و هشتاد و نه ميليارد و نهصد و دوازده ميليون",
+      "formatted": "958,489,912,000,000 rials",
+      "note": "Specific revenues of ministries and government institutions (درآمد اختصاصي)"
+    },
+    
+    "state_enterprises_budget": {
+      "value": 15713217843,
+      "text": "پانزده ميليون و هفتصد و سيزده هزار و دويست و هفده ميليارد و هشتصد و چهل و سه ميليون",
+      "formatted": "15,713,217,843,000,000 rials",
+      "note": "Budget of state enterprises, banks and profitable institutions (both revenues and expenses)"
+    }
+  },
+  
+  "oil_and_gas_revenue": {
+    "ceiling": {
+      "value": 1992720000,
+      "text": "يك ميليون و نهصد و نود و دو هزار و هفتصد و بيست ميليارد",
+      "formatted": "1,992,720,000,000,000 rials",
+      "note": "Ceiling for oil exports + gas condensate + net gas exports (رديف 210101، 210102، 210109)",
+      "reference": "بند ب-1 تبصره 1"
+    },
+    "national_development_fund_share": {
+      "first_1m_barrels": "20%",
+      "above_1m_barrels": "38%",
+      "note": "Share of National Development Fund from oil and gas exports"
+    },
+    "nioc_share": {
+      "percentage": "14.5%",
+      "note": "Share of National Iranian Oil Company (exempt from dividend and tax)"
+    }
+  },
+  
+  "notes": [
+    "All figures in billion rials unless specified",
+    "Oil revenue ceiling: 1,992,720 billion rials (about $1.99 quadrillion rials)",
+    "Government can only spend 9,379,209,356 billion rials initially",
+    "Additional 3,400,000 billion rials can be allocated after 6 months if revenues materialize",
+    "National Development Fund gets 20% of first 1M barrels/day, 38% above that",
+    "Preferential currency rate up to $8 billion for basic goods, medicine, medical equipment"
+  ],
+  
+  "status": "extracted_from_text",
+  "next_steps": [
+    "Compare with CSV data (revenues1400.csv and expenses1400.csv)",
+    "Extract detailed tax revenue breakdown",
+    "Extract current vs capital expenditure breakdown",
+    "Calculate deficit/surplus"
+  ]
+}
+

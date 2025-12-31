@@ -1,0 +1,28 @@
+{
+  "year": 1397,
+  "year_gregorian": "776-777",
+  "currency": "billion rials",
+  "source": "CSV data from official budget tables",
+  "revenues": {
+    "total": 1895747.511,
+    "tax_total": 393206.104,
+    "oil_gas": 213500.481,
+    "tax_breakdown": {
+      "corporate": 72658.048,
+      "individual": 77258.68899999998,
+      "payroll": 0.0,
+      "social_security": 0.0
+    }
+  },
+  "expenditures": {
+    "total": 2088255.293,
+    "current": 17.060000000000002,
+    "capital": 3552.9439999999995,
+    "unclassified": 2084685.289,
+    "subsidy_spending": 7406.351
+  },
+  "balance": {
+    "surplus_deficit": -192507.78200000012,
+    "status": "deficit"
+  }
+}

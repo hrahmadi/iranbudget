@@ -1,0 +1,28 @@
+{
+  "year": 1402,
+  "year_gregorian": "781-782",
+  "currency": "billion rials",
+  "source": "CSV data from official budget tables",
+  "revenues": {
+    "total": 12097918.127999999,
+    "tax_total": 3628457.001,
+    "oil_gas": 1845734.547,
+    "tax_breakdown": {
+      "corporate": 916767.2810000001,
+      "individual": 632355.8740000001,
+      "payroll": 0.0,
+      "social_security": 0.0
+    }
+  },
+  "expenditures": {
+    "total": 10900950.579,
+    "current": 1008.0920000000001,
+    "capital": 274179.93,
+    "unclassified": 10625762.557,
+    "subsidy_spending": 63449.866
+  },
+  "balance": {
+    "surplus_deficit": 1196967.5489999987,
+    "status": "surplus"
+  }
+}

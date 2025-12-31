@@ -1,0 +1,76 @@
+{
+  "year": 1404,
+  "year_gregorian": "2025-2026",
+  "currency": "billion rials (converted from toman in sources)",
+  "source": "Web search + Budget Law",
+  "note": "Limited data - CSV files not available. Numbers converted from toman to rials (×10)",
+  
+  "web_search_findings": {
+    "general_resources": {
+      "value_toman": 4956000,
+      "value_rials": 49560000000,
+      "note": "Decreased from 1403",
+      "change": "-reduction from previous year"
+    },
+    
+    "revenues_total": {
+      "value_toman": 2776000,
+      "value_rials": 27760000000,
+      "note": "7.5% increase",
+      "change_pct": 7.5
+    },
+    
+    "asset_sales_capital": {
+      "value_toman": 930000,
+      "value_rials": 9300000000,
+      "note": "60% decrease",
+      "change_pct": -60.0
+    },
+    
+    "asset_sales_financial": {
+      "value_toman": 1580000,
+      "value_rials": 15800000000,
+      "note": "14.5% increase",
+      "change_pct": 14.5
+    },
+    
+    "expenditure_growth": {
+      "total_growth_pct": 93.0,
+      "current_growth_pct": 78.0,
+      "capital_growth_pct": 50.0,
+      "financial_assets_growth_pct": 253.0
+    },
+    
+    "salary_increase": {
+      "government_employees": "18-20%",
+      "pensioners": "18-20%"
+    }
+  },
+  
+  "law_numbers_from_html": {
+    "total_budget": 112795309000,
+    "general_government_budget": 53844550000,
+    "general_resources": 49564550000,
+    "specific_ministry_revenues": 4280000000,
+    "state_enterprises_budget": 63773759000
+  },
+  
+  "missing_data": [
+    "Detailed tax revenue breakdown (corporate, individual, payroll)",
+    "Oil and gas revenue specifics",
+    "Current vs capital expenditure details",
+    "Subsidy spending breakdown",
+    "Social security contributions"
+  ],
+  
+  "observations": [
+    "Web search provides only aggregated numbers, not detailed breakdown",
+    "Growth rates are extraordinary (93% expenditure increase suggests high inflation)",
+    "Law numbers don't match web search numbers - different accounting methods?",
+    "Without CSV data, cannot provide detailed tax/oil/subsidy tracking"
+  ],
+  
+  "data_quality": "LOW - insufficient for detailed analysis",
+  "recommendation": "Wait for official CSV release or focus on 1399-1403 complete dataset"
+}
+
