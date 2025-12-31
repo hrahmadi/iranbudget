@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import HierarchicalSankey from '@/components/HierarchicalSankey';
 import { transformToHierarchicalSankey, BudgetData, SankeyData } from '@/lib/budget-transform';
+import { Unit, UNIT_INFO, convertFromTrillionRials, formatValue as formatValueWithUnit } from '@/lib/conversions';
 
 type Language = 'en' | 'fa';
 type Year = '1395' | '1396' | '1397' | '1398' | '1399' | '1400' | '1401' | '1402' | '1403' | '1404';
@@ -14,6 +15,7 @@ const translations = {
     yearLabel: 'Year:',
     languageLabel: 'Language:',
     displayModeLabel: 'Display Mode:',
+    unitLabel: 'Unit:',
     loading: 'Loading...',
     error: 'Error loading data',
   },
@@ -22,6 +24,7 @@ const translations = {
     yearLabel: 'سال:',
     languageLabel: 'زبان:',
     displayModeLabel: 'نمایش:',
+    unitLabel: 'واحد:',
     loading: 'در حال بارگذاری...',
     error: 'خطا در بارگذاری داده‌ها',
   },
@@ -31,6 +34,7 @@ export default function Home() {
   const [year, setYear] = useState<Year>('1404');
   const [language, setLanguage] = useState<Language>('en');
   const [displayMode, setDisplayMode] = useState<DisplayMode>('absolute');
+  const [unit, setUnit] = useState<Unit>('trillion_rial');
   const [budgetData, setBudgetData] = useState<BudgetData | null>(null);
   const [sankeyData, setSankeyData] = useState<SankeyData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -65,7 +69,7 @@ export default function Home() {
         
         {/* Controls - Fixed LTR layout */}
         <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Year Selection */}
             <div>
               <label className="block text-sm font-medium mb-2">{t.yearLabel}</label>
@@ -77,6 +81,26 @@ export default function Home() {
                 {['1395', '1396', '1397', '1398', '1399', '1400', '1401', '1402', '1403', '1404'].map((y) => (
                   <option key={y} value={y}>{y}</option>
                 ))}
+              </select>
+            </div>
+
+            {/* Unit Selection */}
+            <div>
+              <label className="block text-sm font-medium mb-2">{t.unitLabel}</label>
+              <select
+                value={unit}
+                onChange={(e) => setUnit(e.target.value as Unit)}
+                className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="trillion_rial">
+                  {language === 'fa' ? UNIT_INFO.trillion_rial.nameFa : UNIT_INFO.trillion_rial.name}
+                </option>
+                <option value="hemmat">
+                  {language === 'fa' ? UNIT_INFO.hemmat.nameFa : UNIT_INFO.hemmat.name}
+                </option>
+                <option value="usd">
+                  {language === 'fa' ? UNIT_INFO.usd.nameFa : UNIT_INFO.usd.name}
+                </option>
               </select>
             </div>
 
@@ -156,6 +180,7 @@ export default function Home() {
               year={year}
               language={language}
               displayMode={displayMode}
+              unit={unit}
             />
           )}
         </div>
@@ -168,10 +193,11 @@ export default function Home() {
                 {language === 'fa' ? 'کل درآمد' : 'Total Revenue'}
               </h3>
               <p className="text-3xl font-bold text-green-400">
-                {(parseFloat(budgetData.revenue_total) / 1_000_000).toFixed(2)}T
-              </p>
-              <p className="text-sm text-gray-400 mt-1">
-                {language === 'fa' ? 'هزار میلیارد ریال' : 'Trillion Rials'}
+                {formatValueWithUnit(
+                  convertFromTrillionRials(parseFloat(budgetData.revenue_total) / 1_000_000, unit, year),
+                  unit,
+                  language
+                )}
               </p>
             </div>
             
@@ -180,10 +206,11 @@ export default function Home() {
                 {language === 'fa' ? 'کل هزینه' : 'Total Expenditure'}
               </h3>
               <p className="text-3xl font-bold text-red-400">
-                {(parseFloat(budgetData.expenditure_total) / 1_000_000).toFixed(2)}T
-              </p>
-              <p className="text-sm text-gray-400 mt-1">
-                {language === 'fa' ? 'هزار میلیارد ریال' : 'Trillion Rials'}
+                {formatValueWithUnit(
+                  convertFromTrillionRials(parseFloat(budgetData.expenditure_total) / 1_000_000, unit, year),
+                  unit,
+                  language
+                )}
               </p>
             </div>
             
@@ -192,7 +219,11 @@ export default function Home() {
                 {language === 'fa' ? 'تراز بودجه' : 'Balance'}
               </h3>
               <p className={`text-3xl font-bold ${budgetData.status === 'surplus' ? 'text-green-400' : 'text-red-400'}`}>
-                {(parseFloat(budgetData.surplus_deficit) / 1_000_000).toFixed(2)}T
+                {formatValueWithUnit(
+                  convertFromTrillionRials(parseFloat(budgetData.surplus_deficit) / 1_000_000, unit, year),
+                  unit,
+                  language
+                )}
               </p>
               <p className="text-sm text-gray-400 mt-1">
                 {budgetData.status === 'surplus' 
