@@ -203,7 +203,12 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       // Collect all parent links first to avoid forEach iteration issues
       const parentLinks: Array<{link: RenderedLink, index: number}> = [];
       links.forEach((link, i) => {
-        if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
+        const matches = link.target.id === nodeId;
+        const alreadyHighlighted = highlighted.has(link.source.id);
+        if (i <= 5) { // Only log first 6 links to avoid spam
+          console.log(`  Link ${i}: source.id="${link.source.id}", target.id="${link.target.id}", matches=${matches}, alreadyHas=${alreadyHighlighted}`);
+        }
+        if (matches && !alreadyHighlighted) {
           parentLinks.push({link, index: i});
         }
       });
