@@ -139,6 +139,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         nodeMap.set(node.id, rendered);
         currentStackY += height + NODE_GAP;
       });
+      
+      console.log(`Column x=${xPos} final stackY=${currentStackY}, overflow=${currentStackY - ((dimensions.height - 900) / 2 + 10 + 880)}px`);
     });
 
     // Phase 3: Precompute link attachment points
