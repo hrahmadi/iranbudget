@@ -199,14 +199,21 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       }
       
       console.log('Finding upstream for:', nodeId);
+      
+      // Collect all parent links first to avoid forEach iteration issues
+      const parentLinks: Array<{link: RenderedLink, index: number}> = [];
       links.forEach((link, i) => {
-        console.log(`  Checking link ${i}: ${link.source.id} → ${link.target.id}, target==nodeId? ${link.target.id === nodeId}`);
         if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
-          console.log(`  ✓ Found parent: ${link.source.id} via link ${i}`);
-          highlighted.add(link.source.id);
-          highlightedLinkSet.add(i);
-          findUpstream(link.source.id);
+          parentLinks.push({link, index: i});
         }
+      });
+      
+      // Then process them
+      parentLinks.forEach(({link, index}) => {
+        console.log(`  ✓ Found parent: ${link.source.id} via link ${index}`);
+        highlighted.add(link.source.id);
+        highlightedLinkSet.add(index);
+        findUpstream(link.source.id);
       });
     };
     
@@ -219,13 +226,21 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       }
       
       console.log('Finding downstream for:', nodeId);
+      
+      // Collect all child links first to avoid forEach iteration issues
+      const childLinks: Array<{link: RenderedLink, index: number}> = [];
       links.forEach((link, i) => {
         if (link.source.id === nodeId && !highlighted.has(link.target.id)) {
-          console.log(`  Found child: ${link.target.id} via link ${i}`);
-          highlighted.add(link.target.id);
-          highlightedLinkSet.add(i);
-          findDownstream(link.target.id);
+          childLinks.push({link, index: i});
         }
+      });
+      
+      // Then process them
+      childLinks.forEach(({link, index}) => {
+        console.log(`  ✓ Found child: ${link.target.id} via link ${index}`);
+        highlighted.add(link.target.id);
+        highlightedLinkSet.add(index);
+        findDownstream(link.target.id);
       });
     };
     
