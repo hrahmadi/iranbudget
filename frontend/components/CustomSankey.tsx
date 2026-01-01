@@ -93,13 +93,11 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     columns.forEach((colNodes, xPos) => {
       // For center column (0.50), use total value for proper scaling
       const isCenter = xPos === 0.50;
-      const columnValue = isCenter 
-        ? data.revenueTotal 
-        : colNodes.reduce((sum, n) => sum + n.value, 0);
-      
+      // CRITICAL FIX: All columns use the same scale (revenueTotal)
+      // This ensures children can never be taller than their parents
       const columnHeight = dimensions.height - 20;
       const scale = scaleLinear()
-        .domain([0, columnValue])
+        .domain([0, data.revenueTotal])
         .range([0, columnHeight]);
 
       let currentStackY = 10;
