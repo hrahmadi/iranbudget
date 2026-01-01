@@ -2,12 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import HierarchicalSankey from '@/components/HierarchicalSankey';
+import D3HierarchicalSankey from '@/components/D3HierarchicalSankey';
 import { transformToHierarchicalSankey, BudgetData, SankeyData } from '@/lib/budget-transform';
 import { Unit, UNIT_INFO, convertFromTrillionRials, formatValue as formatValueWithUnit } from '@/lib/conversions';
 
 type Language = 'en' | 'fa';
 type Year = '1395' | '1396' | '1397' | '1398' | '1399' | '1400' | '1401' | '1402' | '1403' | '1404';
 type DisplayMode = 'absolute' | 'percentage';
+
+// Feature flag: Switch between Plotly (false) and D3 (true)
+const USE_D3_SANKEY = true;
 
 const translations = {
   en: {
@@ -175,13 +179,23 @@ export default function Home() {
           )}
           
           {!loading && !error && sankeyData && budgetData && (
-            <HierarchicalSankey
-              data={sankeyData}
-              year={year}
-              language={language}
-              displayMode={displayMode}
-              unit={unit}
-            />
+            USE_D3_SANKEY ? (
+              <D3HierarchicalSankey
+                data={sankeyData}
+                year={year}
+                language={language}
+                displayMode={displayMode}
+                unit={unit}
+              />
+            ) : (
+              <HierarchicalSankey
+                data={sankeyData}
+                year={year}
+                language={language}
+                displayMode={displayMode}
+                unit={unit}
+              />
+            )
           )}
         </div>
 

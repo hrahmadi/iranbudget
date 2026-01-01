@@ -27,7 +27,9 @@ export interface SankeyData {
 }
 
 export interface SankeyNode {
+  id: string;
   label: string;
+  value: number;
   color: string;
   x?: number;
   y?: number;
@@ -125,7 +127,9 @@ export class SankeyBuilder {
   build(revenueTotal: number, expenditureTotal: number): SankeyData {
     return {
       nodes: this.nodes.map(n => ({
+        id: n.name,
         label: n.label,
+        value: n.value,
         color: n.color,
         x: n.x,
         y: n.y

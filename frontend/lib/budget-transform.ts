@@ -38,7 +38,9 @@ export interface SankeyData {
 }
 
 export interface SankeyNode {
+  id: string;
   label: string;
+  value: number;
   color: string;
   x?: number;
   y?: number;
