@@ -227,14 +227,14 @@ export function transformToHierarchicalSankey(
   builder.addNode('gas-exports', label('Gas & Condensate'), gasCondensate, colors.revenue3, govX, 0.35);
   builder.addNode('fees-charges', label('Fees & Charges'), feesCharges, colors.revenue4, govX, 0.40);
   builder.addNode('other-income', label('Other Income'), otherIncome, colors.revenue4, govX, 0.45);
-  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, govX, 0.50);
   
   // LEVEL 2: Aggregated Revenue
-  // Reorder: Tax, Oil, Other at top; State Companies at bottom
+  // Reorder: Tax, Oil, Other at top; Ministry, State Companies at bottom
   const aggX = hasStateBreakdown ? 0.30 : 0.28;
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.15);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.30);
   builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.45);
+  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, aggX, 0.60);
   builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.75);
   
   // CENTER: Single center column (merge revenue and spending into one visual node)
