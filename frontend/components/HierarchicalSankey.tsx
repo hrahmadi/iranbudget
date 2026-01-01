@@ -146,7 +146,7 @@ export default function HierarchicalSankey({
     return {
       type: 'sankey' as const,
       orientation: 'h',
-      arrangement: 'freeform',
+      arrangement: 'snap',
       node: {
         pad: 30,
         thickness: 25,
