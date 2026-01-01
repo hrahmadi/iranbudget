@@ -43,7 +43,7 @@ interface RenderedLink {
 export default function CustomSankey({ data, year, language, displayMode, unit }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 1200, height: 900 });
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 1125 }); // 900 * 1.25 = 1125
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
@@ -93,14 +93,14 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
       
-      // Use full viewport height
-      const columnHeight = dimensions.height - 20;
+      // Center column stays at 900px height, others use full 1125px
+      const columnHeight = isCenter ? 880 : (dimensions.height - 20);
       const scale = scaleLinear()
         .domain([0, data.revenueTotal])
         .range([0, columnHeight]);
 
-      // Stack nodes tightly, using y-position for sort order only
-      let currentStackY = 10;
+      // Center column vertically centered in viewport
+      let currentStackY = isCenter ? ((dimensions.height - 900) / 2 + 10) : 10;
 
       colNodes.forEach(node => {
         const height = scale(node.value);
