@@ -112,14 +112,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       const startY = currentStackY;
 
       colNodes.forEach((node, idx) => {
-        let height = scale(node.value);
-        
-        // EXPERIMENT: Make state company detail nodes 20% shorter
-        if (['state-operations', 'state-credits', 'state-loans-domestic', 
-             'state-loans-foreign', 'state-assets', 'state-other'].includes(node.id)) {
-          height = height * 0.8;
-        }
-        
+        const height = scale(node.value);
         const x0 = xPos * dimensions.width;
         // Make center column thinner
         const nodeWidth = isCenter ? 10 : NODE_WIDTH;
