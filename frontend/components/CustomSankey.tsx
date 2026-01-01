@@ -218,7 +218,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  // Phase 4 & 5: Render SVG
+  // Phase 4 & 5: Render SVG (initial render only)
   useEffect(() => {
     if (!svgRef.current || !nodes || !links) return;
 
@@ -249,7 +249,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const linkGroup = svg.append('g').attr('class', 'links');
     
     links.forEach((link, i) => {
-      const isHighlighted = hoveredNode ? highlightedLinks.has(i) : (hoveredLink === null || hoveredLink === i);
       const sx = link.source.x1;
       const tx = link.target.x0;
       const path = `
@@ -260,11 +259,12 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       `;
 
       linkGroup.append('path')
+        .attr('class', `link-${i}`)
         .attr('d', path)
         .attr('stroke', `url(#gradient-${i})`)
         .attr('stroke-width', link.thickness)
         .attr('fill', 'none')
-        .attr('opacity', isHighlighted ? 0.8 : 0.2)
+        .attr('opacity', 0.8)
         .style('cursor', 'pointer')
         .on('mouseenter', () => {
           setHoveredLink(i);
@@ -279,9 +279,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const nodeGroup = svg.append('g').attr('class', 'nodes');
     
     nodes.forEach(node => {
-      const isHighlighted = hoveredNode ? highlightedNodes.has(node.id) : true;
-      
       nodeGroup.append('rect')
+        .attr('class', `node-${node.id}`)
         .attr('x', node.x0)
         .attr('y', node.y0)
         .attr('width', node.x1 - node.x0)
@@ -290,7 +289,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .attr('stroke', '#2a2a2a')
         .attr('stroke-width', 0.5)
         .attr('rx', 2)
-        .attr('opacity', isHighlighted ? 1 : 0.3)
+        .attr('opacity', 1)
         .style('cursor', 'pointer')
         .on('mouseenter', () => {
           setHoveredNode(node.id);
@@ -302,18 +301,40 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
       // Draw labels
       nodeGroup.append('text')
+        .attr('class', `label-${node.id}`)
         .attr('x', node.x0 < dimensions.width / 2 ? node.x1 + 6 : node.x0 - 6)
         .attr('y', (node.y0 + node.y1) / 2)
         .attr('dy', '0.35em')
         .attr('text-anchor', node.x0 < dimensions.width / 2 ? 'start' : 'end')
         .attr('fill', '#ffffff')
         .attr('font-size', '10px')
-        .attr('opacity', isHighlighted ? 1 : 0.3)
+        .attr('opacity', 1)
         .style('pointer-events', 'none')
         .text(node.label);
     });
 
-  }, [nodes, links, dimensions, hoveredNode, hoveredLink, highlightedNodes, highlightedLinks, formatLabel, CURVATURE]);
+  }, [nodes, links, dimensions, formatLabel, CURVATURE]);
+
+  // Update opacity based on hover (separate effect for performance)
+  useEffect(() => {
+    if (!svgRef.current) return;
+
+    const svg = select(svgRef.current);
+
+    // Update link opacity
+    links.forEach((link, i) => {
+      const isHighlighted = hoveredNode ? highlightedLinks.has(i) : (hoveredLink === null || hoveredLink === i);
+      svg.select(`.link-${i}`).attr('opacity', isHighlighted ? 0.8 : 0.2);
+    });
+
+    // Update node and label opacity
+    nodes.forEach(node => {
+      const isHighlighted = hoveredNode ? highlightedNodes.has(node.id) : true;
+      svg.select(`.node-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
+      svg.select(`.label-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
+    });
+
+  }, [hoveredNode, hoveredLink, highlightedNodes, highlightedLinks, nodes, links]);
 
   return (
     <div ref={containerRef} className="w-full" dir={isRTL ? 'rtl' : 'ltr'}>
