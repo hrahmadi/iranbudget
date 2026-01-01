@@ -44,6 +44,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 900 });
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
   const isRTL = language === 'fa';
@@ -69,6 +70,52 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     }
     return convertFromTrillionRials(value, unit, year);
   };
+
+  // Compute highlighted nodes based on hover
+  const highlightedNodes = useMemo(() => {
+    if (!hoveredNode) return new Set<string>();
+    
+    const highlighted = new Set<string>([hoveredNode]);
+    
+    // Add all upstream and downstream connected nodes
+    const addConnections = (nodeId: string) => {
+      // Find outgoing links
+      data.links.forEach(link => {
+        const sourceId = data.nodes[link.source].id;
+        const targetId = data.nodes[link.target].id;
+        
+        if (sourceId === nodeId && !highlighted.has(targetId)) {
+          highlighted.add(targetId);
+          addConnections(targetId); // Recursively add downstream
+        }
+        if (targetId === nodeId && !highlighted.has(sourceId)) {
+          highlighted.add(sourceId);
+          addConnections(sourceId); // Recursively add upstream
+        }
+      });
+    };
+    
+    addConnections(hoveredNode);
+    return highlighted;
+  }, [hoveredNode, data]);
+
+  // Compute highlighted links based on hover
+  const highlightedLinks = useMemo(() => {
+    if (!hoveredNode) return new Set<number>();
+    
+    const highlighted = new Set<number>();
+    
+    data.links.forEach((link, i) => {
+      const sourceId = data.nodes[link.source].id;
+      const targetId = data.nodes[link.target].id;
+      
+      if (highlightedNodes.has(sourceId) && highlightedNodes.has(targetId)) {
+        highlighted.add(i);
+      }
+    });
+    
+    return highlighted;
+  }, [hoveredNode, highlightedNodes, data]);
 
   // Phase 1-3: Compute layout
   const { nodes, links } = useMemo(() => {
@@ -210,6 +257,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const linkGroup = svg.append('g').attr('class', 'links');
     
     links.forEach((link, i) => {
+      const isHighlighted = hoveredNode ? highlightedLinks.has(i) : (hoveredLink === null || hoveredLink === i);
       const sx = link.source.x1;
       const tx = link.target.x0;
       const path = `
@@ -224,9 +272,12 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .attr('stroke', `url(#gradient-${i})`)
         .attr('stroke-width', link.thickness)
         .attr('fill', 'none')
-        .attr('opacity', hoveredLink === null || hoveredLink === i ? 0.8 : 0.2)
+        .attr('opacity', isHighlighted ? 0.8 : 0.2)
         .style('cursor', 'pointer')
-        .on('mouseenter', () => setHoveredLink(i))
+        .on('mouseenter', () => {
+          setHoveredLink(i);
+          setHoveredNode(null);
+        })
         .on('mouseleave', () => setHoveredLink(null))
         .append('title')
         .text(`${link.source.label} → ${link.target.label}\n${formatLabel(link.value)}`);
@@ -236,6 +287,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const nodeGroup = svg.append('g').attr('class', 'nodes');
     
     nodes.forEach(node => {
+      const isHighlighted = hoveredNode ? highlightedNodes.has(node.id) : true;
+      
       nodeGroup.append('rect')
         .attr('x', node.x0)
         .attr('y', node.y0)
@@ -245,6 +298,13 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .attr('stroke', '#2a2a2a')
         .attr('stroke-width', 0.5)
         .attr('rx', 2)
+        .attr('opacity', isHighlighted ? 1 : 0.3)
+        .style('cursor', 'pointer')
+        .on('mouseenter', () => {
+          setHoveredNode(node.id);
+          setHoveredLink(null);
+        })
+        .on('mouseleave', () => setHoveredNode(null))
         .append('title')
         .text(`${node.label}\n${formatLabel(node.value)}`);
 
@@ -256,10 +316,12 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .attr('text-anchor', node.x0 < dimensions.width / 2 ? 'start' : 'end')
         .attr('fill', '#ffffff')
         .attr('font-size', '10px')
+        .attr('opacity', isHighlighted ? 1 : 0.3)
+        .style('pointer-events', 'none')
         .text(node.label);
     });
 
-  }, [nodes, links, dimensions, hoveredLink, formatLabel]);
+  }, [nodes, links, dimensions, hoveredNode, hoveredLink, highlightedNodes, highlightedLinks, formatLabel, CURVATURE]);
 
   return (
     <div ref={containerRef} className="w-full" dir={isRTL ? 'rtl' : 'ltr'}>
