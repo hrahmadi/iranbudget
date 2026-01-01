@@ -96,23 +96,26 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const renderedNodes: RenderedNode[] = [];
     const nodeMap = new Map<string, RenderedNode>();
 
+    // Find the column with most nodes to calculate worst-case gaps
+    const maxNodes = Math.max(...Array.from(columns.values()).map(col => col.length));
+    const maxGaps = (maxNodes - 1) * NODE_GAP;
+    const globalAvailableHeight = 880 - maxGaps;
+    
+    console.log(`Max nodes in any column: ${maxNodes}, max gaps: ${maxGaps}px, global available height: ${globalAvailableHeight}px`);
+
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
       
-      // ALL columns use GLOBAL scale to maintain Sankey invariant
-      // BUT account for gaps so total height doesn't overflow
-      const columnHeight = 880;
-      const totalGaps = (colNodes.length - 1) * NODE_GAP;
-      const availableHeightForNodes = columnHeight - totalGaps;
-      
+      // ALL columns use SAME available height (smallest) for global scale
+      // This maintains Sankey invariant while preventing overflow
       const scale = scaleLinear()
         .domain([0, data.revenueTotal])
-        .range([0, availableHeightForNodes]);
+        .range([0, globalAvailableHeight]);
 
       // ALL columns vertically centered in viewport
       let currentStackY = (dimensions.height - 900) / 2 + 10;
       
-      console.log(`Column x=${xPos}, nodes=${colNodes.length}, gaps=${totalGaps}px, availableHeight=${availableHeightForNodes}px`);
+      console.log(`Column x=${xPos}, nodes=${colNodes.length}`);
 
       colNodes.forEach(node => {
         const height = scale(node.value);
