@@ -51,6 +51,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Constants
   const NODE_WIDTH = 25;
+  const CENTER_NODE_WIDTH = 50; // Twice as thick
   const NODE_GAP = 2;
   const CURVATURE = 80;
 
@@ -114,8 +115,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       colNodes.forEach((node, idx) => {
         const height = scale(node.value);
         const x0 = xPos * dimensions.width;
-        // Make center column thinner
-        const nodeWidth = isCenter ? 10 : NODE_WIDTH;
+        // Center column is twice as thick
+        const nodeWidth = isCenter ? CENTER_NODE_WIDTH : NODE_WIDTH;
         const x1 = x0 + nodeWidth;
 
         const rendered: RenderedNode = {
@@ -332,17 +333,47 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .text(`${node.label}\n${formatLabel(node.value)}`);
 
       // Draw labels
-      nodeGroup.append('text')
-        .attr('class', `label-${node.id}`)
-        .attr('x', node.x0 < dimensions.width / 2 ? node.x1 + 6 : node.x0 - 6)
-        .attr('y', (node.y0 + node.y1) / 2)
-        .attr('dy', '0.35em')
-        .attr('text-anchor', node.x0 < dimensions.width / 2 ? 'start' : 'end')
-        .attr('fill', '#ffffff')
-        .attr('font-size', '10px')
-        .attr('opacity', 1)
-        .style('pointer-events', 'none')
-        .text(node.label);
+      const isCenter = node.id === 'center-total';
+      
+      if (isCenter && node.label) {
+        // Vertical text for center node
+        nodeGroup.append('text')
+          .attr('class', `label-${node.id}`)
+          .attr('x', (node.x0 + node.x1) / 2)
+          .attr('y', (node.y0 + node.y1) / 2)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#ffffff')
+          .attr('font-size', '11px')
+          .attr('font-weight', '600')
+          .attr('font-family', isRTL ? 'Vazir, sans-serif' : 'inherit')
+          .attr('opacity', 1)
+          .attr('transform', `rotate(-90, ${(node.x0 + node.x1) / 2}, ${(node.y0 + node.y1) / 2})`)
+          .style('pointer-events', 'none')
+          .text(node.label);
+      } else if (node.label) {
+        // Horizontal text for other nodes
+        // For RTL: left side nodes have text on RIGHT, right side nodes have text on LEFT
+        const isLeftSide = node.x0 < dimensions.width / 2;
+        const textX = isRTL 
+          ? (isLeftSide ? node.x0 - 6 : node.x1 + 6)  // Reversed for RTL
+          : (isLeftSide ? node.x1 + 6 : node.x0 - 6); // Normal for LTR
+        const textAnchor = isRTL
+          ? (isLeftSide ? 'end' : 'start')  // Reversed for RTL
+          : (isLeftSide ? 'start' : 'end'); // Normal for LTR
+        
+        nodeGroup.append('text')
+          .attr('class', `label-${node.id}`)
+          .attr('x', textX)
+          .attr('y', (node.y0 + node.y1) / 2)
+          .attr('dy', '0.35em')
+          .attr('text-anchor', textAnchor)
+          .attr('fill', '#ffffff')
+          .attr('font-size', '10px')
+          .attr('font-family', isRTL ? 'Vazir, sans-serif' : 'inherit')
+          .attr('opacity', 1)
+          .style('pointer-events', 'none')
+          .text(node.label);
+      }
     });
 
   }, [nodes, links, dimensions, formatLabel, CURVATURE]);

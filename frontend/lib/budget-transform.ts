@@ -79,7 +79,7 @@ export function transformToHierarchicalSankey(
     revenue3: '#3D9BB8',
     revenue4: '#5AB8CC',
     revenue5: '#6EC9D4',
-    revenueCenter: '#3D9BB8',
+    revenueCenter: '#7C3F8C', // Purple shade matching color scheme
     spending1: '#D6006E',
     spending2: '#BD0060',
     spending3: '#A4004D',
@@ -231,16 +231,19 @@ export function transformToHierarchicalSankey(
   }
   
   // LEVEL 2: Aggregated Revenue
-  // Reorder: Tax, Oil, Other at top; Ministry, State Companies at bottom
+  // Order: Tax, Oil, Other, Ministry at top; State Companies ALWAYS LAST
   const aggX = hasStateBreakdown ? 0.30 : 0.28;
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.15);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.30);
   builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.45);
-  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, aggX, 0.60);
-  builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.75);
+  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, aggX, 0.55);
+  builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.90);
   
-  // CENTER: Single center column (merge revenue and spending into one visual node)
-  builder.addNode('center-total', '', revenueTotalCorrected, colors.revenueCenter, 0.50, 0.50);
+  // CENTER: Single center column (thicker, purple, with vertical label)
+  const centerLabel = language === 'fa' 
+    ? `کل درآمد = ${formatNumber(revenueTotalCorrected, currency, language)}`
+    : `Total Revenue = ${formatNumber(revenueTotalCorrected, currency, language)}`;
+  builder.addNode('center-total', centerLabel, revenueTotalCorrected, colors.revenueCenter, 0.50, 0.50);
   
   // LEVEL 3: Main Spending
   builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.72, 0.30);
