@@ -107,6 +107,22 @@ export function transformToHierarchicalSankey(
   
   const hasStateBreakdown = stateRevenues > 0;
   
+  // Verify state company breakdown sums correctly
+  if (hasStateBreakdown) {
+    const stateDetailSum = stateRevenues + stateCurrentCredits + stateCapitalCredits 
+      + stateDomesticLoans + stateForeignLoans + stateCurrentAssets + stateOtherReceipts;
+    console.log('=== STATE COMPANY BREAKDOWN ===');
+    console.log('Total (state-company-revenue node):', stateCompanies.toFixed(2));
+    console.log('Detail sum:', stateDetailSum.toFixed(2));
+    console.log('  - Company Revenues:', stateRevenues.toFixed(2));
+    console.log('  - Credits:', (stateCurrentCredits + stateCapitalCredits).toFixed(2));
+    console.log('  - Domestic Loans:', stateDomesticLoans.toFixed(2));
+    console.log('  - Foreign Loans:', stateForeignLoans.toFixed(2));
+    console.log('  - Asset Sales:', stateCurrentAssets.toFixed(2));
+    console.log('  - Other Receipts:', stateOtherReceipts.toFixed(2));
+    console.log('Match:', Math.abs(stateDetailSum - stateCompanies) < 0.01 ? 'YES ✓' : 'NO ✗ MISMATCH!');
+  }
+  
   // Tax breakdown
   const vatSales = Math.max(0, taxTotal - taxCorporate - taxIndividual);
   const importDuties = vatSales * 0.3;
