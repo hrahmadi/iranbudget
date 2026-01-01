@@ -43,7 +43,7 @@ interface RenderedLink {
 export default function CustomSankey({ data, year, language, displayMode, unit }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 1200, height: 1125 }); // 900 * 1.25 = 1125
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 2000 });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
@@ -232,7 +232,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const updateDimensions = () => {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth;
-        setDimensions({ width, height: 1125 }); // 25% taller than 900
+        setDimensions({ width, height: 2000 });
       }
     };
 
