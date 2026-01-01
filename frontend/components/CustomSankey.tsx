@@ -368,7 +368,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         ref={svgRef}
         width={dimensions.width}
         height={dimensions.height}
-        style={{ width: '100%', height: 'auto', backgroundColor: '#1a1a1a' }}
+        style={{ width: '100%', height: `${dimensions.height}px`, backgroundColor: '#1a1a1a' }}
       />
     </div>
   );
