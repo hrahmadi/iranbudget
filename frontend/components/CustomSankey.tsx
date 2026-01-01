@@ -168,17 +168,18 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Compute highlighted nodes and links based on hover (full upstream/downstream chain)
   const { highlightedNodes, highlightedLinks } = useMemo(() => {
-    // When hovering a link, highlight the link and its two nodes
+    // Determine which node to use for highlighting
+    let nodeToHighlight = hoveredNode;
+    
+    // When hovering a link, treat it as hovering the TARGET node (downstream)
     if (hoveredLink !== null) {
       const link = links[hoveredLink];
-      return {
-        highlightedNodes: new Set<string>([link.source.id, link.target.id]),
-        highlightedLinks: new Set<number>([hoveredLink])
-      };
+      nodeToHighlight = link.target.id;
+      console.log(`=== LINK HOVER → Using target node: ${nodeToHighlight} ===`);
     }
     
-    // When hovering a node
-    if (!hoveredNode) {
+    // No hover state
+    if (!nodeToHighlight) {
       return { 
         highlightedNodes: new Set<string>(), 
         highlightedLinks: new Set<number>() 
@@ -186,9 +187,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     }
     
     console.log('=== RECURSIVE HIGHLIGHTING ===');
-    console.log('Hovered node:', hoveredNode);
+    console.log('Hovered node:', nodeToHighlight);
     
-    const highlighted = new Set<string>([hoveredNode]);
+    const highlighted = new Set<string>([nodeToHighlight]);
     const highlightedLinkSet = new Set<number>();
     
     // Recursively find all upstream nodes (parents) - STOP at center-total
@@ -229,8 +230,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       });
     };
     
-    findUpstream(hoveredNode);
-    findDownstream(hoveredNode);
+    findUpstream(nodeToHighlight);
+    findDownstream(nodeToHighlight);
     
     console.log('Final highlighted nodes:', Array.from(highlighted));
     console.log('Final highlighted links:', Array.from(highlightedLinkSet));
