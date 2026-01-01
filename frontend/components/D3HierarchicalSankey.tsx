@@ -33,8 +33,8 @@ interface D3Node {
 }
 
 interface D3Link {
-  source: number;
-  target: number;
+  source: string;  // Node ID
+  target: string;  // Node ID
   value: number;
   color: string;
 }
@@ -131,9 +131,10 @@ export default function D3HierarchicalSankey({ data, year, language, displayMode
       group: getNodeGroup(n.id)
     }));
 
+    // Convert link indices to node IDs
     const links: D3Link[] = data.links.map(l => ({
-      source: l.source,
-      target: l.target,
+      source: data.nodes[l.source].id,
+      target: data.nodes[l.target].id,
       value: displayMode === 'percentage' 
         ? (l.value / data.revenueTotal) * 100
         : convertFromTrillionRials(l.value, unit, year),
