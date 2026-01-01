@@ -101,9 +101,10 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       // Calculate actual sum of nodes in this column
       const columnSum = colNodes.reduce((sum, n) => sum + n.value, 0);
       
-      // Scale by column's actual sum to fit perfectly in available height
+      // GLOBAL SCALE: Use revenueTotal to maintain Sankey invariant
+      // All columns use same scale so children heights sum to parent
       const scale = scaleLinear()
-        .domain([0, columnSum])
+        .domain([0, data.revenueTotal])
         .range([0, globalAvailableHeight]);
 
       // ALL columns vertically centered in viewport

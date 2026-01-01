@@ -108,9 +108,10 @@ export function transformToHierarchicalSankey(
   const hasStateBreakdown = stateRevenues > 0;
   
   // Verify state company breakdown sums correctly
+  const stateDetailSum = stateRevenues + stateCurrentCredits + stateCapitalCredits 
+    + stateDomesticLoans + stateForeignLoans + stateCurrentAssets + stateOtherReceipts;
+    
   if (hasStateBreakdown) {
-    const stateDetailSum = stateRevenues + stateCurrentCredits + stateCapitalCredits 
-      + stateDomesticLoans + stateForeignLoans + stateCurrentAssets + stateOtherReceipts;
     console.log('=== STATE COMPANY BREAKDOWN ===');
     console.log('Total (state-company-revenue node):', stateCompanies.toFixed(2));
     console.log('Detail sum:', stateDetailSum.toFixed(2));
@@ -122,6 +123,12 @@ export function transformToHierarchicalSankey(
     console.log('  - Other Receipts:', stateOtherReceipts.toFixed(2));
     console.log('Match:', Math.abs(stateDetailSum - stateCompanies) < 0.01 ? 'YES ✓' : 'NO ✗ MISMATCH!');
   }
+  
+  // Use detail sum if breakdown exists (ensures children sum to parent)
+  const stateCompaniesActual = hasStateBreakdown ? stateDetailSum : stateCompanies;
+  
+  // Recalculate revenue total using corrected state companies value
+  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherGovRevenue + specialAccounts;
   
   // Tax breakdown
   const vatSales = Math.max(0, taxTotal - taxCorporate - taxIndividual);
@@ -224,11 +231,11 @@ export function transformToHierarchicalSankey(
   const aggX = hasStateBreakdown ? 0.30 : 0.28;
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.60);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.75);
-  builder.addNode('state-company-revenue', label('State Companies'), stateCompanies, colors.revenue1, aggX, 0.20);
+  builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.20);
   builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.85);
   
   // CENTER: Single center column (merge revenue and spending into one visual node)
-  builder.addNode('center-total', '', revenueTotal, colors.revenueCenter, 0.50, 0.50);
+  builder.addNode('center-total', '', revenueTotalCorrected, colors.revenueCenter, 0.50, 0.50);
   
   // LEVEL 3: Main Spending
   builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.72, 0.30);
@@ -277,7 +284,7 @@ export function transformToHierarchicalSankey(
   // Aggregates → Center
   builder.addLink('tax-revenue', 'center-total', taxTotal);
   builder.addLink('oil-gas-revenue', 'center-total', oilGas);
-  builder.addLink('state-company-revenue', 'center-total', stateCompanies);
+  builder.addLink('state-company-revenue', 'center-total', stateCompaniesActual);
   builder.addLink('other-revenue', 'center-total', otherGovRevenue);
   builder.addLink('special-revenue', 'center-total', specialAccounts);
   
@@ -304,7 +311,7 @@ export function transformToHierarchicalSankey(
   builder.addLink('support', 'food-essentials', foodEssentials);
   
   // Build and return
-  const sankeyData = builder.build(revenueTotal, expenditureTotal);
+  const sankeyData = builder.build(revenueTotalCorrected, expenditureTotal);
   
   // Log all links for debugging
   console.log('=== ALL LINKS ===');
