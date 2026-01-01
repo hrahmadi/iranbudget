@@ -107,6 +107,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
       
+      // Calculate actual sum of nodes in this column
+      const columnSum = colNodes.reduce((sum, n) => sum + n.value, 0);
+      
       // ALL columns use SAME available height (smallest) for global scale
       // This maintains Sankey invariant while preventing overflow
       const scale = scaleLinear()
@@ -116,7 +119,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       // ALL columns vertically centered in viewport
       let currentStackY = (dimensions.height - 900) / 2 + 10;
       
-      console.log(`Column x=${xPos}, nodes=${colNodes.length}`);
+      console.log(`Column x=${xPos}, nodes=${colNodes.length}, sum=${columnSum.toFixed(2)}, revenueTotal=${data.revenueTotal.toFixed(2)}, ratio=${(columnSum/data.revenueTotal*100).toFixed(1)}%`);
 
       colNodes.forEach(node => {
         const height = scale(node.value);
