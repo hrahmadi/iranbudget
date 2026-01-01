@@ -1,11 +1,18 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { SankeyData } from '@/lib/budget-transform';
 import { Unit, convertFromTrillionRials, formatValue as formatValueWithUnit } from '@/lib/conversions';
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
+const Plot = dynamic(() => import('react-plotly.js'), { 
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[1000px] flex items-center justify-center">
+      <div className="text-xl text-gray-400">Loading visualization...</div>
+    </div>
+  )
+});
 
 interface Props {
   data: SankeyData;
@@ -137,7 +144,8 @@ export default function HierarchicalSankey({
       `%{source.label} → %{target.label}<br>%{value:.2f} ${formatValueWithUnit(0, unit, language).split(' ').slice(1).join(' ')}<extra></extra>`;
 
     return {
-      type: 'sankey',
+      type: 'sankey' as const,
+      orientation: 'h',
       arrangement: 'freeform',
       node: {
         pad: 15,
@@ -155,6 +163,10 @@ export default function HierarchicalSankey({
         value: convertedLinkValues,
         color: data.links.map(l => l.color),
         hovertemplate: linkHoverTemplate
+      },
+      textfont: {
+        size: 10,
+        color: '#ffffff'
       }
     };
   }, [data, nodeX, nodeY, displayMode, unit, year, language]);
@@ -164,9 +176,14 @@ export default function HierarchicalSankey({
       <Plot
         data={[sankeyData as any]}
         layout={layout as any}
-        config={{ responsive: true }}
+        config={{ 
+          responsive: true,
+          displayModeBar: false,
+          staticPlot: false
+        }}
         className="w-full"
         style={{ width: '100%', height: '1000px' }}
+        useResizeHandler={true}
       />
     </div>
   );
