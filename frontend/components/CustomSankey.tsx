@@ -51,7 +51,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   // Constants
   const NODE_WIDTH = 25;
   const NODE_GAP = 5;
-  const CURVATURE = 120;
+  const CURVATURE = 80;
 
   // Format value
   const formatLabel = (value: number) => {
@@ -90,7 +90,12 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const nodeMap = new Map<string, RenderedNode>();
 
     columns.forEach((colNodes, xPos) => {
-      const columnValue = colNodes.reduce((sum, n) => sum + n.value, 0);
+      // For center columns (0.48, 0.52), use total value for proper scaling
+      const isCenter = xPos === 0.48 || xPos === 0.52;
+      const columnValue = isCenter 
+        ? data.revenueTotal 
+        : colNodes.reduce((sum, n) => sum + n.value, 0);
+      
       const columnHeight = dimensions.height - 20;
       const scale = scaleLinear()
         .domain([0, columnValue])
@@ -101,7 +106,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       colNodes.forEach(node => {
         const height = scale(node.value);
         const x0 = xPos * dimensions.width;
-        const x1 = x0 + NODE_WIDTH;
+        // Make center columns thinner
+        const nodeWidth = isCenter ? 15 : NODE_WIDTH;
+        const x1 = x0 + nodeWidth;
 
         const rendered: RenderedNode = {
           id: node.id,
@@ -120,6 +127,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         nodeMap.set(node.id, rendered);
         currentStackY += height + NODE_GAP;
       });
+    });
     });
 
     // Phase 3: Precompute link attachment points
