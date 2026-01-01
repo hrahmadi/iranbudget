@@ -185,13 +185,18 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       };
     }
     
+    console.log('=== RECURSIVE HIGHLIGHTING ===');
+    console.log('Hovered node:', hoveredNode);
+    
     const highlighted = new Set<string>([hoveredNode]);
     const highlightedLinkSet = new Set<number>();
     
     // Recursively find all upstream nodes (parents)
     const findUpstream = (nodeId: string) => {
+      console.log('Finding upstream for:', nodeId);
       links.forEach((link, i) => {
         if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
+          console.log(`  Found parent: ${link.source.id} via link ${i}`);
           highlighted.add(link.source.id);
           highlightedLinkSet.add(i);
           findUpstream(link.source.id);
@@ -201,8 +206,10 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     
     // Recursively find all downstream nodes (children)
     const findDownstream = (nodeId: string) => {
+      console.log('Finding downstream for:', nodeId);
       links.forEach((link, i) => {
         if (link.source.id === nodeId && !highlighted.has(link.target.id)) {
+          console.log(`  Found child: ${link.target.id} via link ${i}`);
           highlighted.add(link.target.id);
           highlightedLinkSet.add(i);
           findDownstream(link.target.id);
@@ -212,6 +219,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     
     findUpstream(hoveredNode);
     findDownstream(hoveredNode);
+    
+    console.log('Final highlighted nodes:', Array.from(highlighted));
+    console.log('Final highlighted links:', Array.from(highlightedLinkSet));
     
     return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
   }, [hoveredNode, hoveredLink, links]);
@@ -333,16 +343,26 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
     const svg = select(svgRef.current);
 
+    console.log('=== OPACITY UPDATE ===');
+    console.log('Highlighted nodes:', Array.from(highlightedNodes));
+    console.log('Highlighted links:', Array.from(highlightedLinks));
+
     // Update link opacity
     links.forEach((link, i) => {
       const isHighlighted = highlightedLinks.has(i);
       const shouldShow = isHighlighted || (hoveredNode === null && hoveredLink === null);
+      
+      console.log(`Link ${i} (${link.source.id} → ${link.target.id}): inSet=${isHighlighted}, shouldShow=${shouldShow}`);
+      
       svg.select(`.link-${i}`).attr('opacity', shouldShow ? 0.8 : 0.2);
     });
 
     // Update node and label opacity
     nodes.forEach(node => {
       const isHighlighted = highlightedNodes.has(node.id) || (hoveredNode === null && hoveredLink === null);
+      
+      console.log(`Node ${node.id}: inSet=${highlightedNodes.has(node.id)}, shouldShow=${isHighlighted}`);
+      
       svg.select(`.node-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
       svg.select(`.label-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
     });
