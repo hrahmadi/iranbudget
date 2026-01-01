@@ -304,5 +304,15 @@ export function transformToHierarchicalSankey(
   builder.addLink('support', 'food-essentials', foodEssentials);
   
   // Build and return
-  return builder.build(revenueTotal, expenditureTotal);
+  const sankeyData = builder.build(revenueTotal, expenditureTotal);
+  
+  // Log all links for debugging
+  console.log('=== ALL LINKS ===');
+  sankeyData.links.forEach((link, i) => {
+    const sourceName = sankeyData.nodes[link.source].id;
+    const targetName = sankeyData.nodes[link.target].id;
+    console.log(`Link ${i}: ${sourceName} → ${targetName} (value: ${link.value.toFixed(2)})`);
+  });
+  
+  return sankeyData;
 }
