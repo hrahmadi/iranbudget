@@ -8,7 +8,7 @@ import { Unit, convertFromTrillionRials, formatValue as formatValueWithUnit } fr
 const Plot = dynamic(() => import('react-plotly.js'), { 
   ssr: false,
   loading: () => (
-    <div className="w-full h-[1000px] flex items-center justify-center">
+    <div className="w-full h-[1400px] flex items-center justify-center">
       <div className="text-xl text-gray-400">Loading visualization...</div>
     </div>
   )
@@ -86,7 +86,7 @@ export default function HierarchicalSankey({
     },
     plot_bgcolor: '#1a1a1a',
     paper_bgcolor: '#1a1a1a',
-    height: 1000,
+    height: 1400,
     margin: { l: 10, r: 10, t: 100, b: 50 },
     annotations: [
       // Vertical text for center columns
@@ -148,8 +148,8 @@ export default function HierarchicalSankey({
       orientation: 'h',
       arrangement: 'freeform',
       node: {
-        pad: 15,
-        thickness: 60,
+        pad: 25,
+        thickness: 35,
         line: { color: '#2a2a2a', width: 0.5 },
         label: data.nodes.map(n => n.label),
         color: data.nodes.map(n => n.color),
@@ -162,7 +162,8 @@ export default function HierarchicalSankey({
         target: data.links.map(l => l.target),
         value: convertedLinkValues,
         color: data.links.map(l => l.color),
-        hovertemplate: linkHoverTemplate
+        hovertemplate: linkHoverTemplate,
+        arrowlen: 0
       },
       textfont: {
         size: 10,
@@ -182,8 +183,10 @@ export default function HierarchicalSankey({
           staticPlot: false
         }}
         className="w-full"
-        style={{ width: '100%', height: '1000px' }}
+        style={{ width: '100%', height: '1400px' }}
         useResizeHandler={true}
+        revision={0}
+        key={`${year}-${language}-${displayMode}-${unit}`}
       />
     </div>
   );
