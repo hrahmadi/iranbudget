@@ -336,15 +336,29 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
     const svg = select(svgRef.current);
 
+    console.log('=== OPACITY UPDATE ===');
+    console.log('hoveredNode:', hoveredNode);
+    console.log('hoveredLink:', hoveredLink);
+    console.log('highlightedNodes:', Array.from(highlightedNodes));
+    console.log('highlightedLinks:', Array.from(highlightedLinks));
+
     // Update link opacity
     links.forEach((link, i) => {
       const isHighlighted = highlightedLinks.has(i);
-      svg.select(`.link-${i}`).attr('opacity', isHighlighted || (hoveredNode === null && hoveredLink === null) ? 0.8 : 0.2);
+      const shouldShow = isHighlighted || (hoveredNode === null && hoveredLink === null);
+      
+      console.log(`Link ${i} (${link.source.id} → ${link.target.id}): ` +
+        `inSet=${highlightedLinks.has(i)}, shouldShow=${shouldShow}`);
+      
+      svg.select(`.link-${i}`).attr('opacity', shouldShow ? 0.8 : 0.2);
     });
 
     // Update node and label opacity
     nodes.forEach(node => {
       const isHighlighted = highlightedNodes.has(node.id) || (hoveredNode === null && hoveredLink === null);
+      
+      console.log(`Node ${node.id}: inSet=${highlightedNodes.has(node.id)}, shouldShow=${isHighlighted}`);
+      
       svg.select(`.node-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
       svg.select(`.label-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
     });
