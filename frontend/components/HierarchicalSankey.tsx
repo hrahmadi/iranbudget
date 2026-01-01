@@ -8,7 +8,7 @@ import { Unit, convertFromTrillionRials, formatValue as formatValueWithUnit } fr
 const Plot = dynamic(() => import('react-plotly.js'), { 
   ssr: false,
   loading: () => (
-    <div className="w-full h-[1400px] flex items-center justify-center">
+    <div className="w-full h-[900px] flex items-center justify-center">
       <div className="text-xl text-gray-400">Loading visualization...</div>
     </div>
   )
@@ -86,8 +86,8 @@ export default function HierarchicalSankey({
     },
     plot_bgcolor: '#1a1a1a',
     paper_bgcolor: '#1a1a1a',
-    height: 1400,
-    margin: { l: 10, r: 10, t: 100, b: 50 },
+    height: 900,
+    margin: { l: 10, r: 10, t: 80, b: 50 },
     annotations: [
       // Vertical text for center columns
       {
@@ -148,8 +148,8 @@ export default function HierarchicalSankey({
       orientation: 'h',
       arrangement: 'freeform',
       node: {
-        pad: 25,
-        thickness: 35,
+        pad: 20,
+        thickness: 30,
         line: { color: '#2a2a2a', width: 0.5 },
         label: data.nodes.map(n => n.label),
         color: data.nodes.map(n => n.color),
@@ -183,7 +183,7 @@ export default function HierarchicalSankey({
           staticPlot: false
         }}
         className="w-full"
-        style={{ width: '100%', height: '1400px' }}
+        style={{ width: '100%', height: '900px' }}
         useResizeHandler={true}
         revision={0}
         key={`${year}-${language}-${displayMode}-${unit}`}
