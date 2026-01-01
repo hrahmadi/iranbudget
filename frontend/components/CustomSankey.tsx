@@ -321,9 +321,20 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
     const svg = select(svgRef.current);
 
-    // Update link opacity
+    // Update link opacity - highlight if BOTH source and target are highlighted
     links.forEach((link, i) => {
-      const isHighlighted = hoveredNode ? highlightedLinks.has(i) : (hoveredLink === null || hoveredLink === i);
+      let isHighlighted: boolean;
+      
+      if (hoveredNode) {
+        // Check if both ends of the link are in highlighted nodes
+        const sourceHighlighted = highlightedNodes.has(link.source.id);
+        const targetHighlighted = highlightedNodes.has(link.target.id);
+        isHighlighted = sourceHighlighted && targetHighlighted;
+      } else {
+        // When hovering over a link directly
+        isHighlighted = hoveredLink === null || hoveredLink === i;
+      }
+      
       svg.select(`.link-${i}`).attr('opacity', isHighlighted ? 0.8 : 0.2);
     });
 
