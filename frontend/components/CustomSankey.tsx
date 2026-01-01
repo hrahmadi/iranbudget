@@ -43,18 +43,15 @@ interface RenderedLink {
 export default function CustomSankey({ data, year, language, displayMode, unit }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 1200, height: 2000 });
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 900 });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
-
-  console.log('=== RENDER ===');
-  console.log('Dimensions:', dimensions);
 
   const isRTL = language === 'fa';
 
   // Constants
   const NODE_WIDTH = 25;
-  const NODE_GAP = 0; // EXTREME: Remove all gaps to test
+  const NODE_GAP = 2;
   const CURVATURE = 80;
 
   // Format value
@@ -142,7 +139,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       const actualEnd = currentStackY - NODE_GAP; // Subtract last gap
       const overflow = actualEnd - expectedEnd;
       
-      console.log(`Col x=${xPos}: sum=${columnSum.toFixed(2)}, nodes=${colNodes.length}, scaledTotal=${colNodes.map(n => scale(n.value)).reduce((a,b)=>a+b,0).toFixed(2)}, expected=${globalAvailableHeight}, actual=${(actualEnd-startY).toFixed(2)}, overflow=${overflow.toFixed(2)}px`);
+      if (Math.abs(overflow) > 1) {
+        console.warn(`Column x=${xPos} overflow: ${overflow.toFixed(1)}px (sum=${columnSum.toFixed(2)}, expected=${globalAvailableHeight}px)`);
+      }
     });
 
     // Phase 3: Precompute link attachment points
@@ -241,7 +240,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const updateDimensions = () => {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth;
-        setDimensions({ width, height: 2000 });
+        setDimensions({ width, height: 900 });
       }
     };
 
