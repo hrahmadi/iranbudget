@@ -168,7 +168,22 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Compute highlighted nodes and links based on hover (only direct connections)
   const { highlightedNodes, highlightedLinks } = useMemo(() => {
-    if (!hoveredNode) return { highlightedNodes: new Set<string>(), highlightedLinks: new Set<number>() };
+    // When hovering a link, highlight the link and its two nodes
+    if (hoveredLink !== null) {
+      const link = links[hoveredLink];
+      return {
+        highlightedNodes: new Set<string>([link.source.id, link.target.id]),
+        highlightedLinks: new Set<number>([hoveredLink])
+      };
+    }
+    
+    // When hovering a node
+    if (!hoveredNode) {
+      return { 
+        highlightedNodes: new Set<string>(), 
+        highlightedLinks: new Set<number>() 
+      };
+    }
     
     console.log('=== HOVER DEBUG ===');
     console.log('Hovered node:', hoveredNode);
@@ -202,7 +217,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     console.log('Highlighted links:', Array.from(highlightedLinkSet));
     
     return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
-  }, [hoveredNode, links]);
+  }, [hoveredNode, hoveredLink, links]);
 
   // Handle window resize
   useEffect(() => {
@@ -321,26 +336,15 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
     const svg = select(svgRef.current);
 
-    // Update link opacity - highlight if BOTH source and target are highlighted
+    // Update link opacity
     links.forEach((link, i) => {
-      let isHighlighted: boolean;
-      
-      if (hoveredNode) {
-        // Check if both ends of the link are in highlighted nodes
-        const sourceHighlighted = highlightedNodes.has(link.source.id);
-        const targetHighlighted = highlightedNodes.has(link.target.id);
-        isHighlighted = sourceHighlighted && targetHighlighted;
-      } else {
-        // When hovering over a link directly
-        isHighlighted = hoveredLink === null || hoveredLink === i;
-      }
-      
-      svg.select(`.link-${i}`).attr('opacity', isHighlighted ? 0.8 : 0.2);
+      const isHighlighted = highlightedLinks.has(i);
+      svg.select(`.link-${i}`).attr('opacity', isHighlighted || (hoveredNode === null && hoveredLink === null) ? 0.8 : 0.2);
     });
 
     // Update node and label opacity
     nodes.forEach(node => {
-      const isHighlighted = hoveredNode ? highlightedNodes.has(node.id) : true;
+      const isHighlighted = highlightedNodes.has(node.id) || (hoveredNode === null && hoveredLink === null);
       svg.select(`.node-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
       svg.select(`.label-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
     });
