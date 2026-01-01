@@ -200,8 +200,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       
       console.log('Finding upstream for:', nodeId);
       links.forEach((link, i) => {
+        console.log(`  Checking link ${i}: ${link.source.id} → ${link.target.id}, target==nodeId? ${link.target.id === nodeId}`);
         if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
-          console.log(`  Found parent: ${link.source.id} via link ${i}`);
+          console.log(`  ✓ Found parent: ${link.source.id} via link ${i}`);
           highlighted.add(link.source.id);
           highlightedLinkSet.add(i);
           findUpstream(link.source.id);
