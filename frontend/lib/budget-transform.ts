@@ -205,29 +205,29 @@ export function transformToHierarchicalSankey(
   // === BUILD NODES USING SANKEY BUILDER ===
   
   // LEVEL 0 & 1: ALL Revenue Details in ONE column (x=0.15)
-  // State companies at bottom, government revenue at top
-  // Y-values create sorting order, actual positions set by layout engine
+  // Set same Y for all - let layout engine stack them by value
   const detailX = 0.15;
+  const detailY = 0.50; // All same Y - natural stacking
   
-  // Government revenue details (will appear at top due to lower y values)
-  builder.addNode('corporate-tax', label('Corporate Tax'), taxCorporate, colors.revenue1, detailX, 0.05);
-  builder.addNode('individual-tax', label('Individual Income Tax'), taxIndividual, colors.revenue1, detailX, 0.10);
-  builder.addNode('vat', label('VAT & Sales Tax'), adjustedVat, colors.revenue2, detailX, 0.15);
-  builder.addNode('import-duties', label('Import Duties'), importDuties, colors.revenue2, detailX, 0.20);
-  builder.addNode('other-tax', label('Other Taxes'), otherTaxes, colors.revenue2, detailX, 0.25);
-  builder.addNode('oil-exports', label('Oil Exports'), oilExports, colors.revenue3, detailX, 0.30);
-  builder.addNode('gas-exports', label('Gas & Condensate'), gasCondensate, colors.revenue3, detailX, 0.35);
-  builder.addNode('fees-charges', label('Fees & Charges'), feesCharges, colors.revenue4, detailX, 0.40);
-  builder.addNode('other-income', label('Other Income'), otherIncome, colors.revenue4, detailX, 0.45);
+  // Government revenue details
+  builder.addNode('corporate-tax', label('Corporate Tax'), taxCorporate, colors.revenue1, detailX, detailY);
+  builder.addNode('individual-tax', label('Individual Income Tax'), taxIndividual, colors.revenue1, detailX, detailY);
+  builder.addNode('vat', label('VAT & Sales Tax'), adjustedVat, colors.revenue2, detailX, detailY);
+  builder.addNode('import-duties', label('Import Duties'), importDuties, colors.revenue2, detailX, detailY);
+  builder.addNode('other-tax', label('Other Taxes'), otherTaxes, colors.revenue2, detailX, detailY);
+  builder.addNode('oil-exports', label('Oil Exports'), oilExports, colors.revenue3, detailX, detailY);
+  builder.addNode('gas-exports', label('Gas & Condensate'), gasCondensate, colors.revenue3, detailX, detailY);
+  builder.addNode('fees-charges', label('Fees & Charges'), feesCharges, colors.revenue4, detailX, detailY);
+  builder.addNode('other-income', label('Other Income'), otherIncome, colors.revenue4, detailX, detailY);
   
-  // State company details (will appear at bottom due to higher y values)
+  // State company details
   if (hasStateBreakdown) {
-    builder.addNode('state-operations', label('Company Operations'), stateRevenues, colors.revenue1, detailX, 0.55);
-    builder.addNode('state-credits', label('Government Credits'), stateCurrentCredits + stateCapitalCredits, colors.revenue2, detailX, 0.63);
-    builder.addNode('state-loans-domestic', label('Domestic Loans'), stateDomesticLoans, colors.revenue2, detailX, 0.71);
-    builder.addNode('state-loans-foreign', label('Foreign Loans'), stateForeignLoans, colors.revenue3, detailX, 0.79);
-    builder.addNode('state-assets', label('Asset Sales'), stateCurrentAssets, colors.revenue4, detailX, 0.87);
-    builder.addNode('state-other', label('Other Receipts'), stateOtherReceipts, colors.revenue5, detailX, 0.95);
+    builder.addNode('state-operations', label('Company Operations'), stateRevenues, colors.revenue1, detailX, detailY);
+    builder.addNode('state-credits', label('Government Credits'), stateCurrentCredits + stateCapitalCredits, colors.revenue2, detailX, detailY);
+    builder.addNode('state-loans-domestic', label('Domestic Loans'), stateDomesticLoans, colors.revenue2, detailX, detailY);
+    builder.addNode('state-loans-foreign', label('Foreign Loans'), stateForeignLoans, colors.revenue3, detailX, detailY);
+    builder.addNode('state-assets', label('Asset Sales'), stateCurrentAssets, colors.revenue4, detailX, detailY);
+    builder.addNode('state-other', label('Other Receipts'), stateOtherReceipts, colors.revenue5, detailX, detailY);
   }
   
   // LEVEL 2: Aggregated Revenue
