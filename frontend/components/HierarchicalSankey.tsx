@@ -148,8 +148,8 @@ export default function HierarchicalSankey({
       orientation: 'h',
       arrangement: 'freeform',
       node: {
-        pad: 20,
-        thickness: 30,
+        pad: 30,
+        thickness: 25,
         line: { color: '#2a2a2a', width: 0.5 },
         label: data.nodes.map(n => n.label),
         color: data.nodes.map(n => n.color),
