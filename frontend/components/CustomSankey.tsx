@@ -47,7 +47,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
-  console.log('=== COMPONENT RENDER ===');
+  console.log('=== COMPONENT RENDER === CACHE BUSTER 12345');
   console.log('Dimensions state:', dimensions);
 
   const isRTL = language === 'fa';
@@ -76,8 +76,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Phase 1-3: Compute layout
   const { nodes, links } = useMemo(() => {
-    console.log('=== LAYOUT COMPUTATION ===');
+    console.log('=== LAYOUT COMPUTATION ===', new Date().toISOString());
     console.log('Using dimensions:', dimensions);
+    console.log('NODE_GAP:', NODE_GAP);
     
     // Group nodes by x position (columns)
     const columns = new Map<number, typeof data.nodes>();
