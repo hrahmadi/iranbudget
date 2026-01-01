@@ -204,29 +204,31 @@ export function transformToHierarchicalSankey(
   
   // === BUILD NODES USING SANKEY BUILDER ===
   
-  // LEVEL 0: State Company Revenue Details (if available)
-  // Position at BOTTOM of left column (y: 0.55 to 0.98)
-  if (hasStateBreakdown) {
-    builder.addNode('state-operations', label('Company Operations'), stateRevenues, colors.revenue1, 0.02, 0.55);
-    builder.addNode('state-credits', label('Government Credits'), stateCurrentCredits + stateCapitalCredits, colors.revenue2, 0.02, 0.63);
-    builder.addNode('state-loans-domestic', label('Domestic Loans'), stateDomesticLoans, colors.revenue2, 0.02, 0.71);
-    builder.addNode('state-loans-foreign', label('Foreign Loans'), stateForeignLoans, colors.revenue3, 0.02, 0.79);
-    builder.addNode('state-assets', label('Asset Sales'), stateCurrentAssets, colors.revenue4, 0.02, 0.87);
-    builder.addNode('state-other', label('Other Receipts'), stateOtherReceipts, colors.revenue5, 0.02, 0.95);
-  }
+  // LEVEL 0 & 1: ALL Revenue Details in ONE column (x=0.15)
+  // State companies at bottom, government revenue at top
+  // Y-values create sorting order, actual positions set by layout engine
+  const detailX = 0.15;
   
-  // LEVEL 1: Government Revenue Details
-  // Position at TOP of middle column (y: 0.05 to 0.50)
-  const govX = hasStateBreakdown ? 0.15 : 0.05;
-  builder.addNode('corporate-tax', label('Corporate Tax'), taxCorporate, colors.revenue1, govX, 0.05);
-  builder.addNode('individual-tax', label('Individual Income Tax'), taxIndividual, colors.revenue1, govX, 0.10);
-  builder.addNode('vat', label('VAT & Sales Tax'), adjustedVat, colors.revenue2, govX, 0.15);
-  builder.addNode('import-duties', label('Import Duties'), importDuties, colors.revenue2, govX, 0.20);
-  builder.addNode('other-tax', label('Other Taxes'), otherTaxes, colors.revenue2, govX, 0.25);
-  builder.addNode('oil-exports', label('Oil Exports'), oilExports, colors.revenue3, govX, 0.30);
-  builder.addNode('gas-exports', label('Gas & Condensate'), gasCondensate, colors.revenue3, govX, 0.35);
-  builder.addNode('fees-charges', label('Fees & Charges'), feesCharges, colors.revenue4, govX, 0.40);
-  builder.addNode('other-income', label('Other Income'), otherIncome, colors.revenue4, govX, 0.45);
+  // Government revenue details (will appear at top due to lower y values)
+  builder.addNode('corporate-tax', label('Corporate Tax'), taxCorporate, colors.revenue1, detailX, 0.05);
+  builder.addNode('individual-tax', label('Individual Income Tax'), taxIndividual, colors.revenue1, detailX, 0.10);
+  builder.addNode('vat', label('VAT & Sales Tax'), adjustedVat, colors.revenue2, detailX, 0.15);
+  builder.addNode('import-duties', label('Import Duties'), importDuties, colors.revenue2, detailX, 0.20);
+  builder.addNode('other-tax', label('Other Taxes'), otherTaxes, colors.revenue2, detailX, 0.25);
+  builder.addNode('oil-exports', label('Oil Exports'), oilExports, colors.revenue3, detailX, 0.30);
+  builder.addNode('gas-exports', label('Gas & Condensate'), gasCondensate, colors.revenue3, detailX, 0.35);
+  builder.addNode('fees-charges', label('Fees & Charges'), feesCharges, colors.revenue4, detailX, 0.40);
+  builder.addNode('other-income', label('Other Income'), otherIncome, colors.revenue4, detailX, 0.45);
+  
+  // State company details (will appear at bottom due to higher y values)
+  if (hasStateBreakdown) {
+    builder.addNode('state-operations', label('Company Operations'), stateRevenues, colors.revenue1, detailX, 0.55);
+    builder.addNode('state-credits', label('Government Credits'), stateCurrentCredits + stateCapitalCredits, colors.revenue2, detailX, 0.63);
+    builder.addNode('state-loans-domestic', label('Domestic Loans'), stateDomesticLoans, colors.revenue2, detailX, 0.71);
+    builder.addNode('state-loans-foreign', label('Foreign Loans'), stateForeignLoans, colors.revenue3, detailX, 0.79);
+    builder.addNode('state-assets', label('Asset Sales'), stateCurrentAssets, colors.revenue4, detailX, 0.87);
+    builder.addNode('state-other', label('Other Receipts'), stateOtherReceipts, colors.revenue5, detailX, 0.95);
+  }
   
   // LEVEL 2: Aggregated Revenue
   // Reorder: Tax, Oil, Other at top; Ministry, State Companies at bottom
