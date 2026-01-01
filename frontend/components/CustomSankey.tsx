@@ -128,7 +128,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         currentStackY += height + NODE_GAP;
       });
     });
-    });
 
     // Phase 3: Precompute link attachment points
     const renderedLinks: RenderedLink[] = [];
