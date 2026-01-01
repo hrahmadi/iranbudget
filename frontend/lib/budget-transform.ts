@@ -211,9 +211,8 @@ export function transformToHierarchicalSankey(
   builder.addNode('state-company-revenue', label('State Companies'), stateCompanies, colors.revenue1, aggX, 0.20);
   builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.85);
   
-  // CENTER: Total columns
-  builder.addNode('total-revenue', '', revenueTotal, colors.revenueCenter, 0.48, 0.50);
-  builder.addNode('total-spending', '', expenditureTotal, colors.spendingCenter, 0.52, 0.50);
+  // CENTER: Single center column (merge revenue and spending into one visual node)
+  builder.addNode('center-total', '', revenueTotal, colors.revenueCenter, 0.50, 0.50);
   
   // LEVEL 3: Main Spending
   builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.72, 0.30);
@@ -259,21 +258,18 @@ export function transformToHierarchicalSankey(
   builder.addLink('fees-charges', 'other-revenue', feesCharges);
   builder.addLink('other-income', 'other-revenue', otherIncome);
   
-  // Aggregates → Total Revenue
-  builder.addLink('tax-revenue', 'total-revenue', taxTotal);
-  builder.addLink('oil-gas-revenue', 'total-revenue', oilGas);
-  builder.addLink('state-company-revenue', 'total-revenue', stateCompanies);
-  builder.addLink('other-revenue', 'total-revenue', otherGovRevenue);
-  builder.addLink('special-revenue', 'total-revenue', specialAccounts);
+  // Aggregates → Center
+  builder.addLink('tax-revenue', 'center-total', taxTotal);
+  builder.addLink('oil-gas-revenue', 'center-total', oilGas);
+  builder.addLink('state-company-revenue', 'center-total', stateCompanies);
+  builder.addLink('other-revenue', 'center-total', otherGovRevenue);
+  builder.addLink('special-revenue', 'center-total', specialAccounts);
   
-  // Total Revenue → Total Spending
-  builder.addLink('total-revenue', 'total-spending', revenueTotal);
-  
-  // Total Spending → Main Categories
-  builder.addLink('total-spending', 'personnel', personnelCosts);
-  builder.addLink('total-spending', 'development', developmentProjects);
-  builder.addLink('total-spending', 'debt-service', debtService);
-  builder.addLink('total-spending', 'support', supportPrograms);
+  // Center → Main Spending Categories
+  builder.addLink('center-total', 'personnel', personnelCosts);
+  builder.addLink('center-total', 'development', developmentProjects);
+  builder.addLink('center-total', 'debt-service', debtService);
+  builder.addLink('center-total', 'support', supportPrograms);
   
   // Main Categories → Details
   builder.addLink('personnel', 'employee-salaries', employeeSalaries);

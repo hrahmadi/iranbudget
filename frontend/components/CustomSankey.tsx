@@ -90,8 +90,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const nodeMap = new Map<string, RenderedNode>();
 
     columns.forEach((colNodes, xPos) => {
-      // For center columns (0.48, 0.52), use total value for proper scaling
-      const isCenter = xPos === 0.48 || xPos === 0.52;
+      // For center column (0.50), use total value for proper scaling
+      const isCenter = xPos === 0.50;
       const columnValue = isCenter 
         ? data.revenueTotal 
         : colNodes.reduce((sum, n) => sum + n.value, 0);
@@ -106,8 +106,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       colNodes.forEach(node => {
         const height = scale(node.value);
         const x0 = xPos * dimensions.width;
-        // Make center columns thinner
-        const nodeWidth = isCenter ? 15 : NODE_WIDTH;
+        // Make center column thinner
+        const nodeWidth = isCenter ? 10 : NODE_WIDTH;
         const x1 = x0 + nodeWidth;
 
         const rendered: RenderedNode = {
