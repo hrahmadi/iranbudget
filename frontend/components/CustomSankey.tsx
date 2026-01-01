@@ -131,6 +131,10 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
           inOffset: 0
         };
 
+        if (node.id === 'other-revenue') {
+          console.log('OTHER-REVENUE NODE:', { x0, x1, y0: currentStackY, y1: currentStackY + height, width: x1 - x0 });
+        }
+
         renderedNodes.push(rendered);
         nodeMap.set(node.id, rendered);
         currentStackY += height + NODE_GAP;
