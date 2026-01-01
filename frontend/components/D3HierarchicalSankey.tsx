@@ -151,15 +151,24 @@ export default function D3HierarchicalSankey({ data, year, language, displayMode
       .nodeWidth(25)
       .nodePadding(30)
       .extent([[50, 10], [dimensions.width - 50, dimensions.height - 10]])
-      .nodeSort((a, b) => {
-        // Sort by order to maintain positions
-        return a.order - b.order;
-      })
-      .linkSort(null); // Disable link reordering
+      .nodeSort((a, b) => a.order - b.order)
+      .linkSort(null);
 
     const graph = sankeyGenerator({
       nodes: sankeyData.nodes.map(n => ({ ...n })),
       links: sankeyData.links.map(l => ({ ...l }))
+    });
+
+    // Force our manual positions - override D3's auto-layout
+    graph.nodes.forEach((node: any, i: number) => {
+      const originalNode = sankeyData.nodes[i];
+      const nodeHeight = node.y1 - node.y0;
+      
+      // Use our manual x and y positions
+      node.x0 = originalNode.x * dimensions.width;
+      node.x1 = node.x0 + 25; // nodeWidth
+      node.y0 = originalNode.y * dimensions.height;
+      node.y1 = node.y0 + nodeHeight;
     });
 
     return graph;
