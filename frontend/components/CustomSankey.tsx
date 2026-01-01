@@ -99,16 +99,26 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
       
-      // Center column stays at 900px height, others use full 1125px
-      const columnHeight = isCenter ? 880 : (dimensions.height - 20);
-      const scale = scaleLinear()
-        .domain([0, data.revenueTotal])
-        .range([0, columnHeight]);
-
-      // Center column vertically centered in viewport
-      let currentStackY = isCenter ? ((dimensions.height - 900) / 2 + 10) : 10;
+      // Calculate total value in this column
+      const totalValue = colNodes.reduce((sum, node) => sum + node.value, 0);
+      console.log(`Column x=${xPos}, totalValue=${totalValue.toFixed(2)}, revenueTotal=${data.revenueTotal.toFixed(2)}`);
       
-      console.log(`Column x=${xPos}, isCenter=${isCenter}, columnHeight=${columnHeight}, startY=${currentStackY}`);
+      // ALL columns use same height (900px) to match center
+      const columnHeight = 880;
+      
+      // Scale based on column's total value, not global total
+      // This ensures nodes + gaps fit within column height
+      const totalGaps = (colNodes.length - 1) * NODE_GAP;
+      const availableHeight = columnHeight - totalGaps;
+      
+      const scale = scaleLinear()
+        .domain([0, totalValue])
+        .range([0, availableHeight]);
+
+      // ALL columns vertically centered in viewport
+      let currentStackY = (dimensions.height - 900) / 2 + 10;
+      
+      console.log(`Column x=${xPos}, nodes=${colNodes.length}, totalGaps=${totalGaps}, availableHeight=${availableHeight}`);
 
       colNodes.forEach(node => {
         const height = scale(node.value);
