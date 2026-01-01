@@ -47,6 +47,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
+  console.log('=== COMPONENT RENDER ===');
+  console.log('Dimensions state:', dimensions);
+
   const isRTL = language === 'fa';
 
   // Constants
@@ -73,6 +76,9 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Phase 1-3: Compute layout
   const { nodes, links } = useMemo(() => {
+    console.log('=== LAYOUT COMPUTATION ===');
+    console.log('Using dimensions:', dimensions);
+    
     // Group nodes by x position (columns)
     const columns = new Map<number, typeof data.nodes>();
     data.nodes.forEach(node => {
@@ -101,6 +107,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
       // Center column vertically centered in viewport
       let currentStackY = isCenter ? ((dimensions.height - 900) / 2 + 10) : 10;
+      
+      console.log(`Column x=${xPos}, isCenter=${isCenter}, columnHeight=${columnHeight}, startY=${currentStackY}`);
 
       colNodes.forEach(node => {
         const height = scale(node.value);
@@ -369,6 +377,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         width={dimensions.width}
         height={dimensions.height}
         style={{ width: '100%', height: `${dimensions.height}px`, backgroundColor: '#1a1a1a' }}
+        onLoad={() => console.log('SVG loaded, actual height:', svgRef.current?.clientHeight)}
       />
     </div>
   );
