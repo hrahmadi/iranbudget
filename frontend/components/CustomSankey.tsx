@@ -71,33 +71,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     return convertFromTrillionRials(value, unit, year);
   };
 
-  // Compute highlighted nodes and links based on hover (only direct connections)
-  const { highlightedNodes, highlightedLinks } = useMemo(() => {
-    if (!hoveredNode) return { highlightedNodes: new Set<string>(), highlightedLinks: new Set<number>() };
-    
-    const highlighted = new Set<string>([hoveredNode]);
-    const highlightedLinkSet = new Set<number>();
-    
-    // Add only directly connected nodes (one level)
-    links.forEach((link, i) => {
-      const sourceId = link.source.id;
-      const targetId = link.target.id;
-      
-      // If hovering source, highlight its targets and the link
-      if (sourceId === hoveredNode) {
-        highlighted.add(targetId);
-        highlightedLinkSet.add(i);
-      }
-      // If hovering target, highlight its sources and the link
-      if (targetId === hoveredNode) {
-        highlighted.add(sourceId);
-        highlightedLinkSet.add(i);
-      }
-    });
-    
-    return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
-  }, [hoveredNode, links]);
-
   // Phase 1-3: Compute layout
   const { nodes, links } = useMemo(() => {
     // Group nodes by x position (columns)
@@ -192,6 +165,33 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
     return { nodes: renderedNodes, links: renderedLinks };
   }, [data, dimensions, displayMode, unit, year]);
+
+  // Compute highlighted nodes and links based on hover (only direct connections)
+  const { highlightedNodes, highlightedLinks } = useMemo(() => {
+    if (!hoveredNode) return { highlightedNodes: new Set<string>(), highlightedLinks: new Set<number>() };
+    
+    const highlighted = new Set<string>([hoveredNode]);
+    const highlightedLinkSet = new Set<number>();
+    
+    // Add only directly connected nodes (one level)
+    links.forEach((link, i) => {
+      const sourceId = link.source.id;
+      const targetId = link.target.id;
+      
+      // If hovering source, highlight its targets and the link
+      if (sourceId === hoveredNode) {
+        highlighted.add(targetId);
+        highlightedLinkSet.add(i);
+      }
+      // If hovering target, highlight its sources and the link
+      if (targetId === hoveredNode) {
+        highlighted.add(sourceId);
+        highlightedLinkSet.add(i);
+      }
+    });
+    
+    return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
+  }, [hoveredNode, links]);
 
   // Handle window resize
   useEffect(() => {
