@@ -47,40 +47,6 @@ export default function D3HierarchicalSankey({ data, year, language, displayMode
 
   const isRTL = language === 'fa';
 
-  // Format value based on display mode and unit
-  const formatLabel = (value: number) => {
-    if (displayMode === 'percentage') {
-      return `${(value / data.revenueTotal * 100).toFixed(1)}%`;
-    }
-    const converted = convertFromTrillionRials(value, unit, year);
-    return formatValueWithUnit(converted, unit, language);
-  };
-
-  // Transform data for D3
-  const sankeyData = useMemo(() => {
-    const nodes: D3Node[] = data.nodes.map((n, i) => ({
-      id: n.id,
-      label: n.label,
-      value: n.value,
-      color: n.color,
-      x: n.x,
-      y: n.y,
-      order: i,
-      group: getNodeGroup(n.id)
-    }));
-
-    const links: D3Link[] = data.links.map(l => ({
-      source: l.source,
-      target: l.target,
-      value: displayMode === 'percentage' 
-        ? (l.value / data.revenueTotal) * 100
-        : convertFromTrillionRials(l.value, unit, year),
-      color: l.color
-    }));
-
-    return { nodes, links };
-  }, [data, displayMode, unit, year]);
-
   // Semantic grouping function
   const getNodeGroup = (id: string): string => {
     const groups: Record<string, string> = {
@@ -142,6 +108,40 @@ export default function D3HierarchicalSankey({ data, year, language, displayMode
     
     return groups[id] || 'other';
   };
+
+  // Format value based on display mode and unit
+  const formatLabel = (value: number) => {
+    if (displayMode === 'percentage') {
+      return `${(value / data.revenueTotal * 100).toFixed(1)}%`;
+    }
+    const converted = convertFromTrillionRials(value, unit, year);
+    return formatValueWithUnit(converted, unit, language);
+  };
+
+  // Transform data for D3
+  const sankeyData = useMemo(() => {
+    const nodes: D3Node[] = data.nodes.map((n, i) => ({
+      id: n.id,
+      label: n.label,
+      value: n.value,
+      color: n.color,
+      x: n.x,
+      y: n.y,
+      order: i,
+      group: getNodeGroup(n.id)
+    }));
+
+    const links: D3Link[] = data.links.map(l => ({
+      source: l.source,
+      target: l.target,
+      value: displayMode === 'percentage' 
+        ? (l.value / data.revenueTotal) * 100
+        : convertFromTrillionRials(l.value, unit, year),
+      color: l.color
+    }));
+
+    return { nodes, links };
+  }, [data, displayMode, unit, year, getNodeGroup]);
 
   // D3 layout
   const { nodes, links } = useMemo(() => {
