@@ -91,17 +91,16 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const nodeMap = new Map<string, RenderedNode>();
 
     columns.forEach((colNodes, xPos) => {
-      // For center column (0.50), use smaller height
       const isCenter = xPos === 0.50;
       
-      // Center column uses 50% of viewport, other columns use full height
-      const columnHeight = isCenter ? (dimensions.height * 0.5) : (dimensions.height - 20);
+      // ALL columns use 50% of viewport to match center column
+      const columnHeight = dimensions.height * 0.5;
       const scale = scaleLinear()
         .domain([0, data.revenueTotal])
         .range([0, columnHeight]);
 
-      // Center the center column vertically
-      let currentStackY = isCenter ? (dimensions.height * 0.25) : 10;
+      // All columns vertically centered
+      let currentStackY = dimensions.height * 0.25;
 
       colNodes.forEach(node => {
         const height = scale(node.value);
