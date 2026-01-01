@@ -173,7 +173,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     if (hoveredLink !== null) {
       const link = links[hoveredLink];
       nodeToHighlight = link.target.id;
-      console.log(`=== LINK HOVER → Using target node: ${nodeToHighlight} ===`);
     }
     
     // No hover state
@@ -184,76 +183,38 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       };
     }
     
-    console.log('=== RECURSIVE HIGHLIGHTING ===');
-    console.log('Hovered node:', nodeToHighlight);
-    
     const highlighted = new Set<string>([nodeToHighlight]);
     const highlightedLinkSet = new Set<number>();
     
-    // Recursively find all upstream nodes (parents) - STOP at center-total
-    const findUpstream = (nodeId: string) => {
-      // Stop at center column
-      if (nodeId === 'center-total') {
-        console.log('  Stopped at center-total (upstream boundary)');
-        return;
-      }
+    // Pure ID-based traversal - no object mutation
+    const findUpstream = (nodeId: string, visited: Set<string> = new Set()) => {
+      if (nodeId === 'center-total' || visited.has(nodeId)) return;
+      visited.add(nodeId);
       
-      console.log('Finding upstream for:', nodeId);
-      
-      // Collect all parent links first to avoid forEach iteration issues
-      const parentLinks: Array<{link: RenderedLink, index: number}> = [];
       links.forEach((link, i) => {
-        const matches = link.target.id === nodeId;
-        const alreadyHighlighted = highlighted.has(link.source.id);
-        if (i <= 5) { // Only log first 6 links to avoid spam
-          console.log(`  Link ${i}: source.id="${link.source.id}", target.id="${link.target.id}", matches=${matches}, alreadyHas=${alreadyHighlighted}`);
+        if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
+          highlighted.add(link.source.id);
+          highlightedLinkSet.add(i);
+          findUpstream(link.source.id, visited);
         }
-        if (matches && !alreadyHighlighted) {
-          parentLinks.push({link, index: i});
-        }
-      });
-      
-      // Then process them
-      parentLinks.forEach(({link, index}) => {
-        console.log(`  ✓ Found parent: ${link.source.id} via link ${index}`);
-        highlighted.add(link.source.id);
-        highlightedLinkSet.add(index);
-        findUpstream(link.source.id);
       });
     };
     
-    // Recursively find all downstream nodes (children) - STOP at center-total
-    const findDownstream = (nodeId: string) => {
-      // Stop at center column
-      if (nodeId === 'center-total') {
-        console.log('  Stopped at center-total (downstream boundary)');
-        return;
-      }
+    const findDownstream = (nodeId: string, visited: Set<string> = new Set()) => {
+      if (nodeId === 'center-total' || visited.has(nodeId)) return;
+      visited.add(nodeId);
       
-      console.log('Finding downstream for:', nodeId);
-      
-      // Collect all child links first to avoid forEach iteration issues
-      const childLinks: Array<{link: RenderedLink, index: number}> = [];
       links.forEach((link, i) => {
         if (link.source.id === nodeId && !highlighted.has(link.target.id)) {
-          childLinks.push({link, index: i});
+          highlighted.add(link.target.id);
+          highlightedLinkSet.add(i);
+          findDownstream(link.target.id, visited);
         }
-      });
-      
-      // Then process them
-      childLinks.forEach(({link, index}) => {
-        console.log(`  ✓ Found child: ${link.target.id} via link ${index}`);
-        highlighted.add(link.target.id);
-        highlightedLinkSet.add(index);
-        findDownstream(link.target.id);
       });
     };
     
     findUpstream(nodeToHighlight);
     findDownstream(nodeToHighlight);
-    
-    console.log('Final highlighted nodes:', Array.from(highlighted));
-    console.log('Final highlighted links:', Array.from(highlightedLinkSet));
     
     return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
   }, [hoveredNode, hoveredLink, links]);
