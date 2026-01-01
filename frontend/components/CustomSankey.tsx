@@ -54,7 +54,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Constants
   const NODE_WIDTH = 25;
-  const NODE_GAP = 5;
+  const NODE_GAP = 2; // Small gap to prevent overflow with global scale
   const CURVATURE = 80;
 
   // Format value
@@ -99,26 +99,17 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
       
-      // Calculate total value in this column
-      const totalValue = colNodes.reduce((sum, node) => sum + node.value, 0);
-      console.log(`Column x=${xPos}, totalValue=${totalValue.toFixed(2)}, revenueTotal=${data.revenueTotal.toFixed(2)}`);
-      
-      // ALL columns use same height (900px) to match center
+      // ALL columns use GLOBAL scale to maintain Sankey invariant
+      // (children heights must sum to parent height)
       const columnHeight = 880;
-      
-      // Scale based on column's total value, not global total
-      // This ensures nodes + gaps fit within column height
-      const totalGaps = (colNodes.length - 1) * NODE_GAP;
-      const availableHeight = columnHeight - totalGaps;
-      
       const scale = scaleLinear()
-        .domain([0, totalValue])
-        .range([0, availableHeight]);
+        .domain([0, data.revenueTotal])
+        .range([0, columnHeight]);
 
       // ALL columns vertically centered in viewport
       let currentStackY = (dimensions.height - 900) / 2 + 10;
       
-      console.log(`Column x=${xPos}, nodes=${colNodes.length}, totalGaps=${totalGaps}, availableHeight=${availableHeight}`);
+      console.log(`Column x=${xPos}, nodes=${colNodes.length}, startY=${currentStackY}`);
 
       colNodes.forEach(node => {
         const height = scale(node.value);
