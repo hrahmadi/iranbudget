@@ -191,8 +191,14 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const highlighted = new Set<string>([hoveredNode]);
     const highlightedLinkSet = new Set<number>();
     
-    // Recursively find all upstream nodes (parents)
+    // Recursively find all upstream nodes (parents) - STOP at center-total
     const findUpstream = (nodeId: string) => {
+      // Stop at center column
+      if (nodeId === 'center-total') {
+        console.log('  Stopped at center-total (upstream boundary)');
+        return;
+      }
+      
       console.log('Finding upstream for:', nodeId);
       links.forEach((link, i) => {
         if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
@@ -204,8 +210,14 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       });
     };
     
-    // Recursively find all downstream nodes (children)
+    // Recursively find all downstream nodes (children) - STOP at center-total
     const findDownstream = (nodeId: string) => {
+      // Stop at center column
+      if (nodeId === 'center-total') {
+        console.log('  Stopped at center-total (downstream boundary)');
+        return;
+      }
+      
       console.log('Finding downstream for:', nodeId);
       links.forEach((link, i) => {
         if (link.source.id === nodeId && !highlighted.has(link.target.id)) {
