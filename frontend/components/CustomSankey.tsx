@@ -100,16 +100,19 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       const isCenter = xPos === 0.50;
       
       // ALL columns use GLOBAL scale to maintain Sankey invariant
-      // (children heights must sum to parent height)
+      // BUT account for gaps so total height doesn't overflow
       const columnHeight = 880;
+      const totalGaps = (colNodes.length - 1) * NODE_GAP;
+      const availableHeightForNodes = columnHeight - totalGaps;
+      
       const scale = scaleLinear()
         .domain([0, data.revenueTotal])
-        .range([0, columnHeight]);
+        .range([0, availableHeightForNodes]);
 
       // ALL columns vertically centered in viewport
       let currentStackY = (dimensions.height - 900) / 2 + 10;
       
-      console.log(`Column x=${xPos}, nodes=${colNodes.length}, startY=${currentStackY}`);
+      console.log(`Column x=${xPos}, nodes=${colNodes.length}, gaps=${totalGaps}px, availableHeight=${availableHeightForNodes}px`);
 
       colNodes.forEach(node => {
         const height = scale(node.value);
