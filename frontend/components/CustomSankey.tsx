@@ -47,8 +47,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
-  console.log('=== COMPONENT RENDER === CACHE BUSTER 12345');
-  console.log('Dimensions state:', dimensions);
+  console.log('=== RENDER ===');
+  console.log('Dimensions:', dimensions);
 
   const isRTL = language === 'fa';
 
@@ -76,10 +76,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Phase 1-3: Compute layout
   const { nodes, links } = useMemo(() => {
-    console.log('=== LAYOUT COMPUTATION ===', new Date().toISOString());
-    console.log('Using dimensions:', dimensions);
-    console.log('NODE_GAP:', NODE_GAP);
-    
     // Group nodes by x position (columns)
     const columns = new Map<number, typeof data.nodes>();
     data.nodes.forEach(node => {
@@ -101,8 +97,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const maxNodes = Math.max(...Array.from(columns.values()).map(col => col.length));
     const maxGaps = (maxNodes - 1) * NODE_GAP;
     const globalAvailableHeight = 880 - maxGaps;
-    
-    console.log(`Max nodes in any column: ${maxNodes}, max gaps: ${maxGaps}px, global available height: ${globalAvailableHeight}px`);
 
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
@@ -111,17 +105,15 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       const columnSum = colNodes.reduce((sum, n) => sum + n.value, 0);
       
       // Scale by column's actual sum to fit perfectly in available height
-      // This breaks Sankey invariant slightly but prevents overflow from data mismatches
       const scale = scaleLinear()
         .domain([0, columnSum])
         .range([0, globalAvailableHeight]);
 
       // ALL columns vertically centered in viewport
       let currentStackY = (dimensions.height - 900) / 2 + 10;
-      
-      console.log(`Column x=${xPos}, nodes=${colNodes.length}, sum=${columnSum.toFixed(2)}, revenueTotal=${data.revenueTotal.toFixed(2)}, ratio=${(columnSum/data.revenueTotal*100).toFixed(1)}%`);
+      const startY = currentStackY;
 
-      colNodes.forEach(node => {
+      colNodes.forEach((node, idx) => {
         const height = scale(node.value);
         const x0 = xPos * dimensions.width;
         // Make center column thinner
@@ -141,16 +133,16 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
           inOffset: 0
         };
 
-        if (node.id === 'other-revenue') {
-          console.log('OTHER-REVENUE NODE:', { x0, x1, y0: currentStackY, y1: currentStackY + height, width: x1 - x0 });
-        }
-
         renderedNodes.push(rendered);
         nodeMap.set(node.id, rendered);
         currentStackY += height + NODE_GAP;
       });
       
-      console.log(`Column x=${xPos} final stackY=${currentStackY}, overflow=${currentStackY - ((dimensions.height - 900) / 2 + 10 + 880)}px`);
+      const expectedEnd = startY + globalAvailableHeight;
+      const actualEnd = currentStackY - NODE_GAP; // Subtract last gap
+      const overflow = actualEnd - expectedEnd;
+      
+      console.log(`Col x=${xPos}: sum=${columnSum.toFixed(2)}, nodes=${colNodes.length}, scaledTotal=${colNodes.map(n => scale(n.value)).reduce((a,b)=>a+b,0).toFixed(2)}, expected=${globalAvailableHeight}, actual=${(actualEnd-startY).toFixed(2)}, overflow=${overflow.toFixed(2)}px`);
     });
 
     // Phase 3: Precompute link attachment points
@@ -361,16 +353,10 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
     const svg = select(svgRef.current);
 
-    console.log('=== OPACITY UPDATE ===');
-    console.log('Highlighted nodes:', Array.from(highlightedNodes));
-    console.log('Highlighted links:', Array.from(highlightedLinks));
-
     // Update link opacity
     links.forEach((link, i) => {
       const isHighlighted = highlightedLinks.has(i);
       const shouldShow = isHighlighted || (hoveredNode === null && hoveredLink === null);
-      
-      console.log(`Link ${i} (${link.source.id} → ${link.target.id}): inSet=${isHighlighted}, shouldShow=${shouldShow}`);
       
       svg.select(`.link-${i}`).attr('opacity', shouldShow ? 0.8 : 0.2);
     });
@@ -378,8 +364,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     // Update node and label opacity
     nodes.forEach(node => {
       const isHighlighted = highlightedNodes.has(node.id) || (hoveredNode === null && hoveredLink === null);
-      
-      console.log(`Node ${node.id}: inSet=${highlightedNodes.has(node.id)}, shouldShow=${isHighlighted}`);
       
       svg.select(`.node-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
       svg.select(`.label-${node.id}`).attr('opacity', isHighlighted ? 1 : 0.3);
