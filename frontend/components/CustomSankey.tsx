@@ -54,7 +54,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Constants
   const NODE_WIDTH = 25;
-  const NODE_GAP = 2; // Small gap to prevent overflow with global scale
+  const NODE_GAP = 0; // EXTREME: Remove all gaps to test
   const CURVATURE = 80;
 
   // Format value
