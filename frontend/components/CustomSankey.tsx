@@ -43,7 +43,7 @@ interface RenderedLink {
 export default function CustomSankey({ data, year, language, displayMode, unit }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 1200, height: 2000 }); // 2x taller
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 900 });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
 
