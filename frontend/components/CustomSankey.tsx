@@ -93,14 +93,14 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
       
-      // ALL columns use 50% of viewport to match center column
-      const columnHeight = dimensions.height * 0.5;
+      // Use full viewport height
+      const columnHeight = dimensions.height - 20;
       const scale = scaleLinear()
         .domain([0, data.revenueTotal])
         .range([0, columnHeight]);
 
-      // All columns vertically centered
-      const verticalOffset = dimensions.height * 0.25;
+      // Stack nodes tightly, using y-position for sort order only
+      let currentStackY = 10;
 
       colNodes.forEach(node => {
         const height = scale(node.value);
@@ -108,9 +108,6 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         // Make center column thinner
         const nodeWidth = isCenter ? 10 : NODE_WIDTH;
         const x1 = x0 + nodeWidth;
-        
-        // Use the node's specified y position (0-1) within the column
-        const nodeY = (node.y || 0) * columnHeight + verticalOffset;
 
         const rendered: RenderedNode = {
           id: node.id,
@@ -119,14 +116,15 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
           color: node.color,
           x0,
           x1,
-          y0: nodeY,
-          y1: nodeY + height,
+          y0: currentStackY,
+          y1: currentStackY + height,
           outOffset: 0,
           inOffset: 0
         };
 
         renderedNodes.push(rendered);
         nodeMap.set(node.id, rendered);
+        currentStackY += height + NODE_GAP;
       });
     });
 
