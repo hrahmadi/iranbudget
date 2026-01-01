@@ -170,6 +170,10 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   const { highlightedNodes, highlightedLinks } = useMemo(() => {
     if (!hoveredNode) return { highlightedNodes: new Set<string>(), highlightedLinks: new Set<number>() };
     
+    console.log('=== HOVER DEBUG ===');
+    console.log('Hovered node:', hoveredNode);
+    console.log('Total links:', links.length);
+    
     const highlighted = new Set<string>([hoveredNode]);
     const highlightedLinkSet = new Set<number>();
     
@@ -178,17 +182,24 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       const sourceId = link.source.id;
       const targetId = link.target.id;
       
+      console.log(`Link ${i}: ${sourceId} → ${targetId}`);
+      
       // If hovering source, highlight its targets and the link
       if (sourceId === hoveredNode) {
+        console.log('  ✓ Highlighting target:', targetId);
         highlighted.add(targetId);
         highlightedLinkSet.add(i);
       }
       // If hovering target, highlight its sources and the link
       if (targetId === hoveredNode) {
+        console.log('  ✓ Highlighting source:', sourceId);
         highlighted.add(sourceId);
         highlightedLinkSet.add(i);
       }
     });
+    
+    console.log('Highlighted nodes:', Array.from(highlighted));
+    console.log('Highlighted links:', Array.from(highlightedLinkSet));
     
     return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
   }, [hoveredNode, links]);
