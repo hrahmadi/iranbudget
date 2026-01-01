@@ -232,7 +232,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     const updateDimensions = () => {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth;
-        setDimensions({ width, height: 900 });
+        setDimensions({ width, height: 1125 }); // 25% taller than 900
       }
     };
 
