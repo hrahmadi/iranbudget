@@ -347,10 +347,17 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       const isHighlighted = highlightedLinks.has(i);
       const shouldShow = isHighlighted || (hoveredNode === null && hoveredLink === null);
       
-      console.log(`Link ${i} (${link.source.id} → ${link.target.id}): ` +
-        `inSet=${highlightedLinks.has(i)}, shouldShow=${shouldShow}`);
+      const linkElement = svg.select(`.link-${i}`);
+      const exists = !linkElement.empty();
       
-      svg.select(`.link-${i}`).attr('opacity', shouldShow ? 0.8 : 0.2);
+      console.log(`Link ${i} (${link.source.id} → ${link.target.id}): ` +
+        `inSet=${highlightedLinks.has(i)}, shouldShow=${shouldShow}, exists=${exists}`);
+      
+      if (exists) {
+        linkElement.attr('opacity', shouldShow ? 0.8 : 0.2);
+      } else {
+        console.error(`Link element .link-${i} not found!`);
+      }
     });
 
     // Update node and label opacity
