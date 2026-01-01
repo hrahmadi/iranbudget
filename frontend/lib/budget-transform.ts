@@ -127,9 +127,6 @@ export function transformToHierarchicalSankey(
   // Use detail sum if breakdown exists (ensures children sum to parent)
   const stateCompaniesActual = hasStateBreakdown ? stateDetailSum : stateCompanies;
   
-  // Recalculate revenue total using corrected state companies value
-  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherGovRevenue + specialAccounts;
-  
   // Tax breakdown
   const vatSales = Math.max(0, taxTotal - taxCorporate - taxIndividual);
   const importDuties = vatSales * 0.3;
@@ -143,6 +140,9 @@ export function transformToHierarchicalSankey(
   const otherGovRevenue = Math.max(0, operationalRevenue - taxTotal - oilGas);
   const feesCharges = otherGovRevenue * 0.60;
   const otherIncome = otherGovRevenue * 0.40;
+  
+  // Recalculate revenue total using corrected state companies value
+  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherGovRevenue + specialAccounts;
   
   // Parse expenditure data
   const currentExp = T(data.current_exp || 0);
