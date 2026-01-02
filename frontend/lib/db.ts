@@ -4,8 +4,11 @@ let pool: Pool | null = null;
 
 export function getPool(): Pool {
   if (!pool) {
+    // Vercel Postgres provides POSTGRES_URL, fallback to DATABASE_URL for local dev
+    const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+    
     pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString,
       max: 20,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 2000,
