@@ -380,12 +380,17 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         const isLeftSide = node.x0 < dimensions.width / 2;
         
         // Position text well inside the node (past the 25px node width)
-        const padding = 30;
+        const padding = 80;
         const textX = isLeftSide 
-          ? node.x0 + padding      // Left side: 30px from left edge
-          : node.x1 - padding;     // Right side: 30px from right edge
+          ? node.x0 + padding      // Left side: 80px from left edge
+          : node.x1 - padding;     // Right side: 80px from right edge
         
-        const textAnchor = isLeftSide ? 'start' : 'end';
+        // Text anchor flips for RTL
+        // LTR: left=start, right=end
+        // RTL: left=end (text flows leftward), right=start (text flows rightward)
+        const textAnchor = isRTL
+          ? (isLeftSide ? 'end' : 'start')
+          : (isLeftSide ? 'start' : 'end');
         
         nodeGroup.append('text')
           .attr('class', `label-${node.id}`)
