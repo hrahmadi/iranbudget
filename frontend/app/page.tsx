@@ -83,7 +83,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold mb-8 text-center" dir={language === 'fa' ? 'rtl' : 'ltr'}>{t.title}</h1>
         
         {/* Controls - Fixed LTR layout */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
+        <div className="bg-gray-800 rounded-lg p-6 mb-8" style={{ fontFamily: language === 'fa' ? 'Vazir, sans-serif' : 'inherit' }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Year Selection */}
             <div>
@@ -92,6 +92,7 @@ export default function Home() {
                 value={year}
                 onChange={(e) => setYear(e.target.value as Year)}
                 className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{ fontFamily: language === 'fa' ? 'Vazir, sans-serif' : 'inherit' }}
               >
                 {['1395', '1396', '1397', '1398', '1399', '1400', '1401', '1402', '1403', '1404'].map((y) => (
                   <option key={y} value={y}>{y}</option>
@@ -106,6 +107,7 @@ export default function Home() {
                 value={unit}
                 onChange={(e) => setUnit(e.target.value as Unit)}
                 className="w-full bg-gray-700 border border-gray-600 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{ fontFamily: language === 'fa' ? 'Vazir, sans-serif' : 'inherit' }}
               >
                 <option value="trillion_rial">
                   {language === 'fa' ? UNIT_INFO.trillion_rial.nameFa : UNIT_INFO.trillion_rial.name}
@@ -140,7 +142,7 @@ export default function Home() {
                     }`}
                   />
                 </button>
-                <span className={`text-sm ${language === 'fa' ? 'text-white font-semibold' : 'text-gray-400'}`}>
+                <span className={`text-sm ${language === 'fa' ? 'text-white font-semibold' : 'text-gray-400'}`} style={{ fontFamily: 'Vazir, sans-serif' }}>
                   فارسی
                 </span>
               </div>
@@ -200,55 +202,15 @@ export default function Home() {
           )}
         </div>
 
-        {/* Stats Summary */}
-        {!loading && !error && sankeyData && budgetData && (
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6" dir={language === 'fa' ? 'rtl' : 'ltr'}>
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-2">
-                {language === 'fa' ? 'کل درآمد' : 'Total Revenue'}
-              </h3>
-              <p className="text-3xl font-bold text-green-400">
-                {formatValueWithUnit(
-                  convertFromTrillionRials(sankeyData.revenueTotal, unit, year),
-                  unit,
-                  language
-                )}
-              </p>
-            </div>
-            
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-2">
-                {language === 'fa' ? 'کل هزینه' : 'Total Expenditure'}
-              </h3>
-              <p className="text-3xl font-bold text-red-400">
-                {formatValueWithUnit(
-                  convertFromTrillionRials(sankeyData.expenditureTotal, unit, year),
-                  unit,
-                  language
-                )}
-              </p>
-            </div>
-            
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-2">
-                {language === 'fa' ? 'تراز بودجه' : 'Balance'}
-              </h3>
-              <p className={`text-3xl font-bold ${budgetData.status === 'surplus' ? 'text-green-400' : 'text-red-400'}`}>
-                {formatValueWithUnit(
-                  convertFromTrillionRials(Math.abs(sankeyData.revenueTotal - sankeyData.expenditureTotal), unit, year),
-                  unit,
-                  language
-                )}
-              </p>
-              <p className="text-sm text-gray-400 mt-1">
-                {budgetData.status === 'surplus' 
-                  ? (language === 'fa' ? 'مازاد' : 'Surplus')
-                  : (language === 'fa' ? 'کسری' : 'Deficit')
-                }
-              </p>
-            </div>
-          </div>
-        )}
+        {/* Footer */}
+        <footer className="mt-12 text-center text-gray-500 text-sm" style={{ fontFamily: language === 'fa' ? 'Vazir, sans-serif' : 'inherit' }}>
+          <p>
+            {language === 'fa' 
+              ? 'جریان بودجه ملی ایران | داده‌ها از قوانین بودجه سالانه'
+              : 'Iran National Budget Flow | Data from Annual Budget Laws'
+            }
+          </p>
+        </footer>
       </div>
     </div>
   );
