@@ -209,10 +209,11 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       if (visited.has(nodeId)) return;
       visited.add(nodeId);
       
-      // Don't highlight center node itself, but traverse through it
-      if (nodeId !== 'center-total') {
-        highlighted.add(nodeId);
-      }
+      // Add node to highlighted set
+      highlighted.add(nodeId);
+      
+      // Stop traversal at center node (don't traverse through it)
+      if (nodeId === 'center-total') return;
       
       links.forEach((link, i) => {
         if (link.target.id === nodeId) {
@@ -226,10 +227,11 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       if (visited.has(nodeId)) return;
       visited.add(nodeId);
       
-      // Don't highlight center node itself, but traverse through it
-      if (nodeId !== 'center-total') {
-        highlighted.add(nodeId);
-      }
+      // Add node to highlighted set
+      highlighted.add(nodeId);
+      
+      // Stop traversal at center node (don't traverse through it)
+      if (nodeId === 'center-total') return;
       
       links.forEach((link, i) => {
         if (link.source.id === nodeId) {
