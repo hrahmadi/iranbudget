@@ -80,7 +80,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center" dir={language === 'fa' ? 'rtl' : 'ltr'}>{t.title}</h1>
+        <h1 
+          className="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent" 
+          style={{ 
+            fontFamily: language === 'fa' ? 'var(--font-amiri), Vazir, sans-serif' : 'inherit',
+            letterSpacing: language === 'fa' ? '0.02em' : 'normal'
+          }}
+          dir={language === 'fa' ? 'rtl' : 'ltr'}
+        >
+          {t.title}
+        </h1>
         
         {/* Controls - Fixed LTR layout */}
         <div className="bg-gray-800 rounded-lg p-6 mb-8" style={{ fontFamily: language === 'fa' ? 'Vazir, sans-serif' : 'inherit' }}>
