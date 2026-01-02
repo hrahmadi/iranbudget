@@ -377,14 +377,16 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
           .text(node.label);
       } else if (node.label) {
         // Horizontal text for other nodes
-        // For RTL: left side nodes have text on RIGHT, right side nodes have text on LEFT
         const isLeftSide = node.x0 < dimensions.width / 2;
+        
+        // Position and anchor logic
         const textX = isRTL 
-          ? (isLeftSide ? node.x0 - 6 : node.x1 + 6)  // Reversed for RTL
-          : (isLeftSide ? node.x1 + 6 : node.x0 - 6); // Normal for LTR
+          ? (isLeftSide ? node.x0 - 6 : node.x1 + 6)  // RTL: left nodes to left, right nodes to right
+          : (isLeftSide ? node.x1 + 6 : node.x0 - 6); // LTR: left nodes to right, right nodes to left
+        
         const textAnchor = isRTL
-          ? (isLeftSide ? 'end' : 'start')  // Reversed for RTL
-          : (isLeftSide ? 'start' : 'end'); // Normal for LTR
+          ? (isLeftSide ? 'start' : 'end')  // RTL: left text starts at x (extends left), right text ends at x (extends right)
+          : (isLeftSide ? 'start' : 'end'); // LTR: same logic
         
         nodeGroup.append('text')
           .attr('class', `label-${node.id}`)
