@@ -125,8 +125,8 @@ export default function D3HierarchicalSankey({ data, year, language, displayMode
       label: n.label,
       value: n.value,
       color: n.color,
-      x: n.x,
-      y: n.y,
+      x: n.x ?? 0.5,
+      y: n.y ?? 0.5,
       order: i,
       group: getNodeGroup(n.id)
     }));

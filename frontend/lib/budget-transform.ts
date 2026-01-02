@@ -1,6 +1,6 @@
 import { FARSI_LABELS } from './labels';
 import { SankeyBuilder } from './sankey-builder';
-import { convertFromTrillionRials, formatValueWithUnit } from './conversions';
+import { convertFromTrillionRials, formatValue } from './conversions';
 
 export interface BudgetData {
   year_persian: number;
@@ -242,7 +242,7 @@ export function transformToHierarchicalSankey(
   
   // CENTER: Single center column (thicker, purple, with vertical label)
   const centerValue = convertFromTrillionRials(revenueTotalCorrected, currency, year);
-  const centerFormatted = formatValueWithUnit(centerValue, currency, language);
+  const centerFormatted = formatValue(centerValue, currency, language);
   const centerLabel = language === 'fa' 
     ? `کل درآمد = ${centerFormatted}`
     : `Total Revenue = ${centerFormatted}`;

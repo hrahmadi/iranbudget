@@ -77,7 +77,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     // Group nodes by x position (columns)
     const columns = new Map<number, typeof data.nodes>();
     data.nodes.forEach(node => {
-      const x = node.x;
+      const x = node.x ?? 0.5; // Default to center if undefined
       if (!columns.has(x)) columns.set(x, []);
       columns.get(x)!.push(node);
     });
