@@ -204,9 +204,9 @@ export function transformToHierarchicalSankey(
   
   // === BUILD NODES USING SANKEY BUILDER ===
   
-  // LEVEL 0 & 1: ALL Revenue Details in ONE column (x=0.15)
+  // LEVEL 0 & 1: ALL Revenue Details in ONE column (x=0.05 - moved left for symmetry)
   // Y values control stacking order: lower Y = stacked first = appears higher
-  const detailX = 0.15;
+  const detailX = 0.05;
   
   // Government revenue details (stacked first - top section)
   builder.addNode('corporate-tax', label('Corporate Tax'), taxCorporate, colors.revenue1, detailX, 0.10);
@@ -234,9 +234,9 @@ export function transformToHierarchicalSankey(
   builder.addNode('fees-charges', label('Fees & Charges'), feesCharges, colors.revenue4, detailX, 0.80);
   builder.addNode('other-income', label('Other Income'), otherIncome, colors.revenue4, detailX, 0.85);
   
-  // LEVEL 2: Aggregated Revenue
+  // LEVEL 2: Aggregated Revenue (x=0.28 - wider spacing)
   // Y values control sort order for stacking (lower Y = stacked first = appears higher)
-  const aggX = hasStateBreakdown ? 0.30 : 0.28;
+  const aggX = 0.28;
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.15);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.30);
   builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.65);
@@ -247,24 +247,24 @@ export function transformToHierarchicalSankey(
   const centerLabel = language === 'fa' ? 'کل درآمد' : 'Total Revenue';
   builder.addNode('center-total', centerLabel, revenueTotalCorrected, colors.revenueCenter, 0.50, 0.50);
   
-  // LEVEL 3: Main Spending (symmetric: 0.70 = mirror of 0.30 around center)
-  builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.70, 0.30);
-  builder.addNode('development', label('Development Projects'), developmentProjects, colors.spending2, 0.70, 0.45);
-  builder.addNode('debt-service', label('Debt Service'), debtService, colors.spending3, 0.70, 0.60);
-  builder.addNode('support', label('Support Programs'), supportPrograms, colors.spending4, 0.70, 0.75);
+  // LEVEL 3: Main Spending (back to original x=0.72)
+  builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.72, 0.30);
+  builder.addNode('development', label('Development Projects'), developmentProjects, colors.spending2, 0.72, 0.45);
+  builder.addNode('debt-service', label('Debt Service'), debtService, colors.spending3, 0.72, 0.60);
+  builder.addNode('support', label('Support Programs'), supportPrograms, colors.spending4, 0.72, 0.75);
   
-  // LEVEL 4: Detailed Spending (symmetric: 0.85 = mirror of 0.15 around center)
-  builder.addNode('employee-salaries', label('Employee Salaries'), employeeSalaries, colors.spending1, 0.85, 0.10);
-  builder.addNode('retiree-pensions', label('Retiree Pensions'), retireePensions, colors.spending2, 0.85, 0.17);
-  builder.addNode('benefits', label('Benefits'), benefits, colors.spending2, 0.85, 0.24);
-  builder.addNode('infrastructure', label('Infrastructure'), infrastructure, colors.spending1, 0.85, 0.38);
-  builder.addNode('technology', label('Technology'), technology, colors.spending2, 0.85, 0.45);
-  builder.addNode('regional-dev', label('Regional Dev'), regionalDev, colors.spending3, 0.85, 0.52);
-  builder.addNode('bond-repayments', label('Bond Repayments'), bondRepayments, colors.spending2, 0.85, 0.65);
-  builder.addNode('debt-payments', label('Debt Payments'), debtPayments, colors.spending3, 0.85, 0.72);
-  builder.addNode('cash-subsidies', label('Cash Subsidies'), cashSubsidies, colors.spending1, 0.85, 0.82);
-  builder.addNode('energy-subsidies', label('Energy Subsidies'), energySubsidies, colors.spending2, 0.85, 0.89);
-  builder.addNode('food-essentials', label('Food & Essentials'), foodEssentials, colors.spending3, 0.85, 0.96);
+  // LEVEL 4: Detailed Spending (back to original x=0.95)
+  builder.addNode('employee-salaries', label('Employee Salaries'), employeeSalaries, colors.spending1, 0.95, 0.10);
+  builder.addNode('retiree-pensions', label('Retiree Pensions'), retireePensions, colors.spending2, 0.95, 0.17);
+  builder.addNode('benefits', label('Benefits'), benefits, colors.spending2, 0.95, 0.24);
+  builder.addNode('infrastructure', label('Infrastructure'), infrastructure, colors.spending1, 0.95, 0.38);
+  builder.addNode('technology', label('Technology'), technology, colors.spending2, 0.95, 0.45);
+  builder.addNode('regional-dev', label('Regional Dev'), regionalDev, colors.spending3, 0.95, 0.52);
+  builder.addNode('bond-repayments', label('Bond Repayments'), bondRepayments, colors.spending2, 0.95, 0.65);
+  builder.addNode('debt-payments', label('Debt Payments'), debtPayments, colors.spending3, 0.95, 0.72);
+  builder.addNode('cash-subsidies', label('Cash Subsidies'), cashSubsidies, colors.spending1, 0.95, 0.82);
+  builder.addNode('energy-subsidies', label('Energy Subsidies'), energySubsidies, colors.spending2, 0.95, 0.89);
+  builder.addNode('food-essentials', label('Food & Essentials'), foodEssentials, colors.spending3, 0.95, 0.96);
   
   // === BUILD LINKS ===
   
