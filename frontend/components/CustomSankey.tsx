@@ -376,14 +376,14 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
           .style('pointer-events', 'none')
           .text(node.label);
       } else if (node.label) {
-        // Horizontal text for other nodes - positioned INSIDE the node
+        // Horizontal text for other nodes - positioned INSIDE the node, clear of edges
         const isLeftSide = node.x0 < dimensions.width / 2;
         
-        // Position text inside the node with padding
-        const padding = 8;
+        // Position text well inside the node (past the 25px node width)
+        const padding = 30;
         const textX = isLeftSide 
-          ? node.x0 + padding      // Left side: inside from left edge
-          : node.x1 - padding;     // Right side: inside from right edge
+          ? node.x0 + padding      // Left side: 30px from left edge
+          : node.x1 - padding;     // Right side: 30px from right edge
         
         const textAnchor = isLeftSide ? 'start' : 'end';
         
