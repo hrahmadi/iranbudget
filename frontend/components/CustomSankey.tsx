@@ -473,7 +473,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   }, [hoveredNode, hoveredLink, highlightedNodes, highlightedLinks, nodes, links]);
 
   return (
-    <div ref={containerRef} className="w-full relative flex justify-center" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div ref={containerRef} className="w-full relative" dir="ltr">
       <svg
         ref={svgRef}
         width={dimensions.width}
@@ -485,8 +485,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
           height: 'auto',
           minHeight: `${dimensions.height}px`,
           backgroundColor: '#1a1a1a',
-          display: 'block',
-          margin: '0 auto'
+          display: 'block'
         }}
         onLoad={() => console.log('SVG loaded, actual height:', svgRef.current?.clientHeight)}
       />
