@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import CustomSankey from '@/components/CustomSankey';
 import { transformToHierarchicalSankey, BudgetData, SankeyData } from '@/lib/budget-transform';
 import { Unit, UNIT_INFO, convertFromTrillionRials, formatValue as formatValueWithUnit } from '@/lib/conversions';
@@ -31,14 +32,28 @@ const translations = {
 };
 
 export default function Home() {
-  const [year, setYear] = useState<Year>('1404');
-  const [language, setLanguage] = useState<Language>('en');
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('absolute');
-  const [unit, setUnit] = useState<Unit>('trillion_rial');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
+  // Initialize state from URL params or defaults
+  const [year, setYear] = useState<Year>((searchParams.get('year') as Year) || '1404');
+  const [language, setLanguage] = useState<Language>((searchParams.get('lang') as Language) || 'en');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>((searchParams.get('mode') as DisplayMode) || 'absolute');
+  const [unit, setUnit] = useState<Unit>((searchParams.get('unit') as Unit) || 'trillion_rial');
   const [budgetData, setBudgetData] = useState<BudgetData | null>(null);
   const [sankeyData, setSankeyData] = useState<SankeyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Update URL when state changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set('year', year);
+    params.set('lang', language);
+    params.set('mode', displayMode);
+    params.set('unit', unit);
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, [year, language, displayMode, unit, router]);
 
   const t = translations[language];
 
