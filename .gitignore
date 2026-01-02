@@ -30,6 +30,11 @@ Thumbs.db
 output/*.html
 output/*.png
 
+# Documentation and scripts (working files)
+docs/
+scripts/
+output/
+
 # Node
 node_modules/
 npm-debug.log*
