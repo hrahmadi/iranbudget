@@ -19,6 +19,10 @@ export function getPool(): Pool {
 
 export async function query<T = any>(text: string, params?: any[]): Promise<T[]> {
   const pool = getPool();
+  
+  // Set search_path to public for Neon compatibility
+  await pool.query('SET search_path TO public');
+  
   const result = await pool.query(text, params);
   return result.rows;
 }
