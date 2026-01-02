@@ -203,57 +203,74 @@ export default function Home() {
           )}
           
           {!loading && !error && sankeyData && budgetData && (
-            <TransformWrapper
-              initialScale={1}
-              minScale={0.3}
-              maxScale={3}
-              centerOnInit={true}
-              wheel={{ step: 0.1 }}
-              doubleClick={{ mode: 'reset' }}
-              panning={{ disabled: false }}
-            >
-              {({ zoomIn, zoomOut, resetTransform }) => (
-                <>
-                  {/* Zoom Controls */}
-                  <div className="flex gap-2 mb-4 justify-center">
-                    <button
-                      onClick={() => zoomIn()}
-                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
-                      aria-label="Zoom in"
-                    >
-                      +
-                    </button>
-                    <button
-                      onClick={() => zoomOut()}
-                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
-                      aria-label="Zoom out"
-                    >
-                      −
-                    </button>
-                    <button
-                      onClick={() => resetTransform()}
-                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
-                      aria-label="Reset zoom"
-                    >
-                      {language === 'fa' ? 'بازنشانی' : 'Reset'}
-                    </button>
-                  </div>
+            <>
+              {/* Desktop: No zoom wrapper */}
+              <div className="hidden lg:block">
+                <CustomSankey
+                  data={sankeyData}
+                  year={year}
+                  language={language}
+                  displayMode={displayMode}
+                  unit={unit}
+                />
+              </div>
 
-                  <TransformComponent
-                    wrapperClass="!w-full !h-auto"
-                    contentClass="!w-full !h-auto"
-                  >
-                    <CustomSankey
-                      data={sankeyData}
-                      year={year}
-                      language={language}
-                      displayMode={displayMode}
-                      unit={unit}
-                    />
-                  </TransformComponent>
-                </>
-              )}
-            </TransformWrapper>
+              {/* Mobile/Tablet: Zoom wrapper */}
+              <div className="lg:hidden">
+                <TransformWrapper
+                  initialScale={1}
+                  minScale={0.5}
+                  maxScale={3}
+                  centerOnInit={false}
+                  wheel={{ disabled: true }}
+                  doubleClick={{ disabled: true }}
+                  panning={{ disabled: false }}
+                >
+                  {({ zoomIn, zoomOut, resetTransform }) => (
+                    <>
+                      {/* Zoom Controls - Mobile only */}
+                      <div className="flex gap-2 mb-4 justify-center">
+                        <button
+                          onClick={() => zoomIn()}
+                          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
+                          aria-label="Zoom in"
+                        >
+                          +
+                        </button>
+                        <button
+                          onClick={() => zoomOut()}
+                          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
+                          aria-label="Zoom out"
+                        >
+                          −
+                        </button>
+                        <button
+                          onClick={() => resetTransform()}
+                          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
+                          aria-label="Reset zoom"
+                          style={{ fontFamily: language === 'fa' ? 'Vazir, sans-serif' : 'inherit' }}
+                        >
+                          {language === 'fa' ? 'بازنشانی' : 'Reset'}
+                        </button>
+                      </div>
+
+                      <TransformComponent
+                        wrapperStyle={{ width: '100%', height: 'auto' }}
+                        contentStyle={{ width: '100%', height: 'auto' }}
+                      >
+                        <CustomSankey
+                          data={sankeyData}
+                          year={year}
+                          language={language}
+                          displayMode={displayMode}
+                          unit={unit}
+                        />
+                      </TransformComponent>
+                    </>
+                  )}
+                </TransformWrapper>
+              </div>
+            </>
           )}
         </div>
 
