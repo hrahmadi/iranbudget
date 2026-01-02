@@ -247,8 +247,17 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       });
     };
     
-    findUpstream(nodeToHighlight);
-    findDownstream(nodeToHighlight);
+    // When hovering a link, traverse from BOTH source and target
+    // This ensures upstream/downstream nodes highlight even if one endpoint is center-total
+    if (hoveredLink !== null) {
+      const link = links[hoveredLink];
+      findUpstream(link.source.id);  // Traverse upstream from source
+      findDownstream(link.target.id); // Traverse downstream from target
+    } else {
+      // When hovering a node directly, traverse both ways from it
+      findUpstream(nodeToHighlight);
+      findDownstream(nodeToHighlight);
+    }
     
     return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
   }, [hoveredNode, hoveredLink, links]);
