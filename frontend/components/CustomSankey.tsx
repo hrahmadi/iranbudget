@@ -116,9 +116,11 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
       colNodes.forEach((node, idx) => {
         const height = scale(node.value);
-        const x0 = xPos * dimensions.width;
-        // Center column is twice as thick
+        // Center column is thicker and centered around x position
         const nodeWidth = isCenter ? CENTER_NODE_WIDTH : NODE_WIDTH;
+        const x0 = isCenter 
+          ? (xPos * dimensions.width) - (CENTER_NODE_WIDTH / 2)  // Center around xPos
+          : xPos * dimensions.width;
         const x1 = x0 + nodeWidth;
 
         const rendered: RenderedNode = {
