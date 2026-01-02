@@ -225,6 +225,9 @@ export function transformToHierarchicalSankey(
     builder.addNode('state-loans-foreign', label('Foreign Loans'), stateForeignLoans, colors.revenue3, detailX, 0.65);
     builder.addNode('state-assets', label('Asset Sales'), stateCurrentAssets, colors.revenue4, detailX, 0.70);
     builder.addNode('state-other', label('Other Receipts'), stateOtherReceipts, colors.revenue5, detailX, 0.75);
+  } else {
+    // For years without breakdown, add single placeholder node for visual consistency
+    builder.addNode('state-operations', label('State Company Revenue'), stateCompaniesActual, colors.revenue1, detailX, 0.60);
   }
   
   // Other government revenue details (stacked last - bottom section)
@@ -265,7 +268,7 @@ export function transformToHierarchicalSankey(
   
   // === BUILD LINKS ===
   
-  // State company details → State company aggregate (if available)
+  // State company details → State company aggregate
   if (hasStateBreakdown) {
     builder.addLink('state-operations', 'state-company-revenue', stateRevenues);
     builder.addLink('state-credits', 'state-company-revenue', stateCurrentCredits + stateCapitalCredits);
@@ -273,6 +276,9 @@ export function transformToHierarchicalSankey(
     builder.addLink('state-loans-foreign', 'state-company-revenue', stateForeignLoans);
     builder.addLink('state-assets', 'state-company-revenue', stateCurrentAssets);
     builder.addLink('state-other', 'state-company-revenue', stateOtherReceipts);
+  } else {
+    // For years without breakdown, link placeholder to aggregate
+    builder.addLink('state-operations', 'state-company-revenue', stateCompaniesActual);
   }
   
   // Government details → Aggregates
