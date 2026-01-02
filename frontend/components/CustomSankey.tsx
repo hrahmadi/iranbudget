@@ -33,7 +33,8 @@ interface RenderedNode {
 interface RenderedLink {
   source: RenderedNode;
   target: RenderedNode;
-  value: number;
+  value: number; // Converted value (for thickness calculation)
+  originalValue: number; // Original trillion rial value (for tooltips)
   color: string;
   thickness: number;
   sy: number;
@@ -172,6 +173,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         source,
         target,
         value,
+        originalValue: link.value, // Keep original trillion rial value for tooltips
         color: link.color,
         thickness,
         sy,
@@ -330,7 +332,7 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         })
         .on('mouseleave', () => setHoveredLink(null))
         .append('title')
-        .text(`${link.source.label} → ${link.target.label}\n${formatLabel(link.value)}`);
+        .text(`${link.source.label} → ${link.target.label}\n${formatLabel(link.originalValue)}`);
     });
 
     // Draw nodes on top
