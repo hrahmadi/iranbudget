@@ -201,7 +201,7 @@ export default function Home() {
         </div>
 
         {/* Stats Summary */}
-        {!loading && !error && budgetData && (
+        {!loading && !error && sankeyData && budgetData && (
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6" dir={language === 'fa' ? 'rtl' : 'ltr'}>
             <div className="bg-gray-800 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-2">
@@ -209,7 +209,7 @@ export default function Home() {
               </h3>
               <p className="text-3xl font-bold text-green-400">
                 {formatValueWithUnit(
-                  convertFromTrillionRials(parseFloat(budgetData.revenue_total) / 1_000_000, unit, year),
+                  convertFromTrillionRials(sankeyData.revenueTotal, unit, year),
                   unit,
                   language
                 )}
@@ -222,7 +222,7 @@ export default function Home() {
               </h3>
               <p className="text-3xl font-bold text-red-400">
                 {formatValueWithUnit(
-                  convertFromTrillionRials(parseFloat(budgetData.expenditure_total) / 1_000_000, unit, year),
+                  convertFromTrillionRials(sankeyData.expenditureTotal, unit, year),
                   unit,
                   language
                 )}
@@ -235,7 +235,7 @@ export default function Home() {
               </h3>
               <p className={`text-3xl font-bold ${budgetData.status === 'surplus' ? 'text-green-400' : 'text-red-400'}`}>
                 {formatValueWithUnit(
-                  convertFromTrillionRials(parseFloat(budgetData.surplus_deficit) / 1_000_000, unit, year),
+                  convertFromTrillionRials(Math.abs(sankeyData.revenueTotal - sankeyData.expenditureTotal), unit, year),
                   unit,
                   language
                 )}
