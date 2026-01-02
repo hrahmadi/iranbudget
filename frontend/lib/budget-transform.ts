@@ -1,5 +1,6 @@
 import { FARSI_LABELS } from './labels';
 import { SankeyBuilder } from './sankey-builder';
+import { formatNumber } from './utils';
 
 export interface BudgetData {
   year_persian: number;
