@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import CustomSankey from '@/components/CustomSankey';
 import { transformToHierarchicalSankey, BudgetData, SankeyData } from '@/lib/budget-transform';
 import { Unit, UNIT_INFO, convertFromTrillionRials, formatValue as formatValueWithUnit } from '@/lib/conversions';
@@ -202,13 +203,57 @@ export default function Home() {
           )}
           
           {!loading && !error && sankeyData && budgetData && (
-            <CustomSankey
-              data={sankeyData}
-              year={year}
-              language={language}
-              displayMode={displayMode}
-              unit={unit}
-            />
+            <TransformWrapper
+              initialScale={1}
+              minScale={0.3}
+              maxScale={3}
+              centerOnInit={true}
+              wheel={{ step: 0.1 }}
+              doubleClick={{ mode: 'reset' }}
+              panning={{ disabled: false }}
+            >
+              {({ zoomIn, zoomOut, resetTransform }) => (
+                <>
+                  {/* Zoom Controls */}
+                  <div className="flex gap-2 mb-4 justify-center">
+                    <button
+                      onClick={() => zoomIn()}
+                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
+                      aria-label="Zoom in"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => zoomOut()}
+                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
+                      aria-label="Zoom out"
+                    >
+                      −
+                    </button>
+                    <button
+                      onClick={() => resetTransform()}
+                      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white font-medium"
+                      aria-label="Reset zoom"
+                    >
+                      {language === 'fa' ? 'بازنشانی' : 'Reset'}
+                    </button>
+                  </div>
+
+                  <TransformComponent
+                    wrapperClass="!w-full !h-auto"
+                    contentClass="!w-full !h-auto"
+                  >
+                    <CustomSankey
+                      data={sankeyData}
+                      year={year}
+                      language={language}
+                      displayMode={displayMode}
+                      unit={unit}
+                    />
+                  </TransformComponent>
+                </>
+              )}
+            </TransformWrapper>
           )}
         </div>
 
