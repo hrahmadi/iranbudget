@@ -1,6 +1,6 @@
 import { FARSI_LABELS } from './labels';
 import { SankeyBuilder } from './sankey-builder';
-import { convertFromTrillionRials, formatValueWithUnit } from './currency';
+import { convertFromTrillionRials, formatValueWithUnit } from './conversions';
 
 export interface BudgetData {
   year_persian: number;
