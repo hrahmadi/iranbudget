@@ -206,12 +206,16 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     
     // Pure ID-based traversal - no object mutation
     const findUpstream = (nodeId: string, visited: Set<string> = new Set()) => {
-      if (nodeId === 'center-total' || visited.has(nodeId)) return;
+      if (visited.has(nodeId)) return;
       visited.add(nodeId);
       
+      // Don't highlight center node itself, but traverse through it
+      if (nodeId !== 'center-total') {
+        highlighted.add(nodeId);
+      }
+      
       links.forEach((link, i) => {
-        if (link.target.id === nodeId && !highlighted.has(link.source.id)) {
-          highlighted.add(link.source.id);
+        if (link.target.id === nodeId) {
           highlightedLinkSet.add(i);
           findUpstream(link.source.id, visited);
         }
@@ -219,12 +223,16 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     };
     
     const findDownstream = (nodeId: string, visited: Set<string> = new Set()) => {
-      if (nodeId === 'center-total' || visited.has(nodeId)) return;
+      if (visited.has(nodeId)) return;
       visited.add(nodeId);
       
+      // Don't highlight center node itself, but traverse through it
+      if (nodeId !== 'center-total') {
+        highlighted.add(nodeId);
+      }
+      
       links.forEach((link, i) => {
-        if (link.source.id === nodeId && !highlighted.has(link.target.id)) {
-          highlighted.add(link.target.id);
+        if (link.source.id === nodeId) {
           highlightedLinkSet.add(i);
           findDownstream(link.target.id, visited);
         }
