@@ -231,13 +231,13 @@ export function transformToHierarchicalSankey(
   }
   
   // LEVEL 2: Aggregated Revenue
-  // Order: Tax, Oil at top; State Companies, Other, Ministry at bottom (State Companies FIRST in bottom section)
+  // Match detail column order: Government revenue (top), State Companies (bottom)
   const aggX = hasStateBreakdown ? 0.30 : 0.28;
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.15);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.30);
-  builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.55);
-  builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.70);
-  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, aggX, 0.85);
+  builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.45);
+  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, aggX, 0.55);
+  builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.75);
   
   // CENTER: Single center column (thicker, purple, with vertical label)
   const centerLabel = language === 'fa' ? 'کل درآمد' : 'Total Revenue';
