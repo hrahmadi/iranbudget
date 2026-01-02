@@ -83,7 +83,8 @@ export default function Home() {
         <h1 
           className="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent" 
           style={{ 
-            fontFamily: language === 'fa' ? 'var(--font-amiri), Vazir, sans-serif' : 'inherit',
+            fontFamily: language === 'fa' ? 'Shabnam, Vazir, sans-serif' : 'inherit',
+            fontWeight: language === 'fa' ? '800' : 'bold',
             letterSpacing: language === 'fa' ? '0.02em' : 'normal'
           }}
           dir={language === 'fa' ? 'rtl' : 'ltr'}

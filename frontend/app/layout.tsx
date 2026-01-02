@@ -36,6 +36,11 @@ export default function RootLayout({
           rel="stylesheet" 
           type="text/css" 
         />
+        <link 
+          href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" 
+          rel="stylesheet" 
+          type="text/css" 
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${amiri.variable} antialiased`}
