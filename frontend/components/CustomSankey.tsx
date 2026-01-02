@@ -184,12 +184,18 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
 
   // Compute highlighted nodes and links based on hover (full upstream/downstream chain)
   const { highlightedNodes, highlightedLinks } = useMemo(() => {
+    const highlighted = new Set<string>();
+    const highlightedLinkSet = new Set<number>();
+    
     // Determine which node to use for highlighting
     let nodeToHighlight = hoveredNode;
     
-    // When hovering a link, treat it as hovering the TARGET node (downstream)
+    // When hovering a link, add it directly and highlight source+target
     if (hoveredLink !== null) {
+      highlightedLinkSet.add(hoveredLink);
       const link = links[hoveredLink];
+      highlighted.add(link.source.id);
+      highlighted.add(link.target.id);
       nodeToHighlight = link.target.id;
     }
     
@@ -201,8 +207,8 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
       };
     }
     
-    const highlighted = new Set<string>([nodeToHighlight]);
-    const highlightedLinkSet = new Set<number>();
+    // Add the initially hovered/targeted node
+    highlighted.add(nodeToHighlight);
     
     // Pure ID-based traversal - no object mutation
     const findUpstream = (nodeId: string, visited: Set<string> = new Set()) => {
