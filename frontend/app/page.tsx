@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import CustomSankey from '@/components/CustomSankey';
@@ -32,7 +32,7 @@ const translations = {
   },
 };
 
-export default function Home() {
+function BudgetVisualization() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -285,5 +285,13 @@ export default function Home() {
         </footer>
       </div>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <BudgetVisualization />
+    </Suspense>
   );
 }
