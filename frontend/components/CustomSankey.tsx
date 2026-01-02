@@ -44,6 +44,7 @@ interface RenderedLink {
 export default function CustomSankey({ data, year, language, displayMode, unit }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 900 });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<number | null>(null);
@@ -264,6 +265,32 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
     return { highlightedNodes: highlighted, highlightedLinks: highlightedLinkSet };
   }, [hoveredNode, hoveredLink, links]);
 
+  // Tooltip helper functions
+  const showTooltip = (event: MouseEvent, label: string, value: string) => {
+    if (!tooltipRef.current) return;
+    const tooltip = tooltipRef.current;
+    tooltip.innerHTML = `<div class="font-semibold">${label}</div><div>${value}</div>`;
+    tooltip.style.display = 'block';
+    updateTooltipPosition(event);
+  };
+
+  const updateTooltipPosition = (event: MouseEvent) => {
+    if (!tooltipRef.current || !containerRef.current) return;
+    const tooltip = tooltipRef.current;
+    const container = containerRef.current.getBoundingClientRect();
+    const x = event.clientX - container.left;
+    const y = event.clientY - container.top;
+    
+    // Position tooltip offset from cursor
+    tooltip.style.left = `${x + 15}px`;
+    tooltip.style.top = `${y + 15}px`;
+  };
+
+  const hideTooltip = () => {
+    if (!tooltipRef.current) return;
+    tooltipRef.current.style.display = 'none';
+  };
+
   // Handle window resize
   useEffect(() => {
     const updateDimensions = () => {
@@ -326,13 +353,18 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .attr('fill', 'none')
         .attr('opacity', 0.8)
         .style('cursor', 'pointer')
-        .on('mouseenter', () => {
+        .on('mouseenter', (event) => {
           setHoveredLink(i);
           setHoveredNode(null);
+          showTooltip(event, `${link.source.label} → ${link.target.label}`, formatLabel(link.originalValue));
         })
-        .on('mouseleave', () => setHoveredLink(null))
-        .append('title')
-        .text(`${link.source.label} → ${link.target.label}\n${formatLabel(link.originalValue)}`);
+        .on('mousemove', (event) => {
+          updateTooltipPosition(event);
+        })
+        .on('mouseleave', () => {
+          setHoveredLink(null);
+          hideTooltip();
+        });
     });
 
     // Draw nodes on top
@@ -351,13 +383,18 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
         .attr('rx', 2)
         .attr('opacity', 1)
         .style('cursor', 'pointer')
-        .on('mouseenter', () => {
+        .on('mouseenter', (event) => {
           setHoveredNode(node.id);
           setHoveredLink(null);
+          showTooltip(event, node.label, formatLabel(node.value));
         })
-        .on('mouseleave', () => setHoveredNode(null))
-        .append('title')
-        .text(`${node.label}\n${formatLabel(node.value)}`);
+        .on('mousemove', (event) => {
+          updateTooltipPosition(event);
+        })
+        .on('mouseleave', () => {
+          setHoveredNode(null);
+          hideTooltip();
+        });
 
       // Draw labels
       const isCenter = node.id === 'center-total';
@@ -436,13 +473,19 @@ export default function CustomSankey({ data, year, language, displayMode, unit }
   }, [hoveredNode, hoveredLink, highlightedNodes, highlightedLinks, nodes, links]);
 
   return (
-    <div ref={containerRef} className="w-full" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div ref={containerRef} className="w-full relative" dir={isRTL ? 'rtl' : 'ltr'}>
       <svg
         ref={svgRef}
         width={dimensions.width}
         height={dimensions.height}
         style={{ width: '100%', height: `${dimensions.height}px`, backgroundColor: '#1a1a1a' }}
         onLoad={() => console.log('SVG loaded, actual height:', svgRef.current?.clientHeight)}
+      />
+      {/* Custom Tooltip */}
+      <div
+        ref={tooltipRef}
+        className="absolute pointer-events-none hidden bg-gray-800 text-white px-3 py-2 rounded-lg shadow-lg text-sm z-50"
+        style={{ fontFamily: isRTL ? 'Vazir, sans-serif' : 'inherit' }}
       />
     </div>
   );
