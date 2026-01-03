@@ -296,16 +296,17 @@ export function transformToHierarchicalSankey(
   builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.55);
   
   // CENTER: Single center column (thicker, purple, with vertical label)
-  const centerLabel = language === 'fa' ? 'کل درآمد' : 'Total Revenue';
+  const centerLabel = language === 'fa' ? 'کل بودجه' : 'Total Budget';
   builder.addNode('center-total', centerLabel, revenueTotalCorrected, colors.revenueCenter, 0.50, 0.50);
   
   // === EXPENDITURE SIDE ===
   // Switch between Economic and Functional views
   
   if (expenditureView === 'functional' && data.defense) {
-    // FUNCTIONAL VIEW - 2 LEVELS ONLY
-    // Level 1: Total Revenue (center)
-    // Level 2: Public Budget + State Companies + their breakdowns
+    // FUNCTIONAL VIEW - 3 LEVELS
+    // Level 1: Total Budget (center, x=0.50)
+    // Level 2: Public Budget + State Companies (x=0.65)
+    // Level 3: Category details (x=0.85)
     
     const funcDefense = T(data.defense || 0);
     const funcEducation = T(data.education || 0);
@@ -315,27 +316,34 @@ export function transformToHierarchicalSankey(
     const funcFinancial = T(data.gps_public_debt || 0);
     const funcCulture = T(data.recreation_culture || 0);
     
+    // Calculate Public Budget total
+    const publicBudgetTotal = funcDefense + funcEducation + funcHealth + funcInfrastructure + funcGovernance + funcFinancial + funcCulture;
+    
     // State companies breakdown
     const stateOperating = stateCompCurrent;
     const stateCapital = stateCompCapital;
     const stateLoanRepay = T((data.state_comp_domestic_repay || 0)) + T((data.state_comp_foreign_repay || 0));
-    const stateAssets = T(data.state_comp_current_assets_increase || 0);
+    const stateAssetsExp = T(data.state_comp_current_assets_increase || 0);
+    const stateCompaniesTotal = stateOperating + stateCapital + stateLoanRepay + stateAssetsExp;
     
-    // LEVEL 2: All categories at same x position (0.75)
-    // Public Budget categories
-    builder.addNode('func-defense', label('Defense & Security'), funcDefense, colors.spending1, 0.75, 0.08);
-    builder.addNode('func-education', label('Education & Research'), funcEducation, colors.spending2, 0.75, 0.18);
-    builder.addNode('func-health', label('Health & Welfare'), funcHealth, colors.spending3, 0.75, 0.28);
-    builder.addNode('func-infrastructure', label('Infrastructure'), funcInfrastructure, colors.spending4, 0.75, 0.38);
-    builder.addNode('func-governance', label('Governance'), funcGovernance, colors.spending1, 0.75, 0.48);
-    builder.addNode('func-financial', label('Financial Obligations'), funcFinancial, colors.spending2, 0.75, 0.58);
-    builder.addNode('func-culture', label('Culture'), funcCulture, colors.spending3, 0.75, 0.68);
+    // LEVEL 2: Public Budget + State Companies (x=0.65)
+    builder.addNode('public-budget', label('Public Budget'), publicBudgetTotal, colors.spending1, 0.65, 0.30);
+    builder.addNode('state-companies-exp', label('State Companies'), stateCompaniesTotal, colors.spending4, 0.65, 0.70);
     
-    // State Companies categories (same level)
-    builder.addNode('state-operating', label('Operating Costs'), stateOperating, colors.spending4, 0.75, 0.78);
-    builder.addNode('state-capital', label('Capital Expenditure'), stateCapital, colors.spending1, 0.75, 0.85);
-    if (stateLoanRepay > 0) builder.addNode('state-loans', label('Loan Repayment'), stateLoanRepay, colors.spending2, 0.75, 0.92);
-    if (stateAssets > 0) builder.addNode('state-assets', label('Asset Accumulation'), stateAssets, colors.spending3, 0.75, 0.98);
+    // LEVEL 3: Public Budget Details (x=0.85)
+    builder.addNode('func-defense', label('Defense & Security'), funcDefense, colors.spending1, 0.85, 0.08);
+    builder.addNode('func-education', label('Education & Research'), funcEducation, colors.spending2, 0.85, 0.16);
+    builder.addNode('func-health', label('Health & Welfare'), funcHealth, colors.spending3, 0.85, 0.24);
+    builder.addNode('func-infrastructure', label('Infrastructure'), funcInfrastructure, colors.spending4, 0.85, 0.32);
+    builder.addNode('func-governance', label('Governance'), funcGovernance, colors.spending1, 0.85, 0.40);
+    builder.addNode('func-financial', label('Financial Obligations'), funcFinancial, colors.spending2, 0.85, 0.48);
+    builder.addNode('func-culture', label('Culture'), funcCulture, colors.spending3, 0.85, 0.56);
+    
+    // LEVEL 3: State Companies Details (x=0.85)
+    builder.addNode('state-exp-operating', label('Operating Costs'), stateOperating, colors.spending4, 0.85, 0.66);
+    builder.addNode('state-exp-capital', label('Capital Expenditure'), stateCapital, colors.spending1, 0.85, 0.76);
+    builder.addNode('state-exp-loans', label('Loan Repayment'), stateLoanRepay, colors.spending2, 0.85, 0.86);
+    builder.addNode('state-exp-assets', label('Asset Accumulation'), stateAssetsExp, colors.spending3, 0.85, 0.96);
     
   } else {
     // ECONOMIC VIEW - Traditional classification
@@ -404,7 +412,7 @@ export function transformToHierarchicalSankey(
   
   // Center → Expenditure (Economic or Functional)
   if (expenditureView === 'functional' && data.defense) {
-    // Functional view - 2 LEVELS: Center → All categories directly
+    // Functional view - 3 LEVELS
     const funcDefense = T(data.defense || 0);
     const funcEducation = T(data.education || 0);
     const funcHealth = T(data.health || 0);
@@ -412,23 +420,32 @@ export function transformToHierarchicalSankey(
     const funcGovernance = T(data.gps_executive_legislative || 0);
     const funcFinancial = T(data.gps_public_debt || 0);
     const funcCulture = T(data.recreation_culture || 0);
+    const publicBudgetTotal = funcDefense + funcEducation + funcHealth + funcInfrastructure + funcGovernance + funcFinancial + funcCulture;
+    
     const stateOperating = stateCompCurrent;
     const stateCapital = stateCompCapital;
     const stateLoanRepay = T((data.state_comp_domestic_repay || 0)) + T((data.state_comp_foreign_repay || 0));
-    const stateAssets = T(data.state_comp_current_assets_increase || 0);
+    const stateAssetsExp = T(data.state_comp_current_assets_increase || 0);
+    const stateCompaniesTotal = stateOperating + stateCapital + stateLoanRepay + stateAssetsExp;
     
-    // All links go directly from center to final categories
-    builder.addLink('center-total', 'func-defense', funcDefense);
-    builder.addLink('center-total', 'func-education', funcEducation);
-    builder.addLink('center-total', 'func-health', funcHealth);
-    builder.addLink('center-total', 'func-infrastructure', funcInfrastructure);
-    builder.addLink('center-total', 'func-governance', funcGovernance);
-    builder.addLink('center-total', 'func-financial', funcFinancial);
-    builder.addLink('center-total', 'func-culture', funcCulture);
-    builder.addLink('center-total', 'state-operating', stateOperating);
-    builder.addLink('center-total', 'state-capital', stateCapital);
-    if (stateLoanRepay > 0) builder.addLink('center-total', 'state-loans', stateLoanRepay);
-    if (stateAssets > 0) builder.addLink('center-total', 'state-assets', stateAssets);
+    // Level 1 → Level 2
+    builder.addLink('center-total', 'public-budget', publicBudgetTotal);
+    builder.addLink('center-total', 'state-companies-exp', stateCompaniesTotal);
+    
+    // Level 2 → Level 3 (Public Budget → Details)
+    builder.addLink('public-budget', 'func-defense', funcDefense);
+    builder.addLink('public-budget', 'func-education', funcEducation);
+    builder.addLink('public-budget', 'func-health', funcHealth);
+    builder.addLink('public-budget', 'func-infrastructure', funcInfrastructure);
+    builder.addLink('public-budget', 'func-governance', funcGovernance);
+    builder.addLink('public-budget', 'func-financial', funcFinancial);
+    builder.addLink('public-budget', 'func-culture', funcCulture);
+    
+    // Level 2 → Level 3 (State Companies → Details)
+    builder.addLink('state-companies-exp', 'state-exp-operating', stateOperating);
+    builder.addLink('state-companies-exp', 'state-exp-capital', stateCapital);
+    builder.addLink('state-companies-exp', 'state-exp-loans', stateLoanRepay);
+    builder.addLink('state-companies-exp', 'state-exp-assets', stateAssetsExp);
     
   } else {
     // Economic view links
