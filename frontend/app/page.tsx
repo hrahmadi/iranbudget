@@ -136,7 +136,10 @@ function BudgetVisualization() {
                 </option>
               </select>
             </div>
+          </div>
 
+          {/* Row 2: Toggle switches */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             {/* Language Toggle Switch */}
             <div>
               <label className="block text-sm font-medium mb-2">{t.languageLabel}</label>
