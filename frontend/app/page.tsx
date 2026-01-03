@@ -245,7 +245,6 @@ function BudgetVisualization() {
                   displayMode={displayMode}
                   expenditureView={expenditureView}
                   unit={unit}
-                  unit={unit}
                 />
               </div>
 
