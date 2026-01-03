@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict OmcE7qADjfu2Rfddx68qBzMk3cxGFOeNxCeB1cWULcsVtxZE89qL6ahzHGENQy8
+\restrict q8T0sa2wI3jjkckpQ4QPwlDAdULTBKJgkUdk1apNUMRcpiuFKA3SQGx0VfDKst5
 
 -- Dumped from database version 17.7 (Homebrew)
 -- Dumped by pg_dump version 17.7 (Homebrew)
@@ -37,7 +37,7 @@ CREATE TABLE public.budget_balance (
 );
 
 
-ALTER TABLE public.budget_balance OWNER TO hamidreza;
+ALTER TABLE public.budget_balance 
 
 --
 -- Name: years; Type: TABLE; Schema: public; Owner: hamidreza
@@ -56,7 +56,7 @@ CREATE TABLE public.years (
 );
 
 
-ALTER TABLE public.years OWNER TO hamidreza;
+ALTER TABLE public.years 
 
 --
 -- Name: COLUMN years.revenue_scope; Type: COMMENT; Schema: public; Owner: hamidreza
@@ -92,7 +92,7 @@ CREATE VIEW public.balance_analysis AS
   ORDER BY y.year_persian;
 
 
-ALTER VIEW public.balance_analysis OWNER TO hamidreza;
+ALTER VIEW public.balance_analysis 
 
 --
 -- Name: budget_balance_balance_id_seq; Type: SEQUENCE; Schema: public; Owner: hamidreza
@@ -107,7 +107,7 @@ CREATE SEQUENCE public.budget_balance_balance_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.budget_balance_balance_id_seq OWNER TO hamidreza;
+ALTER SEQUENCE public.budget_balance_balance_id_seq 
 
 --
 -- Name: budget_balance_balance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
@@ -147,7 +147,7 @@ CREATE TABLE public.expenditures (
 );
 
 
-ALTER TABLE public.expenditures OWNER TO hamidreza;
+ALTER TABLE public.expenditures 
 
 --
 -- Name: revenues; Type: TABLE; Schema: public; Owner: hamidreza
@@ -183,7 +183,7 @@ CREATE TABLE public.revenues (
 );
 
 
-ALTER TABLE public.revenues OWNER TO hamidreza;
+ALTER TABLE public.revenues 
 
 --
 -- Name: COLUMN revenues.total; Type: COMMENT; Schema: public; Owner: hamidreza
@@ -275,7 +275,7 @@ CREATE VIEW public.budget_overview AS
   ORDER BY y.year_persian;
 
 
-ALTER VIEW public.budget_overview OWNER TO hamidreza;
+ALTER VIEW public.budget_overview 
 
 --
 -- Name: budget_overview_detailed; Type: VIEW; Schema: public; Owner: hamidreza
@@ -311,7 +311,7 @@ CREATE VIEW public.budget_overview_detailed AS
   ORDER BY y.year_persian;
 
 
-ALTER VIEW public.budget_overview_detailed OWNER TO hamidreza;
+ALTER VIEW public.budget_overview_detailed 
 
 --
 -- Name: budget_scope_notes; Type: TABLE; Schema: public; Owner: hamidreza
@@ -330,7 +330,7 @@ CREATE TABLE public.budget_scope_notes (
 );
 
 
-ALTER TABLE public.budget_scope_notes OWNER TO hamidreza;
+ALTER TABLE public.budget_scope_notes 
 
 --
 -- Name: budget_scope_notes_note_id_seq; Type: SEQUENCE; Schema: public; Owner: hamidreza
@@ -345,7 +345,7 @@ CREATE SEQUENCE public.budget_scope_notes_note_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.budget_scope_notes_note_id_seq OWNER TO hamidreza;
+ALTER SEQUENCE public.budget_scope_notes_note_id_seq 
 
 --
 -- Name: budget_scope_notes_note_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
@@ -368,7 +368,7 @@ CREATE TABLE public.data_quality_notes (
 );
 
 
-ALTER TABLE public.data_quality_notes OWNER TO hamidreza;
+ALTER TABLE public.data_quality_notes 
 
 --
 -- Name: data_quality_notes_note_id_seq; Type: SEQUENCE; Schema: public; Owner: hamidreza
@@ -383,7 +383,7 @@ CREATE SEQUENCE public.data_quality_notes_note_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.data_quality_notes_note_id_seq OWNER TO hamidreza;
+ALTER SEQUENCE public.data_quality_notes_note_id_seq 
 
 --
 -- Name: data_quality_notes_note_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
@@ -412,7 +412,7 @@ CREATE VIEW public.expenditure_analysis AS
   ORDER BY y.year_persian;
 
 
-ALTER VIEW public.expenditure_analysis OWNER TO hamidreza;
+ALTER VIEW public.expenditure_analysis 
 
 --
 -- Name: expenditures_expenditure_id_seq; Type: SEQUENCE; Schema: public; Owner: hamidreza
@@ -427,7 +427,7 @@ CREATE SEQUENCE public.expenditures_expenditure_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.expenditures_expenditure_id_seq OWNER TO hamidreza;
+ALTER SEQUENCE public.expenditures_expenditure_id_seq 
 
 --
 -- Name: expenditures_expenditure_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
@@ -455,7 +455,7 @@ CREATE VIEW public.operational_revenues_view AS
   ORDER BY y.year_persian;
 
 
-ALTER VIEW public.operational_revenues_view OWNER TO hamidreza;
+ALTER VIEW public.operational_revenues_view 
 
 --
 -- Name: revenue_trends; Type: VIEW; Schema: public; Owner: hamidreza
@@ -478,7 +478,7 @@ CREATE VIEW public.revenue_trends AS
   ORDER BY y.year_persian;
 
 
-ALTER VIEW public.revenue_trends OWNER TO hamidreza;
+ALTER VIEW public.revenue_trends 
 
 --
 -- Name: revenues_revenue_id_seq; Type: SEQUENCE; Schema: public; Owner: hamidreza
@@ -493,7 +493,7 @@ CREATE SEQUENCE public.revenues_revenue_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.revenues_revenue_id_seq OWNER TO hamidreza;
+ALTER SEQUENCE public.revenues_revenue_id_seq 
 
 --
 -- Name: revenues_revenue_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
@@ -515,7 +515,7 @@ CREATE SEQUENCE public.years_year_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.years_year_id_seq OWNER TO hamidreza;
+ALTER SEQUENCE public.years_year_id_seq 
 
 --
 -- Name: years_year_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
@@ -559,7 +559,7 @@ CREATE VIEW public.yoy_growth AS
   ORDER BY current.year_persian;
 
 
-ALTER VIEW public.yoy_growth OWNER TO hamidreza;
+ALTER VIEW public.yoy_growth 
 
 --
 -- Name: budget_balance balance_id; Type: DEFAULT; Schema: public; Owner: hamidreza
@@ -817,5 +817,5 @@ ALTER TABLE ONLY public.revenues
 -- PostgreSQL database dump complete
 --
 
-\unrestrict OmcE7qADjfu2Rfddx68qBzMk3cxGFOeNxCeB1cWULcsVtxZE89qL6ahzHGENQy8
+\unrestrict q8T0sa2wI3jjkckpQ4QPwlDAdULTBKJgkUdk1apNUMRcpiuFKA3SQGx0VfDKst5
 
