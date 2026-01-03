@@ -16,9 +16,16 @@ export interface BudgetData {
   state_comp_current_assets: string;
   state_comp_other_receipts: string;
   tax_total: string;
-  oil_gas: string;
   tax_corporate: string;
   tax_individual: string;
+  tax_vat_sales?: string;
+  tax_wealth?: string;
+  tax_import_duties?: string;
+  oil_gas: string;
+  oil_exports?: string;
+  gas_condensate?: string;
+  other?: string;
+  ministry_revenue?: string;
   expenditure_total: string;
   current_exp: string;
   capital_exp: string;
@@ -94,7 +101,35 @@ export function transformToHierarchicalSankey(
   const oilGas = T(data.oil_gas);
   const operationalRevenue = T(data.operational_revenue || 0);
   const specialAccounts = T(data.special_accounts || 0);
+  const ministryRevenue = T(data.ministry_revenue || 0);
+  const otherRevenue = T(data.other || 0);
   const stateCompanies = T(data.state_comp_revenue_total || 0);
+  
+  // Tax breakdown - use actual values if available, else estimate
+  const taxVatSales = data.tax_vat_sales ? T(data.tax_vat_sales) : null;
+  const taxWealth = data.tax_wealth ? T(data.tax_wealth) : null;
+  const taxImportDuties = data.tax_import_duties ? T(data.tax_import_duties) : null;
+  
+  let adjustedVat: number, importDuties: number, wealthTax: number, otherTaxes: number;
+  
+  if (taxVatSales !== null && taxWealth !== null && taxImportDuties !== null) {
+    // Use actual values from database
+    adjustedVat = taxVatSales;
+    importDuties = taxImportDuties;
+    wealthTax = taxWealth;
+    otherTaxes = Math.max(0, taxTotal - taxCorporate - taxIndividual - adjustedVat - importDuties - wealthTax);
+  } else {
+    // Fallback to estimation for older years
+    const vatSales = Math.max(0, taxTotal - taxCorporate - taxIndividual);
+    importDuties = vatSales * 0.3;
+    otherTaxes = vatSales * 0.2;
+    adjustedVat = vatSales - importDuties - otherTaxes;
+    wealthTax = 0;
+  }
+  
+  // Oil & Gas breakdown - use actual values if available, else estimate
+  const oilExports = data.oil_exports ? T(data.oil_exports) : oilGas * 0.85;
+  const gasCondensate = data.gas_condensate ? T(data.gas_condensate) : oilGas * 0.15;
   
   // State company breakdown
   const stateRevenues = T(data.state_comp_revenues || 0);
@@ -136,13 +171,12 @@ export function transformToHierarchicalSankey(
   const oilExports = oilGas * 0.85;
   const gasCondensate = oilGas * 0.15;
   
-  // Other gov revenue
-  const otherGovRevenue = Math.max(0, operationalRevenue - taxTotal - oilGas);
-  const feesCharges = otherGovRevenue * 0.60;
-  const otherIncome = otherGovRevenue * 0.40;
+  // Other revenue breakdown - estimate if not provided
+  const feesCharges = otherRevenue * 0.60;
+  const otherIncome = otherRevenue * 0.40;
   
-  // Recalculate revenue total using corrected state companies value
-  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherGovRevenue + specialAccounts;
+  // Recalculate revenue total using corrected state companies value and actual data
+  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherRevenue + ministryRevenue + specialAccounts;
   
   // Parse expenditure data
   const currentExp = T(data.current_exp || 0);
@@ -173,7 +207,7 @@ export function transformToHierarchicalSankey(
     govSupport = subsidySpending;
     
     const govComponents = govPersonnel + govDevelopment + govSupport;
-    govOther = Math.max(0, operationalRevenue + specialAccounts - govComponents);
+    govOther = Math.max(0, operationalRevenue + specialAccounts + ministryRevenue + otherRevenue - govComponents);
     
     statePersonnel = stateCompCurrent;
     stateDevelopment = stateCompCapital;
@@ -211,6 +245,7 @@ export function transformToHierarchicalSankey(
   // Government revenue details (stacked first - top section)
   builder.addNode('corporate-tax', label('Corporate Tax'), taxCorporate, colors.revenue1, detailX, 0.10);
   builder.addNode('individual-tax', label('Individual Income Tax'), taxIndividual, colors.revenue1, detailX, 0.15);
+  builder.addNode('wealth-tax', label('Wealth Tax'), wealthTax, colors.revenue2, detailX, 0.18);
   builder.addNode('vat', label('VAT & Sales Tax'), adjustedVat, colors.revenue2, detailX, 0.20);
   builder.addNode('import-duties', label('Import Duties'), importDuties, colors.revenue2, detailX, 0.25);
   builder.addNode('other-tax', label('Other Taxes'), otherTaxes, colors.revenue2, detailX, 0.30);
@@ -239,8 +274,9 @@ export function transformToHierarchicalSankey(
   const aggX = 0.28;
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.15);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.30);
-  builder.addNode('other-revenue', label('Other Revenue'), otherGovRevenue, colors.revenue4, aggX, 0.65);
-  builder.addNode('special-revenue', label('Ministry Revenue'), specialAccounts, colors.revenue5, aggX, 0.75);
+  builder.addNode('other-revenue', label('Other Revenue'), otherRevenue, colors.revenue4, aggX, 0.65);
+  builder.addNode('ministry-revenue', label('Ministry Revenue'), ministryRevenue, colors.revenue5, aggX, 0.75);
+  builder.addNode('special-revenue', label('Special Accounts'), specialAccounts, colors.revenue5, aggX, 0.80);
   builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.55);
   
   // CENTER: Single center column (thicker, purple, with vertical label)
@@ -284,9 +320,14 @@ export function transformToHierarchicalSankey(
   // Government details → Aggregates
   builder.addLink('corporate-tax', 'tax-revenue', taxCorporate);
   builder.addLink('individual-tax', 'tax-revenue', taxIndividual);
+  if (wealthTax > 0) {
+    builder.addLink('wealth-tax', 'tax-revenue', wealthTax);
+  }
   builder.addLink('vat', 'tax-revenue', adjustedVat);
   builder.addLink('import-duties', 'tax-revenue', importDuties);
-  builder.addLink('other-tax', 'tax-revenue', otherTaxes);
+  if (otherTaxes > 0) {
+    builder.addLink('other-tax', 'tax-revenue', otherTaxes);
+  }
   
   builder.addLink('oil-exports', 'oil-gas-revenue', oilExports);
   builder.addLink('gas-exports', 'oil-gas-revenue', gasCondensate);
@@ -298,7 +339,8 @@ export function transformToHierarchicalSankey(
   builder.addLink('tax-revenue', 'center-total', taxTotal);
   builder.addLink('oil-gas-revenue', 'center-total', oilGas);
   builder.addLink('state-company-revenue', 'center-total', stateCompaniesActual);
-  builder.addLink('other-revenue', 'center-total', otherGovRevenue);
+  builder.addLink('other-revenue', 'center-total', otherRevenue);
+  builder.addLink('ministry-revenue', 'center-total', ministryRevenue);
   builder.addLink('special-revenue', 'center-total', specialAccounts);
   
   // Center → Main Spending Categories
