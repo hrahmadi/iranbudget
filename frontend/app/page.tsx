@@ -72,7 +72,7 @@ function BudgetVisualization() {
         if (!response.ok) throw new Error('Failed to fetch');
         const data = await response.json();
         setBudgetData(data);
-        const transformed = transformToHierarchicalSankey(data, language);
+        const transformed = transformToHierarchicalSankey(data, language, expenditureView);
         setSankeyData(transformed);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
@@ -81,7 +81,7 @@ function BudgetVisualization() {
       }
     }
     fetchData();
-  }, [year, language]);
+  }, [year, language, expenditureView]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">

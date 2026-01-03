@@ -33,6 +33,19 @@ export interface BudgetData {
   state_comp_net: string;
   state_comp_current_exp: string;
   state_comp_capital_exp: string;
+  // Functional expenditures
+  defense?: string;
+  education?: string;
+  health?: string;
+  economic_affairs?: string;
+  general_public_services?: string;
+  recreation_culture?: string;
+  social_protection?: string;
+  def_military?: string;
+  econ_transport?: string;
+  econ_fuel_energy?: string;
+  gps_executive_legislative?: string;
+  gps_public_debt?: string;
   surplus_deficit: string;
   status: string;
 }
@@ -66,7 +79,8 @@ function toTrillions(value: string | number): number {
 
 export function transformToHierarchicalSankey(
   data: BudgetData,
-  language: 'en' | 'fa' = 'en'
+  language: 'en' | 'fa' = 'en',
+  expenditureView: 'economic' | 'functional' = 'economic'
 ): SankeyData {
   const T = toTrillions;
   const year = data.year_persian;
@@ -282,24 +296,61 @@ export function transformToHierarchicalSankey(
   const centerLabel = language === 'fa' ? 'کل درآمد' : 'Total Revenue';
   builder.addNode('center-total', centerLabel, revenueTotalCorrected, colors.revenueCenter, 0.50, 0.50);
   
-  // LEVEL 3: Main Spending (x=0.65 - more space for functional view)
-  builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.65, 0.30);
-  builder.addNode('development', label('Development Projects'), developmentProjects, colors.spending2, 0.65, 0.45);
-  builder.addNode('debt-service', label('Debt Service'), debtService, colors.spending3, 0.65, 0.60);
-  builder.addNode('support', label('Support Programs'), supportPrograms, colors.spending4, 0.65, 0.75);
+  // === EXPENDITURE SIDE ===
+  // Switch between Economic and Functional views
   
-  // LEVEL 4: Detailed Spending (x=0.92 - tighter to edge for more middle space)
-  builder.addNode('employee-salaries', label('Employee Salaries'), employeeSalaries, colors.spending1, 0.92, 0.10);
-  builder.addNode('retiree-pensions', label('Retiree Pensions'), retireePensions, colors.spending2, 0.92, 0.17);
-  builder.addNode('benefits', label('Benefits'), benefits, colors.spending2, 0.92, 0.24);
-  builder.addNode('infrastructure', label('Infrastructure'), infrastructure, colors.spending1, 0.92, 0.38);
-  builder.addNode('technology', label('Technology'), technology, colors.spending2, 0.92, 0.45);
-  builder.addNode('regional-dev', label('Regional Dev'), regionalDev, colors.spending3, 0.92, 0.52);
-  builder.addNode('bond-repayments', label('Bond Repayments'), bondRepayments, colors.spending2, 0.92, 0.65);
-  builder.addNode('debt-payments', label('Debt Payments'), debtPayments, colors.spending3, 0.92, 0.72);
-  builder.addNode('cash-subsidies', label('Cash Subsidies'), cashSubsidies, colors.spending1, 0.92, 0.82);
-  builder.addNode('energy-subsidies', label('Energy Subsidies'), energySubsidies, colors.spending2, 0.92, 0.89);
-  builder.addNode('food-essentials', label('Food & Essentials'), foodEssentials, colors.spending3, 0.92, 0.96);
+  if (expenditureView === 'functional' && data.defense) {
+    // FUNCTIONAL VIEW - COFOG Classification
+    const funcDefense = T(data.defense || 0);
+    const funcEducation = T(data.education || 0);
+    const funcHealth = T(data.health || 0);
+    const funcEconomic = T(data.economic_affairs || 0);
+    const funcPublicServices = T(data.general_public_services || 0);
+    const funcCulture = T(data.recreation_culture || 0);
+    
+    // Sub-functions
+    const funcDefMilitary = T(data.def_military || 0);
+    const funcTransport = T(data.econ_transport || 0);
+    const funcEnergy = T(data.econ_fuel_energy || 0);
+    const funcGovernance = T(data.gps_executive_legislative || 0);
+    const funcDebt = T(data.gps_public_debt || 0);
+    
+    // LEVEL 3: Major Functions (x=0.65)
+    builder.addNode('func-defense', label('Defense & Security'), funcDefense, colors.spending1, 0.65, 0.15);
+    builder.addNode('func-education', label('Education & Research'), funcEducation, colors.spending2, 0.65, 0.28);
+    builder.addNode('func-health', label('Health & Welfare'), funcHealth, colors.spending3, 0.65, 0.41);
+    builder.addNode('func-economic', label('Economic Affairs'), funcEconomic, colors.spending4, 0.65, 0.54);
+    builder.addNode('func-services', label('Public Services'), funcPublicServices, colors.spending1, 0.65, 0.67);
+    builder.addNode('func-culture', label('Culture & Media'), funcCulture, colors.spending2, 0.65, 0.80);
+    
+    // LEVEL 4: Sub-functions (x=0.92)
+    if (funcDefMilitary > 0) builder.addNode('func-def-military', label('Military Defense'), funcDefMilitary, colors.spending1, 0.92, 0.15);
+    if (funcTransport > 0) builder.addNode('func-transport', label('Transport & Infrastructure'), funcTransport, colors.spending4, 0.92, 0.50);
+    if (funcEnergy > 0) builder.addNode('func-energy', label('Energy & Environment'), funcEnergy, colors.spending4, 0.92, 0.58);
+    if (funcGovernance > 0) builder.addNode('func-governance', label('Governance & Admin'), funcGovernance, colors.spending1, 0.92, 0.63);
+    if (funcDebt > 0) builder.addNode('func-debt', label('Debt Service'), funcDebt, colors.spending2, 0.92, 0.71);
+    
+  } else {
+    // ECONOMIC VIEW - Traditional classification
+    // LEVEL 3: Main Spending (x=0.65 - more space for functional view)
+    builder.addNode('personnel', label('Personnel Costs'), personnelCosts, colors.spending1, 0.65, 0.30);
+    builder.addNode('development', label('Development Projects'), developmentProjects, colors.spending2, 0.65, 0.45);
+    builder.addNode('debt-service', label('Debt Service'), debtService, colors.spending3, 0.65, 0.60);
+    builder.addNode('support', label('Support Programs'), supportPrograms, colors.spending4, 0.65, 0.75);
+    
+    // LEVEL 4: Detailed Spending (x=0.92 - tighter to edge for more middle space)
+    builder.addNode('employee-salaries', label('Employee Salaries'), employeeSalaries, colors.spending1, 0.92, 0.10);
+    builder.addNode('retiree-pensions', label('Retiree Pensions'), retireePensions, colors.spending2, 0.92, 0.17);
+    builder.addNode('benefits', label('Benefits'), benefits, colors.spending2, 0.92, 0.24);
+    builder.addNode('infrastructure', label('Infrastructure'), infrastructure, colors.spending1, 0.92, 0.38);
+    builder.addNode('technology', label('Technology'), technology, colors.spending2, 0.92, 0.45);
+    builder.addNode('regional-dev', label('Regional Dev'), regionalDev, colors.spending3, 0.92, 0.52);
+    builder.addNode('bond-repayments', label('Bond Repayments'), bondRepayments, colors.spending2, 0.92, 0.65);
+    builder.addNode('debt-payments', label('Debt Payments'), debtPayments, colors.spending3, 0.92, 0.72);
+    builder.addNode('cash-subsidies', label('Cash Subsidies'), cashSubsidies, colors.spending1, 0.92, 0.82);
+    builder.addNode('energy-subsidies', label('Energy Subsidies'), energySubsidies, colors.spending2, 0.92, 0.89);
+    builder.addNode('food-essentials', label('Food & Essentials'), foodEssentials, colors.spending3, 0.92, 0.96);
+  }
   
   // === BUILD LINKS ===
   
@@ -344,27 +395,59 @@ export function transformToHierarchicalSankey(
   }
   builder.addLink('special-revenue', 'center-total', specialAccounts);
   
-  // Center → Main Spending Categories
-  builder.addLink('center-total', 'personnel', personnelCosts);
-  builder.addLink('center-total', 'development', developmentProjects);
-  builder.addLink('center-total', 'debt-service', debtService);
-  builder.addLink('center-total', 'support', supportPrograms);
-  
-  // Main Categories → Details
-  builder.addLink('personnel', 'employee-salaries', employeeSalaries);
-  builder.addLink('personnel', 'retiree-pensions', retireePensions);
-  builder.addLink('personnel', 'benefits', benefits);
-  
-  builder.addLink('development', 'infrastructure', infrastructure);
-  builder.addLink('development', 'technology', technology);
-  builder.addLink('development', 'regional-dev', regionalDev);
-  
-  builder.addLink('debt-service', 'bond-repayments', bondRepayments);
-  builder.addLink('debt-service', 'debt-payments', debtPayments);
-  
-  builder.addLink('support', 'cash-subsidies', cashSubsidies);
-  builder.addLink('support', 'energy-subsidies', energySubsidies);
-  builder.addLink('support', 'food-essentials', foodEssentials);
+  // Center → Expenditure (Economic or Functional)
+  if (expenditureView === 'functional' && data.defense) {
+    // Functional view links
+    const funcDefense = T(data.defense || 0);
+    const funcEducation = T(data.education || 0);
+    const funcHealth = T(data.health || 0);
+    const funcEconomic = T(data.economic_affairs || 0);
+    const funcPublicServices = T(data.general_public_services || 0);
+    const funcCulture = T(data.recreation_culture || 0);
+    
+    builder.addLink('center-total', 'func-defense', funcDefense);
+    builder.addLink('center-total', 'func-education', funcEducation);
+    builder.addLink('center-total', 'func-health', funcHealth);
+    builder.addLink('center-total', 'func-economic', funcEconomic);
+    builder.addLink('center-total', 'func-services', funcPublicServices);
+    builder.addLink('center-total', 'func-culture', funcCulture);
+    
+    // Sub-function links
+    const funcDefMilitary = T(data.def_military || 0);
+    const funcTransport = T(data.econ_transport || 0);
+    const funcEnergy = T(data.econ_fuel_energy || 0);
+    const funcGovernance = T(data.gps_executive_legislative || 0);
+    const funcDebt = T(data.gps_public_debt || 0);
+    
+    if (funcDefMilitary > 0) builder.addLink('func-defense', 'func-def-military', funcDefMilitary);
+    if (funcTransport > 0) builder.addLink('func-economic', 'func-transport', funcTransport);
+    if (funcEnergy > 0) builder.addLink('func-economic', 'func-energy', funcEnergy);
+    if (funcGovernance > 0) builder.addLink('func-services', 'func-governance', funcGovernance);
+    if (funcDebt > 0) builder.addLink('func-services', 'func-debt', funcDebt);
+    
+  } else {
+    // Economic view links
+    builder.addLink('center-total', 'personnel', personnelCosts);
+    builder.addLink('center-total', 'development', developmentProjects);
+    builder.addLink('center-total', 'debt-service', debtService);
+    builder.addLink('center-total', 'support', supportPrograms);
+    
+    // Main Categories → Details
+    builder.addLink('personnel', 'employee-salaries', employeeSalaries);
+    builder.addLink('personnel', 'retiree-pensions', retireePensions);
+    builder.addLink('personnel', 'benefits', benefits);
+    
+    builder.addLink('development', 'infrastructure', infrastructure);
+    builder.addLink('development', 'technology', technology);
+    builder.addLink('development', 'regional-dev', regionalDev);
+    
+    builder.addLink('debt-service', 'bond-repayments', bondRepayments);
+    builder.addLink('debt-service', 'debt-payments', debtPayments);
+    
+    builder.addLink('support', 'cash-subsidies', cashSubsidies);
+    builder.addLink('support', 'energy-subsidies', energySubsidies);
+    builder.addLink('support', 'food-essentials', foodEssentials);
+  }
   
   // Build and return
   const sankeyData = builder.build(revenueTotalCorrected, expenditureTotal);
