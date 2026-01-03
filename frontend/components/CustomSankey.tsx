@@ -8,12 +8,14 @@ import { Unit, convertFromTrillionRials, formatValue as formatValueWithUnit } fr
 
 type Language = 'en' | 'fa';
 type DisplayMode = 'absolute' | 'percentage';
+type ExpenditureView = 'economic' | 'functional';
 
 interface Props {
   data: SankeyData;
   year: string;
   language: Language;
   displayMode: DisplayMode;
+  expenditureView: ExpenditureView;
   unit: Unit;
 }
 
@@ -41,7 +43,7 @@ interface RenderedLink {
   ty: number;
 }
 
-export default function CustomSankey({ data, year, language, displayMode, unit }: Props) {
+export default function CustomSankey({ data, year, language, displayMode, expenditureView, unit }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);

@@ -10,6 +10,7 @@ import { Unit, UNIT_INFO, convertFromTrillionRials, formatValue as formatValueWi
 type Language = 'en' | 'fa';
 type Year = '1395' | '1396' | '1397' | '1398' | '1399' | '1400' | '1401' | '1402' | '1403' | '1404';
 type DisplayMode = 'absolute' | 'percentage';
+type ExpenditureView = 'economic' | 'functional';
 
 const translations = {
   en: {
@@ -17,6 +18,7 @@ const translations = {
     yearLabel: 'Year:',
     languageLabel: 'Language:',
     displayModeLabel: 'Display Mode:',
+    expenditureViewLabel: 'Expenditure View:',
     unitLabel: 'Unit:',
     loading: 'Loading...',
     error: 'Error loading data',
@@ -26,6 +28,7 @@ const translations = {
     yearLabel: 'سال:',
     languageLabel: 'زبان:',
     displayModeLabel: 'نمایش:',
+    expenditureViewLabel: 'نمای هزینه:',
     unitLabel: 'واحد:',
     loading: 'در حال بارگذاری...',
     error: 'خطا در بارگذاری داده‌ها',
@@ -40,6 +43,7 @@ function BudgetVisualization() {
   const [year, setYear] = useState<Year>((searchParams.get('year') as Year) || '1404');
   const [language, setLanguage] = useState<Language>((searchParams.get('lang') as Language) || 'en');
   const [displayMode, setDisplayMode] = useState<DisplayMode>((searchParams.get('mode') as DisplayMode) || 'absolute');
+  const [expenditureView, setExpenditureView] = useState<ExpenditureView>((searchParams.get('expview') as ExpenditureView) || 'economic');
   const [unit, setUnit] = useState<Unit>((searchParams.get('unit') as Unit) || 'trillion_rial');
   const [budgetData, setBudgetData] = useState<BudgetData | null>(null);
   const [sankeyData, setSankeyData] = useState<SankeyData | null>(null);
@@ -52,9 +56,10 @@ function BudgetVisualization() {
     params.set('year', year);
     params.set('lang', language);
     params.set('mode', displayMode);
+    params.set('expview', expenditureView);
     params.set('unit', unit);
     router.push(`?${params.toString()}`, { scroll: false });
-  }, [year, language, displayMode, unit, router]);
+  }, [year, language, displayMode, expenditureView, unit, router]);
 
   const t = translations[language];
 
@@ -185,6 +190,33 @@ function BudgetVisualization() {
                 </span>
               </div>
             </div>
+
+            {/* Expenditure View Toggle Switch */}
+            <div>
+              <label className="block text-sm font-medium mb-2">{t.expenditureViewLabel}</label>
+              <div className="flex items-center gap-3">
+                <span className={`text-sm ${expenditureView === 'economic' ? 'text-white font-semibold' : 'text-gray-400'}`}>
+                  {language === 'fa' ? 'اقتصادی' : 'Economic'}
+                </span>
+                <button
+                  onClick={() => setExpenditureView(expenditureView === 'economic' ? 'functional' : 'economic')}
+                  className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 ${
+                    expenditureView === 'functional' ? 'bg-purple-600' : 'bg-gray-600'
+                  }`}
+                  role="switch"
+                  aria-checked={expenditureView === 'functional'}
+                >
+                  <span
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                      expenditureView === 'functional' ? 'translate-x-7' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+                <span className={`text-sm ${expenditureView === 'functional' ? 'text-white font-semibold' : 'text-gray-400'}`}>
+                  {language === 'fa' ? 'عملکردی' : 'Functional'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -211,6 +243,8 @@ function BudgetVisualization() {
                   year={year}
                   language={language}
                   displayMode={displayMode}
+                  expenditureView={expenditureView}
+                  unit={unit}
                   unit={unit}
                 />
               </div>
@@ -263,6 +297,7 @@ function BudgetVisualization() {
                           year={year}
                           language={language}
                           displayMode={displayMode}
+                          expenditureView={expenditureView}
                           unit={unit}
                         />
                       </TransformComponent>
