@@ -173,7 +173,7 @@ export function transformToHierarchicalSankey(
   const otherIncome = otherRevenue * 0.40;
   
   // Recalculate revenue total using corrected state companies value and actual data
-  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherRevenue + ministryRevenue + specialAccounts;
+  const revenueTotalCorrected = taxTotal + oilGas + stateCompaniesActual + otherRevenue + specialAccounts + (ministryRevenue || 0);
   
   // Parse expenditure data
   const currentExp = T(data.current_exp || 0);
@@ -204,7 +204,7 @@ export function transformToHierarchicalSankey(
     govSupport = subsidySpending;
     
     const govComponents = govPersonnel + govDevelopment + govSupport;
-    govOther = Math.max(0, operationalRevenue + specialAccounts + ministryRevenue + otherRevenue - govComponents);
+    govOther = Math.max(0, operationalRevenue + specialAccounts + (ministryRevenue || 0) + otherRevenue - govComponents);
     
     statePersonnel = stateCompCurrent;
     stateDevelopment = stateCompCapital;
@@ -272,7 +272,9 @@ export function transformToHierarchicalSankey(
   builder.addNode('tax-revenue', label('Tax Revenue'), taxTotal, colors.revenue2, aggX, 0.15);
   builder.addNode('oil-gas-revenue', label('Oil & Gas Revenue'), oilGas, colors.revenue3, aggX, 0.30);
   builder.addNode('other-revenue', label('Other Revenue'), otherRevenue, colors.revenue4, aggX, 0.65);
-  builder.addNode('ministry-revenue', label('Ministry Revenue'), ministryRevenue, colors.revenue5, aggX, 0.75);
+  if (ministryRevenue > 0) {
+    builder.addNode('ministry-revenue', label('Ministry Revenue'), ministryRevenue, colors.revenue5, aggX, 0.75);
+  }
   builder.addNode('special-revenue', label('Special Accounts'), specialAccounts, colors.revenue5, aggX, 0.80);
   builder.addNode('state-company-revenue', label('State Companies'), stateCompaniesActual, colors.revenue1, aggX, 0.55);
   
@@ -337,7 +339,9 @@ export function transformToHierarchicalSankey(
   builder.addLink('oil-gas-revenue', 'center-total', oilGas);
   builder.addLink('state-company-revenue', 'center-total', stateCompaniesActual);
   builder.addLink('other-revenue', 'center-total', otherRevenue);
-  builder.addLink('ministry-revenue', 'center-total', ministryRevenue);
+  if (ministryRevenue > 0) {
+    builder.addLink('ministry-revenue', 'center-total', ministryRevenue);
+  }
   builder.addLink('special-revenue', 'center-total', specialAccounts);
   
   // Center → Main Spending Categories
