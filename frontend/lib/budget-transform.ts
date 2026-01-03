@@ -321,11 +321,11 @@ export function transformToHierarchicalSankey(
     const funcGovernance = T(data.gps_executive_legislative || 0);
     const funcDebt = T(data.gps_public_debt || 0);
     
-    // LEVEL 2: Public Budget & State Companies (x=0.58)
-    builder.addNode('public-budget', label('Public Budget'), publicBudgetTotal, colors.spending1, 0.58, 0.35);
-    builder.addNode('state-companies-exp', label('State Companies'), stateCompaniesTotal, colors.spending4, 0.58, 0.65);
+    // LEVEL 2: Public Budget & State Companies (x=0.60 - equal spacing)
+    builder.addNode('public-budget', label('Public Budget'), publicBudgetTotal, colors.spending1, 0.60, 0.35);
+    builder.addNode('state-companies-exp', label('State Companies'), stateCompaniesTotal, colors.spending4, 0.60, 0.65);
     
-    // LEVEL 3: Major Functions (x=0.75)
+    // LEVEL 3: Major Functions (x=0.75 - equal spacing)
     builder.addNode('func-defense', label('Defense & Security'), funcDefense, colors.spending1, 0.75, 0.10);
     builder.addNode('func-education', label('Education & Research'), funcEducation, colors.spending2, 0.75, 0.22);
     builder.addNode('func-health', label('Health & Welfare'), funcHealth, colors.spending3, 0.75, 0.34);
@@ -333,12 +333,12 @@ export function transformToHierarchicalSankey(
     builder.addNode('func-services', label('Public Services'), funcPublicServices, colors.spending1, 0.75, 0.58);
     builder.addNode('func-culture', label('Culture & Media'), funcCulture, colors.spending2, 0.75, 0.70);
     
-    // LEVEL 4: Sub-functions (x=0.92)
-    if (funcDefMilitary > 0) builder.addNode('func-def-military', label('Military Defense'), funcDefMilitary, colors.spending1, 0.92, 0.10);
-    if (funcTransport > 0) builder.addNode('func-transport', label('Transport & Infrastructure'), funcTransport, colors.spending4, 0.92, 0.42);
-    if (funcEnergy > 0) builder.addNode('func-energy', label('Energy & Environment'), funcEnergy, colors.spending4, 0.92, 0.50);
-    if (funcGovernance > 0) builder.addNode('func-governance', label('Governance & Admin'), funcGovernance, colors.spending1, 0.92, 0.54);
-    if (funcDebt > 0) builder.addNode('func-debt', label('Debt Service'), funcDebt, colors.spending2, 0.92, 0.62);
+    // LEVEL 4: Sub-functions (x=0.90 - equal spacing)
+    if (funcDefMilitary > 0) builder.addNode('func-def-military', label('Military Defense'), funcDefMilitary, colors.spending1, 0.90, 0.10);
+    if (funcTransport > 0) builder.addNode('func-transport', label('Transport & Infrastructure'), funcTransport, colors.spending4, 0.90, 0.42);
+    if (funcEnergy > 0) builder.addNode('func-energy', label('Energy & Environment'), funcEnergy, colors.spending4, 0.90, 0.50);
+    if (funcGovernance > 0) builder.addNode('func-governance', label('Governance & Admin'), funcGovernance, colors.spending1, 0.90, 0.54);
+    if (funcDebt > 0) builder.addNode('func-debt', label('Debt Service'), funcDebt, colors.spending2, 0.90, 0.62);
     
   } else {
     // ECONOMIC VIEW - Traditional classification
