@@ -355,7 +355,7 @@ export default function CustomSankey({ data, year, language, displayMode, expend
         .attr('stroke', `url(#gradient-${i})`)
         .attr('stroke-width', link.thickness)
         .attr('fill', 'none')
-        .attr('opacity', 0.6)  // Reduced from 0.8 to minimize circular artifact at center
+        .attr('opacity', 0.5)  // Reduced from 0.6 to further minimize circular artifact
         .style('cursor', 'pointer')
         .on('mouseenter', (event) => {
           setHoveredLink(i);
