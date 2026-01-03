@@ -33,6 +33,9 @@ export interface BudgetData {
   state_comp_net: string;
   state_comp_current_exp: string;
   state_comp_capital_exp: string;
+  state_comp_domestic_repay?: string;
+  state_comp_foreign_repay?: string;
+  state_comp_current_assets_increase?: string;
   // Functional expenditures
   defense?: string;
   education?: string;
@@ -300,45 +303,39 @@ export function transformToHierarchicalSankey(
   // Switch between Economic and Functional views
   
   if (expenditureView === 'functional' && data.defense) {
-    // FUNCTIONAL VIEW - COFOG Classification
+    // FUNCTIONAL VIEW - 2 LEVELS ONLY
+    // Level 1: Total Revenue (center)
+    // Level 2: Public Budget + State Companies + their breakdowns
+    
     const funcDefense = T(data.defense || 0);
     const funcEducation = T(data.education || 0);
     const funcHealth = T(data.health || 0);
-    const funcEconomic = T(data.economic_affairs || 0);
-    const funcPublicServices = T(data.general_public_services || 0);
+    const funcInfrastructure = T(data.economic_affairs || 0);
+    const funcGovernance = T(data.gps_executive_legislative || 0);
+    const funcFinancial = T(data.gps_public_debt || 0);
     const funcCulture = T(data.recreation_culture || 0);
     
-    // Calculate Public Budget total (sum of functional categories)
-    const publicBudgetTotal = funcDefense + funcEducation + funcHealth + funcEconomic + funcPublicServices + funcCulture;
+    // State companies breakdown
+    const stateOperating = stateCompCurrent;
+    const stateCapital = stateCompCapital;
+    const stateLoanRepay = T((data.state_comp_domestic_repay || 0)) + T((data.state_comp_foreign_repay || 0));
+    const stateAssets = T(data.state_comp_current_assets_increase || 0);
     
-    // State companies (from economic classification)
-    const stateCompaniesTotal = stateCompExp;
+    // LEVEL 2: All categories at same x position (0.75)
+    // Public Budget categories
+    builder.addNode('func-defense', label('Defense & Security'), funcDefense, colors.spending1, 0.75, 0.08);
+    builder.addNode('func-education', label('Education & Research'), funcEducation, colors.spending2, 0.75, 0.18);
+    builder.addNode('func-health', label('Health & Welfare'), funcHealth, colors.spending3, 0.75, 0.28);
+    builder.addNode('func-infrastructure', label('Infrastructure'), funcInfrastructure, colors.spending4, 0.75, 0.38);
+    builder.addNode('func-governance', label('Governance'), funcGovernance, colors.spending1, 0.75, 0.48);
+    builder.addNode('func-financial', label('Financial Obligations'), funcFinancial, colors.spending2, 0.75, 0.58);
+    builder.addNode('func-culture', label('Culture'), funcCulture, colors.spending3, 0.75, 0.68);
     
-    // Sub-functions
-    const funcDefMilitary = T(data.def_military || 0);
-    const funcTransport = T(data.econ_transport || 0);
-    const funcEnergy = T(data.econ_fuel_energy || 0);
-    const funcGovernance = T(data.gps_executive_legislative || 0);
-    const funcDebt = T(data.gps_public_debt || 0);
-    
-    // LEVEL 2: Public Budget & State Companies (x=0.65)
-    builder.addNode('public-budget', label('Public Budget'), publicBudgetTotal, colors.spending1, 0.65, 0.35);
-    builder.addNode('state-companies-exp', label('State Companies'), stateCompaniesTotal, colors.spending4, 0.65, 0.65);
-    
-    // LEVEL 3: Major Functions (x=0.80)
-    builder.addNode('func-defense', label('Defense & Security'), funcDefense, colors.spending1, 0.80, 0.10);
-    builder.addNode('func-education', label('Education & Research'), funcEducation, colors.spending2, 0.80, 0.22);
-    builder.addNode('func-health', label('Health & Welfare'), funcHealth, colors.spending3, 0.80, 0.34);
-    builder.addNode('func-economic', label('Economic Affairs'), funcEconomic, colors.spending4, 0.80, 0.46);
-    builder.addNode('func-services', label('Public Services'), funcPublicServices, colors.spending1, 0.80, 0.58);
-    builder.addNode('func-culture', label('Culture & Media'), funcCulture, colors.spending2, 0.80, 0.70);
-    
-    // LEVEL 4: Sub-functions (x=0.95)
-    if (funcDefMilitary > 0) builder.addNode('func-def-military', label('Military Defense'), funcDefMilitary, colors.spending1, 0.95, 0.10);
-    if (funcTransport > 0) builder.addNode('func-transport', label('Transport & Infrastructure'), funcTransport, colors.spending4, 0.95, 0.42);
-    if (funcEnergy > 0) builder.addNode('func-energy', label('Energy & Environment'), funcEnergy, colors.spending4, 0.95, 0.50);
-    if (funcGovernance > 0) builder.addNode('func-governance', label('Governance & Admin'), funcGovernance, colors.spending1, 0.95, 0.54);
-    if (funcDebt > 0) builder.addNode('func-debt', label('Debt Service'), funcDebt, colors.spending2, 0.95, 0.62);
+    // State Companies categories (same level)
+    builder.addNode('state-operating', label('Operating Costs'), stateOperating, colors.spending4, 0.75, 0.78);
+    builder.addNode('state-capital', label('Capital Expenditure'), stateCapital, colors.spending1, 0.75, 0.85);
+    if (stateLoanRepay > 0) builder.addNode('state-loans', label('Loan Repayment'), stateLoanRepay, colors.spending2, 0.75, 0.92);
+    if (stateAssets > 0) builder.addNode('state-assets', label('Asset Accumulation'), stateAssets, colors.spending3, 0.75, 0.98);
     
   } else {
     // ECONOMIC VIEW - Traditional classification
@@ -407,40 +404,31 @@ export function transformToHierarchicalSankey(
   
   // Center → Expenditure (Economic or Functional)
   if (expenditureView === 'functional' && data.defense) {
-    // Functional view links
+    // Functional view - 2 LEVELS: Center → All categories directly
     const funcDefense = T(data.defense || 0);
     const funcEducation = T(data.education || 0);
     const funcHealth = T(data.health || 0);
-    const funcEconomic = T(data.economic_affairs || 0);
-    const funcPublicServices = T(data.general_public_services || 0);
-    const funcCulture = T(data.recreation_culture || 0);
-    const publicBudgetTotal = funcDefense + funcEducation + funcHealth + funcEconomic + funcPublicServices + funcCulture;
-    const stateCompaniesTotal = stateCompExp;
-    
-    // Level 1 → Level 2
-    builder.addLink('center-total', 'public-budget', publicBudgetTotal);
-    builder.addLink('center-total', 'state-companies-exp', stateCompaniesTotal);
-    
-    // Level 2 → Level 3 (Public Budget → Functions)
-    builder.addLink('public-budget', 'func-defense', funcDefense);
-    builder.addLink('public-budget', 'func-education', funcEducation);
-    builder.addLink('public-budget', 'func-health', funcHealth);
-    builder.addLink('public-budget', 'func-economic', funcEconomic);
-    builder.addLink('public-budget', 'func-services', funcPublicServices);
-    builder.addLink('public-budget', 'func-culture', funcCulture);
-    
-    // Level 3 → Level 4 (Sub-functions)
-    const funcDefMilitary = T(data.def_military || 0);
-    const funcTransport = T(data.econ_transport || 0);
-    const funcEnergy = T(data.econ_fuel_energy || 0);
+    const funcInfrastructure = T(data.economic_affairs || 0);
     const funcGovernance = T(data.gps_executive_legislative || 0);
-    const funcDebt = T(data.gps_public_debt || 0);
+    const funcFinancial = T(data.gps_public_debt || 0);
+    const funcCulture = T(data.recreation_culture || 0);
+    const stateOperating = stateCompCurrent;
+    const stateCapital = stateCompCapital;
+    const stateLoanRepay = T((data.state_comp_domestic_repay || 0)) + T((data.state_comp_foreign_repay || 0));
+    const stateAssets = T(data.state_comp_current_assets_increase || 0);
     
-    if (funcDefMilitary > 0) builder.addLink('func-defense', 'func-def-military', funcDefMilitary);
-    if (funcTransport > 0) builder.addLink('func-economic', 'func-transport', funcTransport);
-    if (funcEnergy > 0) builder.addLink('func-economic', 'func-energy', funcEnergy);
-    if (funcGovernance > 0) builder.addLink('func-services', 'func-governance', funcGovernance);
-    if (funcDebt > 0) builder.addLink('func-services', 'func-debt', funcDebt);
+    // All links go directly from center to final categories
+    builder.addLink('center-total', 'func-defense', funcDefense);
+    builder.addLink('center-total', 'func-education', funcEducation);
+    builder.addLink('center-total', 'func-health', funcHealth);
+    builder.addLink('center-total', 'func-infrastructure', funcInfrastructure);
+    builder.addLink('center-total', 'func-governance', funcGovernance);
+    builder.addLink('center-total', 'func-financial', funcFinancial);
+    builder.addLink('center-total', 'func-culture', funcCulture);
+    builder.addLink('center-total', 'state-operating', stateOperating);
+    builder.addLink('center-total', 'state-capital', stateCapital);
+    if (stateLoanRepay > 0) builder.addLink('center-total', 'state-loans', stateLoanRepay);
+    if (stateAssets > 0) builder.addLink('center-total', 'state-assets', stateAssets);
     
   } else {
     // Economic view links
