@@ -128,8 +128,14 @@ export function transformToHierarchicalSankey(
   }
   
   // Oil & Gas breakdown - use actual values if available, else estimate
-  const oilExports = data.oil_exports ? T(data.oil_exports) : oilGas * 0.85;
-  const gasCondensate = data.gas_condensate ? T(data.gas_condensate) : oilGas * 0.15;
+  let oilExports: number, gasCondensate: number;
+  if (data.oil_exports && data.gas_condensate) {
+    oilExports = T(data.oil_exports);
+    gasCondensate = T(data.gas_condensate);
+  } else {
+    oilExports = oilGas * 0.85;
+    gasCondensate = oilGas * 0.15;
+  }
   
   // State company breakdown
   const stateRevenues = T(data.state_comp_revenues || 0);
@@ -161,15 +167,6 @@ export function transformToHierarchicalSankey(
   
   // Use detail sum if breakdown exists (ensures children sum to parent)
   const stateCompaniesActual = hasStateBreakdown ? stateDetailSum : stateCompanies;
-  
-  // Tax breakdown
-  const vatSales = Math.max(0, taxTotal - taxCorporate - taxIndividual);
-  const importDuties = vatSales * 0.3;
-  const otherTaxes = vatSales * 0.2;
-  const adjustedVat = vatSales - importDuties - otherTaxes;
-  
-  const oilExports = oilGas * 0.85;
-  const gasCondensate = oilGas * 0.15;
   
   // Other revenue breakdown - estimate if not provided
   const feesCharges = otherRevenue * 0.60;
