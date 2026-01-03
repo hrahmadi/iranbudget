@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ET2VPDq3mOjIOPh0TARrSVugd6eoHvXemr5hz0EAYcq0mGesOf3StLhh2dc3LoN
+\restrict 1eY1SWdi1UMIYRTqaTx1njvTz6N9h5SbEcWNvyIJVhMfimMathDjg0WYMe5ipo1
 
 -- Dumped from database version 17.7 (Homebrew)
 -- Dumped by pg_dump version 17.7 (Homebrew)
@@ -107,6 +107,15 @@ COPY public.expenditures (expenditure_id, year_id, total, current_exp, capital_e
 
 
 --
+-- Data for Name: functional_expenditures; Type: TABLE DATA; Schema: public; Owner: hamidreza
+--
+
+COPY public.functional_expenditures (functional_exp_id, year_id, total, general_public_services, defense, public_order_safety, economic_affairs, environmental_protection, housing_community, health, recreation_culture, education, social_protection, gps_executive_legislative, gps_financial_fiscal, gps_foreign_affairs, gps_general_services, gps_basic_research, gps_public_debt, gps_transfers, def_military, def_civil, def_foreign_military_aid, def_rd, econ_general, econ_agriculture, econ_fuel_energy, econ_mining_manufacturing, econ_transport, econ_communication, econ_other_industries, econ_rd, edu_pre_primary, edu_primary, edu_secondary, edu_post_secondary, edu_tertiary, edu_not_definable, edu_subsidiary, edu_rd, health_medical_products, health_outpatient, health_hospital, health_public, health_rd, soc_sickness_disability, soc_old_age, soc_survivors, soc_family_children, soc_unemployment, soc_housing, soc_social_exclusion, soc_rd, created_at, updated_at) FROM stdin;
+1	10	112795309.000	9750000.000	10230000.000	\N	8120000.000	\N	\N	18660000.000	690000.000	5380000.000	\N	4750000.000	\N	\N	\N	\N	5000000.000	\N	10230000.000	\N	\N	\N	\N	\N	2110000.000	\N	6010000.000	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	2026-01-03 19:04:19.147354	2026-01-03 19:04:19.147354
+\.
+
+
+--
 -- Data for Name: revenues; Type: TABLE DATA; Schema: public; Owner: hamidreza
 --
 
@@ -153,6 +162,13 @@ SELECT pg_catalog.setval('public.expenditures_expenditure_id_seq', 10, true);
 
 
 --
+-- Name: functional_expenditures_functional_exp_id_seq; Type: SEQUENCE SET; Schema: public; Owner: hamidreza
+--
+
+SELECT pg_catalog.setval('public.functional_expenditures_functional_exp_id_seq', 1, true);
+
+
+--
 -- Name: revenues_revenue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: hamidreza
 --
 
@@ -170,5 +186,5 @@ SELECT pg_catalog.setval('public.years_year_id_seq', 10, true);
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ET2VPDq3mOjIOPh0TARrSVugd6eoHvXemr5hz0EAYcq0mGesOf3StLhh2dc3LoN
+\unrestrict 1eY1SWdi1UMIYRTqaTx1njvTz6N9h5SbEcWNvyIJVhMfimMathDjg0WYMe5ipo1
 

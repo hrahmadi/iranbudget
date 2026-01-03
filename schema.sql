@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict q8T0sa2wI3jjkckpQ4QPwlDAdULTBKJgkUdk1apNUMRcpiuFKA3SQGx0VfDKst5
+\restrict DpLcPX9LqONBEfFGCbqTscxEwsEd21C0Bupkc8LNwyD8arU2zzabalEEleDqjGg
 
 -- Dumped from database version 17.7 (Homebrew)
 -- Dumped by pg_dump version 17.7 (Homebrew)
@@ -179,7 +179,13 @@ CREATE TABLE public.revenues (
     state_comp_current_assets numeric(20,3),
     state_comp_other_receipts numeric(20,3),
     state_comp_financial_assets numeric(20,3),
-    state_comp_revenue_total numeric(20,3)
+    state_comp_revenue_total numeric(20,3),
+    tax_vat_sales numeric(20,3),
+    tax_wealth numeric(20,3),
+    tax_import_duties numeric(20,3),
+    oil_exports numeric(20,3),
+    gas_condensate numeric(20,3),
+    ministry_revenue numeric(20,3)
 );
 
 
@@ -437,6 +443,170 @@ ALTER SEQUENCE public.expenditures_expenditure_id_seq OWNED BY public.expenditur
 
 
 --
+-- Name: functional_expenditures; Type: TABLE; Schema: public; Owner: hamidreza
+--
+
+CREATE TABLE public.functional_expenditures (
+    functional_exp_id integer NOT NULL,
+    year_id integer NOT NULL,
+    total numeric(20,3),
+    general_public_services numeric(20,3),
+    defense numeric(20,3),
+    public_order_safety numeric(20,3),
+    economic_affairs numeric(20,3),
+    environmental_protection numeric(20,3),
+    housing_community numeric(20,3),
+    health numeric(20,3),
+    recreation_culture numeric(20,3),
+    education numeric(20,3),
+    social_protection numeric(20,3),
+    gps_executive_legislative numeric(20,3),
+    gps_financial_fiscal numeric(20,3),
+    gps_foreign_affairs numeric(20,3),
+    gps_general_services numeric(20,3),
+    gps_basic_research numeric(20,3),
+    gps_public_debt numeric(20,3),
+    gps_transfers numeric(20,3),
+    def_military numeric(20,3),
+    def_civil numeric(20,3),
+    def_foreign_military_aid numeric(20,3),
+    def_rd numeric(20,3),
+    econ_general numeric(20,3),
+    econ_agriculture numeric(20,3),
+    econ_fuel_energy numeric(20,3),
+    econ_mining_manufacturing numeric(20,3),
+    econ_transport numeric(20,3),
+    econ_communication numeric(20,3),
+    econ_other_industries numeric(20,3),
+    econ_rd numeric(20,3),
+    edu_pre_primary numeric(20,3),
+    edu_primary numeric(20,3),
+    edu_secondary numeric(20,3),
+    edu_post_secondary numeric(20,3),
+    edu_tertiary numeric(20,3),
+    edu_not_definable numeric(20,3),
+    edu_subsidiary numeric(20,3),
+    edu_rd numeric(20,3),
+    health_medical_products numeric(20,3),
+    health_outpatient numeric(20,3),
+    health_hospital numeric(20,3),
+    health_public numeric(20,3),
+    health_rd numeric(20,3),
+    soc_sickness_disability numeric(20,3),
+    soc_old_age numeric(20,3),
+    soc_survivors numeric(20,3),
+    soc_family_children numeric(20,3),
+    soc_unemployment numeric(20,3),
+    soc_housing numeric(20,3),
+    soc_social_exclusion numeric(20,3),
+    soc_rd numeric(20,3),
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.functional_expenditures 
+
+--
+-- Name: TABLE functional_expenditures; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON TABLE public.functional_expenditures IS 'Government expenditures classified by function (COFOG-style classification)';
+
+
+--
+-- Name: COLUMN functional_expenditures.general_public_services; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.general_public_services IS 'Executive, legislative, financial affairs, foreign affairs, public debt';
+
+
+--
+-- Name: COLUMN functional_expenditures.defense; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.defense IS 'Military defense, civil defense, foreign military aid';
+
+
+--
+-- Name: COLUMN functional_expenditures.public_order_safety; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.public_order_safety IS 'Police, fire protection, courts, prisons';
+
+
+--
+-- Name: COLUMN functional_expenditures.economic_affairs; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.economic_affairs IS 'Agriculture, fuel/energy, mining, transport, communication';
+
+
+--
+-- Name: COLUMN functional_expenditures.environmental_protection; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.environmental_protection IS 'Waste management, pollution control, biodiversity';
+
+
+--
+-- Name: COLUMN functional_expenditures.housing_community; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.housing_community IS 'Housing development, community amenities, water supply';
+
+
+--
+-- Name: COLUMN functional_expenditures.health; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.health IS 'Medical products, outpatient, hospital, public health services';
+
+
+--
+-- Name: COLUMN functional_expenditures.recreation_culture; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.recreation_culture IS 'Recreation, culture, broadcasting, religion';
+
+
+--
+-- Name: COLUMN functional_expenditures.education; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.education IS 'Pre-primary through tertiary education';
+
+
+--
+-- Name: COLUMN functional_expenditures.social_protection; Type: COMMENT; Schema: public; Owner: hamidreza
+--
+
+COMMENT ON COLUMN public.functional_expenditures.social_protection IS 'Sickness, old age, unemployment, family, housing benefits';
+
+
+--
+-- Name: functional_expenditures_functional_exp_id_seq; Type: SEQUENCE; Schema: public; Owner: hamidreza
+--
+
+CREATE SEQUENCE public.functional_expenditures_functional_exp_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.functional_expenditures_functional_exp_id_seq 
+
+--
+-- Name: functional_expenditures_functional_exp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: hamidreza
+--
+
+ALTER SEQUENCE public.functional_expenditures_functional_exp_id_seq OWNED BY public.functional_expenditures.functional_exp_id;
+
+
+--
 -- Name: operational_revenues_view; Type: VIEW; Schema: public; Owner: hamidreza
 --
 
@@ -590,6 +760,13 @@ ALTER TABLE ONLY public.expenditures ALTER COLUMN expenditure_id SET DEFAULT nex
 
 
 --
+-- Name: functional_expenditures functional_exp_id; Type: DEFAULT; Schema: public; Owner: hamidreza
+--
+
+ALTER TABLE ONLY public.functional_expenditures ALTER COLUMN functional_exp_id SET DEFAULT nextval('public.functional_expenditures_functional_exp_id_seq'::regclass);
+
+
+--
 -- Name: revenues revenue_id; Type: DEFAULT; Schema: public; Owner: hamidreza
 --
 
@@ -649,6 +826,22 @@ ALTER TABLE ONLY public.expenditures
 
 ALTER TABLE ONLY public.expenditures
     ADD CONSTRAINT expenditures_year_id_key UNIQUE (year_id);
+
+
+--
+-- Name: functional_expenditures functional_expenditures_pkey; Type: CONSTRAINT; Schema: public; Owner: hamidreza
+--
+
+ALTER TABLE ONLY public.functional_expenditures
+    ADD CONSTRAINT functional_expenditures_pkey PRIMARY KEY (functional_exp_id);
+
+
+--
+-- Name: functional_expenditures functional_expenditures_year_id_key; Type: CONSTRAINT; Schema: public; Owner: hamidreza
+--
+
+ALTER TABLE ONLY public.functional_expenditures
+    ADD CONSTRAINT functional_expenditures_year_id_key UNIQUE (year_id);
 
 
 --
@@ -723,6 +916,20 @@ CREATE INDEX idx_expenditures_total ON public.expenditures USING btree (total);
 --
 
 CREATE INDEX idx_expenditures_year ON public.expenditures USING btree (year_id);
+
+
+--
+-- Name: idx_functional_exp_total; Type: INDEX; Schema: public; Owner: hamidreza
+--
+
+CREATE INDEX idx_functional_exp_total ON public.functional_expenditures USING btree (total);
+
+
+--
+-- Name: idx_functional_exp_year; Type: INDEX; Schema: public; Owner: hamidreza
+--
+
+CREATE INDEX idx_functional_exp_year ON public.functional_expenditures USING btree (year_id);
 
 
 --
@@ -806,6 +1013,14 @@ ALTER TABLE ONLY public.expenditures
 
 
 --
+-- Name: functional_expenditures functional_expenditures_year_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hamidreza
+--
+
+ALTER TABLE ONLY public.functional_expenditures
+    ADD CONSTRAINT functional_expenditures_year_id_fkey FOREIGN KEY (year_id) REFERENCES public.years(year_id) ON DELETE CASCADE;
+
+
+--
 -- Name: revenues revenues_year_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hamidreza
 --
 
@@ -817,5 +1032,5 @@ ALTER TABLE ONLY public.revenues
 -- PostgreSQL database dump complete
 --
 
-\unrestrict q8T0sa2wI3jjkckpQ4QPwlDAdULTBKJgkUdk1apNUMRcpiuFKA3SQGx0VfDKst5
+\unrestrict DpLcPX9LqONBEfFGCbqTscxEwsEd21C0Bupkc8LNwyD8arU2zzabalEEleDqjGg
 
