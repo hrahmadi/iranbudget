@@ -98,7 +98,9 @@ export default function CustomSankey({ data, year, language, displayMode, expend
     // Find the column with most nodes to calculate worst-case gaps
     const maxNodes = Math.max(...Array.from(columns.values()).map(col => col.length));
     const maxGaps = (maxNodes - 1) * NODE_GAP;
-    const globalAvailableHeight = 880 - maxGaps;
+    const padding = 10;
+    const globalAvailableHeight = Math.max(0, dimensions.height - (padding * 2) - maxGaps);
+    const totalForScale = Math.max(data.revenueTotal, data.expenditureTotal);
 
     columns.forEach((colNodes, xPos) => {
       const isCenter = xPos === 0.50;
@@ -109,15 +111,16 @@ export default function CustomSankey({ data, year, language, displayMode, expend
       // GLOBAL SCALE: Use revenueTotal to maintain Sankey invariant
       // All columns use same scale so children heights sum to parent
       const scale = scaleLinear()
-        .domain([0, data.revenueTotal])
+        .domain([0, totalForScale])
         .range([0, globalAvailableHeight]);
 
       // ALL columns vertically centered in viewport
-      let currentStackY = (dimensions.height - 900) / 2 + 10;
+      let currentStackY = padding;
       const startY = currentStackY;
 
       colNodes.forEach((node, idx) => {
-        const height = scale(node.value);
+        const nodeValueForSize = node.id === 'center-total' ? totalForScale : node.value;
+        const height = scale(nodeValueForSize);
         // Center column is thicker and centered around x position
         const nodeWidth = isCenter ? CENTER_NODE_WIDTH : NODE_WIDTH;
         const x0 = isCenter 
@@ -155,8 +158,8 @@ export default function CustomSankey({ data, year, language, displayMode, expend
     // Phase 3: Precompute link attachment points
     const renderedLinks: RenderedLink[] = [];
     const linkScale = scaleLinear()
-      .domain([0, data.revenueTotal])
-      .range([0, dimensions.height - 20]);
+      .domain([0, totalForScale])
+      .range([0, globalAvailableHeight]);
 
     data.links.forEach(link => {
       const source = nodeMap.get(data.nodes[link.source].id);
