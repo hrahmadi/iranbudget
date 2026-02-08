@@ -20,6 +20,14 @@ import_log.txt
 .DS_Store
 Thumbs.db
 
+# Office temporary files
+~$*.xlsx
+~$*.xls
+~$*.docx
+~$*.doc
+~$*.pptx
+~$*.ppt
+
 # IDE
 .vscode/
 .idea/
